@@ -2,19 +2,61 @@ package com.ilbcj.ecell.entity;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
-@Getter
-@Setter
-@SuppressWarnings("unused")
+
+
+@TableName(value = "tb_admin")//指定表名
 public class Admin implements Serializable, Comparable<Admin>{
+	public static final int STATUS_INIT = 0;
+	public static final int STATUS_INUSE = 1;
+	public static final int STATUS_HANGUP = 2;
 	private static final long serialVersionUID = 6087973127063030273L;
+	@TableId(type = IdType.AUTO)
 	private int id;
+	@TableId(value = "login_id")
 	private String loginId;
 	private String pwd;
 	private int status;
 	
+    @TableField(exist = false)
+    private Integer count;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public int compareTo(Admin o) {
 		if (this.id>o.id) {

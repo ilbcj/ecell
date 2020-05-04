@@ -1,9 +1,9 @@
 package com.ilbcj.ecell.util;
 
-import com.baomidou.mybatisplus.plugins.Page;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 public class PageUtils implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -36,14 +36,14 @@ public class PageUtils implements Serializable {
 		this.list = page.getRecords();
 		this.recordsTotal = page.getTotal();
 		this.recordsFiltered = page.getTotal();
-		this.pageSize = page.getSize();
-		this.start = (page.getCurrent() - 1) * page.getSize();
-		this.length = page.getSize();
-		
-		this.totalCount = page.getTotal();
-		this.pageSize = page.getSize();
-		this.currPage = page.getCurrent();
-		this.totalPage = page.getPages();
+//		this.pageSize = page.getSize();
+//		this.start = (page.getCurrent() - 1) * page.getSize();
+//		this.length = page.getSize();
+//		
+//		this.totalCount = page.getTotal();
+//		this.pageSize = page.getSize();
+//		this.currPage = page.getCurrent();
+//		this.totalPage = page.getPages();
 	}
 
 	public int getTotalCount() {
