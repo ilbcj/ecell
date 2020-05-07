@@ -1,6 +1,7 @@
 package com.ilbcj.ecell.service.impl;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -25,6 +26,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Resource
     private AdminMapper adminMapper;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean insertAdmin(Map<String, Object> parm) {
 		Admin admin = new Admin();
@@ -35,7 +37,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 			return false;
 		}
 		admin.setLoginId(loginId);
-		admin.setPwd(parm.get("pwd").toString());
+		Optional<String> pwd = Optional.ofNullable( (String)parm.get("pwd") );
+		admin.setPwd(pwd.orElse(""));
+		Optional<String> name = Optional.ofNullable( (String)parm.get("name") );
+		admin.setName(name.orElse(""));
 		admin.setStatus(Admin.STATUS_INUSE);
 		int ret =  adminMapper.insert(admin);
 		if( ret > 0 ) {
@@ -59,37 +64,39 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Override
 	public boolean updateAdminStatus(Map<String, Object> params) {
 		String loginId=params.get("loginId").toString();
-		Admin admin=adminMapper.queryByLoginId(loginId);
-		admin.setStatus((Integer)params.get("status"));
-		adminDao.updateById(admin);
+//		Admin admin=adminMapper.queryByLoginId(loginId);
+//		admin.setStatus((Integer)params.get("status"));
+//		adminMapper.updateById(admin);
 		return true;
 	}
 
 	@Override
 	public Admin detailAdmin(Map<String, Object> params) {
-		return adminDao.queryByLoginId(params.get("loginId").toString());
+		//return adminMapper.queryByLoginId(params.get("loginId").toString());
+		return null;
 	}
 	
 	@Transactional
 	@Override
 	public boolean updateAdmmin(Map<String, Object> params) {
 		String loginId = params.get("loginId").toString();
-		Admin admin=adminDao.queryByLoginId(loginId);
-		adminDao.deleteAdmin(loginId);
-		String pwd=params.get("pwd").toString();
-		if("".equals(pwd)) {
-			adminDao.insert(admin);
-		}else {
-			admin.setPwd(pwd);
-			adminDao.insert(admin);
-		}
+//		Admin admin=adminMapper.queryByLoginId(loginId);
+//		adminMapper.deleteAdmin(loginId);
+//		String pwd=params.get("pwd").toString();
+//		if("".equals(pwd)) {
+//			adminMapper.insert(admin);
+//		}else {
+//			admin.setPwd(pwd);
+//			adminMapper.insert(admin);
+//		}
 		return true;
 	}
 
 	@Override
 	public boolean isExistAdmmin(Map<String, Object> params) {
-		Admin admin=adminDao.queryByLoginId(params.get("loginId").toString());
-		if(admin==null) {
+		String loginId=params.get("loginId").toString();
+		Admin admin = adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getLoginId, loginId));
+		if(admin == null) {
 			return false;
 		}
 		return true;

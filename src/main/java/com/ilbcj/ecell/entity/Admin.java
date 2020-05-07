@@ -20,10 +20,19 @@ public class Admin implements Serializable, Comparable<Admin>{
 	@TableId(value = "login_id")
 	private String loginId;
 	private String pwd;
+	private String name;
 	private int status;
 	
-    @TableField(exist = false)
+	@TableField(exist = false)
     private Integer count;
+	
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public int getId() {
 		return id;
