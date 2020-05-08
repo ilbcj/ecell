@@ -74,6 +74,7 @@ public class Query<T> extends LinkedHashMap<String, Object> {
         }else {
         	this.page = new Page<>(currPage, limit);
         }
+        page.setSearchCount(true);
         //排序
         if(StringUtils.isNotBlank(sidx) && StringUtils.isNotBlank(order)){
 //            this.page.setOrderByField(sidx);

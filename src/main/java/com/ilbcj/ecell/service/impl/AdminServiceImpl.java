@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ilbcj.ecell.entity.Admin;
@@ -26,12 +27,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Resource
     private AdminMapper adminMapper;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean insertAdmin(Map<String, Object> parm) {
 		Admin admin = new Admin();
 		String loginId=parm.get("loginId").toString();
-		//Admin ae=adminMapper.queryByLoginId(loginId);
 		Admin ae = adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getLoginId, loginId));
 		if(ae!=null) {
 			return false;
@@ -52,13 +51,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
 		String loginId = (String) params.get("loginId");
-		//String name = (String) params.get("name");
-//		Page<Admin> page = this.selectPage(new Query<Admin>(params).getPage(),
-//				new EntityWrapper<Admin>().like(StringUtils.isNotEmpty(loginId), "loginid", loginId)
-//						//.like(StringUtils.isNotEmpty(name), "NAME", name)
-//						);
-//		return new PageUtils(page);
-		return null;
+		String name = (String) params.get("name");
+		
+		Page<Admin> adminIPage = adminMapper.selectPage(new Query<Admin>(params).getPage(),
+				Wrappers.<Admin>lambdaQuery().like(Admin::getLoginId, loginId).like(Admin::getName, name));
+		return new PageUtils(adminIPage);
 	}
 
 	@Override
