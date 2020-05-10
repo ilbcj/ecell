@@ -51,16 +51,56 @@ CREATE TABLE `ecell`.`tb_player` (
 )
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS tb_player_detail;
+CREATE TABLE `ecell`.`tb_player_detail` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `player_id` INTEGER NOT NULL COMMENT '选手ID',
+  `all_apm` INTEGER COMMENT '总apm',
+  `all_sets` INTEGER COMMENT '总对局次数',
+  `all_resource` INTEGER COMMENT '总资源数',
+  `all_crystal` INTEGER COMMENT '总水晶数',
+  `all_oil` INTEGER COMMENT '总油矿数',
+  `all_duration` INTEGER COMMENT '总时长',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS tb_player_score_detail;
+CREATE TABLE `ecell`.`tb_player_score_detail` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `player_id` INTEGER UNSIGNED NOT NULL COMMENT '选手ID',
+  `tvtw` INTEGER UNSIGNED COMMENT 'tvt胜场',
+  `tvta` INTEGER UNSIGNED COMMENT 'tvt总对局',
+  `tvpw` INTEGER UNSIGNED COMMENT 'tvp胜场',
+  `tvpa` INTEGER UNSIGNED COMMENT 'tvp总对局',
+  `tvzw` INTEGER UNSIGNED COMMENT 'tvz胜场',
+  `tvza` INTEGER UNSIGNED COMMENT 'tvz总对局',
+  `pvtw` INTEGER UNSIGNED COMMENT 'pvt胜场',
+  `pvta` INTEGER UNSIGNED COMMENT 'pvt总对局',
+  `pvpw` INTEGER UNSIGNED COMMENT 'pvp胜场',
+  `pvpa` INTEGER UNSIGNED COMMENT 'pvp总对局',
+  `pvzw` INTEGER UNSIGNED COMMENT 'pvz胜场',
+  `pvza` INTEGER UNSIGNED COMMENT 'pvz总对局',
+  `zvtw` INTEGER UNSIGNED COMMENT 'zvt胜场',
+  `zvta` INTEGER UNSIGNED COMMENT 'zvt总对局',
+  `zvpw` INTEGER UNSIGNED COMMENT 'zvp胜场',
+  `zvpa` INTEGER UNSIGNED COMMENT 'zvp总对局',
+  `zvzw` INTEGER UNSIGNED COMMENT 'zvz胜场',
+  `zvza` INTEGER UNSIGNED COMMENT 'zvz总对局',
+  `country` INTEGER UNSIGNED COMMENT '对手国籍',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
 
-
-
-
-
-
-
-
-
+DROP TABLE IF EXISTS tb_player_season_detail;
+CREATE TABLE `ecell`.`tb_player_season_detail` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `season_id` INTEGER UNSIGNED NOT NULL COMMENT '赛季ID',
+  `player_id` INTEGER UNSIGNED NOT NULL COMMENT '选手ID',
+  `post_season_difference` INTEGER UNSIGNED COMMENT '季后赛净胜',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS tb_match;
 CREATE TABLE `ecell`.`tb_match` (
@@ -73,6 +113,20 @@ CREATE TABLE `ecell`.`tb_match` (
   `pa_race` VARCHAR(45) NOT NULL COMMENT 'A选手种族',
   `pb_race` VARCHAR(45) NOT NULL COMMENT 'B选手种族',
   `winner` INTEGER UNSIGNED NOT NULL COMMENT '胜利方',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS tb_match_detail;
+CREATE TABLE `ecell`.`tb_match_detail` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `match_id` INTEGER UNSIGNED NOT NULL COMMENT '比赛ID',
+  `player_id` INTEGER UNSIGNED NOT NULL COMMENT '选手ID',
+  `duration` INTEGER UNSIGNED COMMENT '比赛时长',
+  `apm` INTEGER UNSIGNED COMMENT '本场apm',
+  `crystal` INTEGER UNSIGNED COMMENT '水晶数',
+  `oil` INTEGER UNSIGNED COMMENT '油矿数',
+  `resource` INTEGER UNSIGNED COMMENT '资源数',
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;

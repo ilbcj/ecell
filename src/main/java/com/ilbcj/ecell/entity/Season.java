@@ -23,21 +23,17 @@ public class Season implements Serializable, Comparable<Season>{
 	private Integer id;
 	private String name;
 	@TableId(value = "start_ts")
-	private String startts;
+	private String startTs;
 	@TableId(value = "start_time")
 	private String startTime;
 	private Integer status;
 	
-    public String getName() {
-		return name;
+	public String getStartTs() {
+		return startTs;
 	}
 
-	public String getStartts() {
-		return startts;
-	}
-
-	public void setStartts(String startts) {
-		this.startts = startts;
+	public void setStartTs(String startTs) {
+		this.startTs = startTs;
 	}
 
 	public String getStartTime() {
@@ -46,6 +42,10 @@ public class Season implements Serializable, Comparable<Season>{
 
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
+	}
+
+    public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
