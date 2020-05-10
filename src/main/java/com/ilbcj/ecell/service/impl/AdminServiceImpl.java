@@ -1,16 +1,14 @@
 package com.ilbcj.ecell.service.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,32 +58,35 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
 	@Override
 	public boolean updateAdminStatus(Map<String, Object> params) {
-		String loginId=params.get("loginId").toString();
-//		Admin admin=adminMapper.queryByLoginId(loginId);
-//		admin.setStatus((Integer)params.get("status"));
-//		adminMapper.updateById(admin);
+		Map<String, Object> upStatus = new HashMap<String, Object>();
+		upStatus.put("loginId", params.get("loginId"));
+		upStatus.put("status", params.get("status"));
+		updateAdmmin(upStatus);
 		return true;
 	}
 
 	@Override
 	public Admin detailAdmin(Map<String, Object> params) {
-		//return adminMapper.queryByLoginId(params.get("loginId").toString());
-		return null;
+		String loginId = params.get("loginId").toString();
+		return adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getLoginId, loginId));
 	}
 	
 	@Transactional
 	@Override
 	public boolean updateAdmmin(Map<String, Object> params) {
 		String loginId = params.get("loginId").toString();
-//		Admin admin=adminMapper.queryByLoginId(loginId);
-//		adminMapper.deleteAdmin(loginId);
-//		String pwd=params.get("pwd").toString();
-//		if("".equals(pwd)) {
-//			adminMapper.insert(admin);
-//		}else {
-//			admin.setPwd(pwd);
-//			adminMapper.insert(admin);
-//		}
+		
+		Admin admin = new Admin();
+		Optional<String> pwd = Optional.ofNullable( (String)params.get("pwd") );
+		admin.setPwd(pwd.orElse(null));
+		Optional<String> name = Optional.ofNullable( (String)params.get("name") );
+		admin.setName(name.orElse(null));
+		Optional<Integer> status = Optional.ofNullable( (Integer)params.get("status") );
+		admin.setStatus(status.orElse(null));
+		adminMapper.update(
+				admin,
+                Wrappers.<Admin>lambdaUpdate().eq(Admin::getLoginId, loginId)
+        );
 		return true;
 	}
 

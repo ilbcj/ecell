@@ -13,7 +13,4 @@ public interface AdminMapper extends BaseMapper<Admin>{
 	/**
 	 * 根据管理员标识查询管理员
 	 */
-	//Admin queryByLoginId(@Param("arg0")String loginId);
-	
-	//Integer deleteAdmin(@Param("loginId")String loginId);
 }

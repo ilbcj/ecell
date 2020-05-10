@@ -14,14 +14,16 @@ public class Admin implements Serializable, Comparable<Admin>{
 	public static final int STATUS_INIT = 0;
 	public static final int STATUS_INUSE = 1;
 	public static final int STATUS_HANGUP = 2;
+	
 	private static final long serialVersionUID = 6087973127063030273L;
+	
 	@TableId(type = IdType.AUTO)
-	private int id;
+	private Integer id;
 	@TableId(value = "login_id")
 	private String loginId;
 	private String pwd;
 	private String name;
-	private int status;
+	private Integer status;
 	
 	@TableField(exist = false)
     private Integer count;
@@ -34,11 +36,11 @@ public class Admin implements Serializable, Comparable<Admin>{
 		this.name = name;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -58,11 +60,11 @@ public class Admin implements Serializable, Comparable<Admin>{
 		this.pwd = pwd;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
