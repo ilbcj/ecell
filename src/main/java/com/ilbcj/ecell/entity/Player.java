@@ -13,11 +13,12 @@ public class Player implements Serializable, Comparable<Player>{
 	 */
 	private static final long serialVersionUID = -3566779306064317868L;
 
+	public static final Integer GENDER_UNSET = 0;
 	public static final Integer GENDER_MALE = 1;
 	public static final Integer GENDER_FEMALE = 2;
 	public static final int STATUS_INIT = 0;
-	public static final int STATUS_ACTIVE = 1;
-	public static final int STATUS_ARCHIVE = 2;
+	public static final int STATUS_INUSE = 1;
+	public static final int STATUS_DELETE = 2;
 	
 	
 	@TableId(type = IdType.AUTO)
