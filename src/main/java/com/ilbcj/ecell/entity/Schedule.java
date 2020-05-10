@@ -25,6 +25,8 @@ public class Schedule implements Serializable, Comparable<Schedule>{
 	
 	@TableId(type = IdType.AUTO)
 	private Integer id;
+	@TableId(value = "season_id")
+	private Integer seasonId;
 	private String round;
 	private Integer sets;
 	@TableId(value = "race_day")
@@ -32,7 +34,15 @@ public class Schedule implements Serializable, Comparable<Schedule>{
 	private Integer type;
 	private Integer status;
 	
-    public Integer getSets() {
+    public Integer getSeasonId() {
+		return seasonId;
+	}
+
+	public void setSeasonId(Integer seasonId) {
+		this.seasonId = seasonId;
+	}
+
+	public Integer getSets() {
 		return sets;
 	}
 
