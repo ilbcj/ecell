@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台控制台 - 设备白名单</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	<div id="device_white_list_page" class="ui equal width left aligned padded grid stackable">
+	                    <div class="row">
+	                    	<div class="sixteen wide column">
+	                            <div class="ui segments">
+	                                <div class="ui segment">
+	                                    <h5 class="ui header">
+											白名单列表
+	                                    </h5>
+	                                </div>
+	                                <div class="ui form segment">
+	                                    <div class="three fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="dwl_search_devid" type="text" placeholder="设备ID">
+			                                    </div>
+			                                </div>    
+			                                <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="dwl_search_appid" type="text" placeholder="应用ID">
+			                                    </div>
+			                                </div>  
+                                            <div class="field">
+                                            	<div id="dwl_search" type="button" class="ui button">
+		                                        	<i class="search icon"></i>查询
+		                                        </div>
+                                            </div>
+	                                    </div>
+									</div>
+	                                
+	                                <div class="ui segment">
+                                		<div class="ui buttons">
+		                                    <button id="add_white_list" class="ui button"><i class="registered icon"></i>设备注册</button>
+		                                </div>
+
+	                                    <table id="dwl_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="30%">设备ID</th>
+	                                                <th width="30%">应用ID</th>
+	                                                <th width="10%">设备状态</th>
+	                                                <th width="10%">策略状态</th>
+	                                                <th width="20%">操作</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <!-- /#device_white_list_page -->
+
+                    <div id="device_detail_page" class="ui basic modal">
+                        <div class="row">
+                            <div class="sixteen wide column">
+                                <div class="ui segments">
+                                    <div class="ui segment">
+                                        <h5 class="ui header blue">
+                                            设备注册
+                                        </h5>
+                                    </div>
+                                    <div class="ui segment form">
+                                        <div class="two fields">
+                                            <div class="field">
+                                                <label>设备ID</label>
+                                                <input id="devid" type="text" placeholder="请输入设备ID">
+                                            </div>
+                                            <div class="field">
+                                                <label>应用ID</label>
+                                                <input id="appid" type="text" placeholder="请输入应用ID">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui two top attached buttons segment">
+                                        <div id="device_detail_save" class="ui basic huge blue button">注册</div>
+                                        <div id="device_detail_return" class="ui basic huge red button">返回</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="device_wl_confirm_modal" class="ui basic modal">                                                                                  
+				        <div class="header">
+							修改白名单
+				        </div>
+				        <div class="image content">
+				            <div class="image">
+				                <i class="archive icon"></i>
+				            </div>
+				            <div class="description">
+				                <p id="device_wl_confirm_modal_message"></p>
+				            </div>
+				        </div>
+				        <div class="actions">
+				            <div class="two fluid ui inverted buttons">
+				            	<div id="device_wl_confirm_modal_confirm" class="ui green basic inverted deny button">
+				                    <i class="checkmark icon"></i>
+									确认
+				                </div>
+				                <div class="ui red basic inverted deny button">
+				                    <i class="remove icon"></i>
+									取消
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				    <!-- /#device_wl_confirm_modal end -->
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

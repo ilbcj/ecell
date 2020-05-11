@@ -24,7 +24,26 @@ public class Admin implements Serializable, Comparable<Admin>{
 	private String pwd;
 	private String name;
 	private Integer status;
+	private Long token;
+	@TableId(value = "session_id")
+	private String sessionId;
 	
+	public Long getToken() {
+		return token;
+	}
+
+	public void setToken(Long token) {
+		this.token = token;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 	@TableField(exist = false)
     private Integer count;
 	

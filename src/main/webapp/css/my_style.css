@@ -1,0 +1,408 @@
+.my_role {
+	font-size: 22px;
+}
+.my_role_text {
+	font-size: 18px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	line-height: 1.5;
+	padding-left: 30px;
+	color: #666;
+}
+
+.my_header_textP {
+	font-size: 1.5rem !important;
+}
+
+h5.ui.header {
+	font-size: 1.2rem;
+}
+
+.ui.checkbox .box, .ui.checkbox label {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.ui.form .inline.fields .field {
+	padding-left: 5rem;
+}
+
+.my_role_login {
+	font-size: 1.2rem;
+	margin-top: 20px;
+}
+
+.my_role_login p {
+	margin-top: 10px;
+}
+
+.my_role_login span {
+	color: #fd2f47;
+}
+
+.my_role_button {
+	padding-left: 30px;
+}
+
+.my_role_button .button {
+	margin-right: 20px;
+}
+
+.dataTables_filter input {
+	height: 2rem;
+}
+
+.my_role_input {
+	padding: 10px;
+	border: 1px solid #ddd;
+	width: 26rem;
+	display: inline-block;
+	margin: 3rem 3rem;
+	text-align: center;
+}
+
+.my_role_header {
+	font-size: 1.5rem;
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+}
+
+.my_role_header i {
+	margin-right: 10px;
+}
+
+.my_role_input p {
+	text-align: left;
+	font-size: 1.2rem;
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+.my_role_input .input {
+	width: 100% !important;
+	margin-bottom: 20px;
+}
+
+.my_role_input .input input {
+	border: 1px solid #7d7d7d;
+}
+
+.my_role_input button {
+	width: 100%;
+	font-size: 1.2rem !important;
+}
+
+.search_fa {
+	width: 99%;
+}
+
+.my_role_search {
+	height: 3rem;
+	font-size: 1.4rem;
+	width: 100%;
+}
+
+.my_icon {
+	font-size: 1rem !important;
+}
+
+.search_fa {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+#popup {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	background: #000;
+	opacity: 0.5;
+}
+
+#popup_backup {
+	position: fixed;
+	z-index: 1010;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	background: #000;
+	opacity: 0.5;
+}
+
+#my_popup_change {
+	display: none;
+	background: #fff;
+	width: 60rem;
+	height: 38rem;
+	position: fixed;
+	top: 45%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 1200;
+	border-radius: 8px;
+	padding-bottom: 20px;
+	overflow: hidden;
+	padding: 20px;
+}
+
+.my_popup_input {
+	margin-left: 3rem;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 1.2rem;
+}
+
+.my_popup_input span {
+	display: inline-block;
+	width: 8rem;
+}
+
+.my_popup_input .input, .my_popup_input .selection {
+	width: 40rem;
+}
+
+.my_popup_button {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.my_popup_button button {
+	width: 10rem;
+	margin: 0 2rem !important;
+}
+
+#my_popup_add {
+	display: none;
+	background: #fff;
+	width: 40rem;
+	height: 24rem;
+	position: fixed;
+	top: 45%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 1200;
+	border-radius: 8px;
+	padding-bottom: 20px;
+	overflow: hidden;
+	padding: 20px;
+}
+
+#my_popup_add .checkbox, #my_popup_backup .checkbox {
+	margin: 15px !important;
+}
+
+#my_popup_backup {
+	background: #fff;
+	width: 40rem;
+	height: 28rem;
+	position: fixed;
+	top: 45%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 1200;
+	border-radius: 8px;
+	padding-bottom: 20px;
+	overflow: hidden;
+	padding: 20px;
+}
+
+.my_head_text {
+	font-size: 1.8rem;
+}
+
+.my_logo {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.my_login_form label {
+	text-align: left !important;
+	width: 30rem !important;
+	display: inline-block;
+	font-size: 1.2rem !important;
+	margin-bottom: 10px !important;
+	color: #666 !important;
+}
+
+.my_login_form {
+	padding: 3rem !important;
+	width: 40rem !important;
+}
+
+.my_login_form input {
+	height: 3.5rem;
+	border: 1px solid #dcdcdc;
+}
+
+.my_login_form .field {
+	margin: 0 auto;
+}
+
+.my_login_form .button {
+	width: 100%;
+	height: 3.5rem;
+	line-height: 1.2rem;
+	font-size: 1.5rem;
+}
+.admin_head_width img {
+	width: 100% !important;
+}
+.my_login_form a {
+	color: #fff;
+}
+.myselection{
+	width: 100%;
+	top: 6px;
+}
+#roleName_span {
+	margin-top: 10px;
+	padding-right: 10px;
+	text-align: center;
+}
+
+.labelFontdef{
+	margin: 0 0 .28571429rem 0;
+	color: rgba(0, 0, 0, .87);
+	font-size: .92857143em;
+	font-weight: 700;
+	text-transform: none;
+}
+#label_my{
+	margin: 0 0 .28571429rem 0;
+	color: rgba(0, 0, 0, .87);
+	font-size: 5px;
+	font-weight: 700;
+	text-transform: none;	
+}
+#strategyAttribute {
+	border-top: 1px solid #c0c0c0;
+	border-bottom: 1px solid #c0c0c0; 
+	border-left: 1px solid #c0c0c0;
+	border-right: 1px solid #c0c0c0;
+	margin-left: 2%;
+	width: 95%;
+	height: 50%;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	
+}
+#RoleType{
+	margin-left: 2%;
+}
+#saveRoleDiv{
+	margin-left: 80%;
+	margin-top: 1%;
+	
+}
+#back_buttonM{
+	margin-left: 6%;
+}
+#back_buttonS{
+	margin-left: 6%;
+}
+#modifyRoleDiv{
+	margin-left: 80%;
+	margin-top: 1%;
+}
+.liftTop{
+	margin-left: 5%;
+	top: 12px;
+}
+.liftTop2{
+	margin-left: 1%;
+	margin-top: 12px;
+}
+.liftTop3{
+	margin-left: 1%;
+	margin-top: 12px;
+}
+
+.group_span{
+ margin-top: 10px;
+ padding-right: 10px;
+ text-align: center;
+}
+
+#qqqqq{
+	margin: 0 0 .28571429rem 0;
+	color: rgba(0, 0, 0, .87);
+	font-size: .92857143em;
+	font-weight: 700;
+	text-transform: none;
+	float:left
+}
+
+#selectappidList{
+ margin-left: 90%;
+ margin-top: 1%;
+}
+
+#savegroupDiv{
+ margin-left: 85%;
+ margin-top: 1%;
+}
+#sumbit_group_back{
+	margin-left: 8%;
+}
+
+td.details-control {
+    background: url('../img/dev_black_add.jpg') no-repeat center center;
+    cursor: pointer;
+}
+
+#devRegistButtons,#devQueryButtons,#devModifyButtons{
+ margin-left: 85%;
+ margin-top: 1%;
+}
+
+#device_info_empty,#dev_modify_devInfoBack{
+	margin-left: 8%;
+}
+#appRegistDiv{
+ margin-left: 85%;
+ margin-top: 1%;
+}
+#app_regist_empty,#app_update_back,#admin_regist_empty,#admin_mod_back{
+ margin-left: 8%;										
+ margin-top: 1%;
+}
+.my_table_full{
+	word-break:break-all;
+}
+
+.liftTop4{
+	margin-left: 6%;
+	margin-top: 12px;
+}
+.liftTop5{
+	margin-left: 1%;
+	margin-top: 12px;
+}
+#RoleType2{
+	margin-left: 2%;
+	margin-top: 13px;
+}
+.roleinput1{
+	width: 100%;
+	top: 6px;
+}
+.roleinput2{
+	width: 98%;
+	top: 6px;
+}

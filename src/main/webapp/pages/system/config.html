@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>可信密钥管理系统 - 配置管理</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	
+                	<div class="ui equal width left aligned padded grid stackable">
+                <!--Site Content-->
+                <!--Site Content-->
+            
+                        <div class="sixteen wide tablet two wide computer column">
+                            <div class="ui vertical secondary pointing fluid tabular menu">
+                                <a class="item active" data-tab="hsm_config">
+									加密机信息
+                                </a>
+                                <a class="item" data-tab="rootkey_config">
+									根密钥备份路径
+                                </a>
+                                <a class="item" data-tab="asymmetric_config">
+									系统非对称密钥对索引
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sixteen wide tablet fourteen wide computer column">
+                            <div class="ui segment">
+                                <div class="ui tab active" data-tab="hsm_config">
+                                    <form class="ui form segment">
+                                        <h3 class="ui header">
+											加密机信息
+                                        </h3>
+                                        <div class="ui hidden divider"></div>
+                                        <div class="two fields">
+	                                        <div class="field">
+	                                            <label>加密机名称</label>
+	                                            <input placeholder="加密机名称" id="config_hsm_name" type="text">
+	                                        </div>
+	                                    
+	                                        <div class="field">
+	                                            <label>加密机类型</label>
+	                                            <input placeholder="加密机类型" id="config_hsm_type" type="text">
+	                                        </div>
+                                        </div>
+                                        <div class="two fields">
+	                                        <div class="field">
+	                                            <label>加密机编号</label>
+	                                            <input placeholder="加密机编号" id="config_hsm_sn" type="text">
+	                                        </div>
+                                        </div>
+                                        <div class="two fields">
+	                                        <div class="field">
+	                                            <label>加密机地址</label>
+	                                            <input placeholder="加密机地址" id="config_hsm_address" type="text">
+	                                        </div>
+	                                    
+	                                        <div class="field">
+	                                            <label>加密机端口</label>
+	                                            <input placeholder="加密机端口" id="config_hsm_port" type="text">
+	                                        </div>
+                                        </div>
+                                        <div class="two fluid ui inverted buttons">
+							            	<div class="ui green basic deny button config_save">
+							                    <i class="checkmark icon"></i>
+												保存
+							                </div>
+							                <div class="ui grey basic deny button config_reset">
+							                    <i class="external icon"></i>
+												取消
+							                </div>
+							            </div>
+                                        
+                                    </form>
+                                </div>
+                                <div class="ui tab" data-tab="rootkey_config">
+                                    <form class="ui form segment">
+                                        <h3 class="ui header">
+											根密钥备份路径
+                                        </h3>
+                                        <div class="ui hidden divider"></div>
+                                        <div class="field">
+                                            <label>主目录</label>
+                                            <input placeholder="主目录" id="config_rootkey_backpath_base" type="text">
+                                        </div>
+                                    
+                                        <div class="field">
+                                            <label>对称密钥子目录</label>
+                                            <input placeholder="对称密钥子目录" id="config_rootkey_backpath_symmetric" type="text">
+                                        </div>
+                                        
+                                        <div class="field">
+                                            <label>非对称密钥子目录</label>
+                                            <input placeholder="非对称密钥子目录" id="config_rootkey_backpath_asymmetric" type="text">
+                                        </div>
+                                        
+                                        <div class="two fluid ui inverted buttons">
+                                        	<div class="ui green basic deny button config_save">
+							                    <i class="checkmark icon"></i>
+												保存
+							                </div>
+							            	<div class="ui grey basic deny button config_reset">
+							                    <i class="external icon"></i>
+												取消
+							                </div>
+							            </div>
+                                    </form>
+                                </div>
+                                <div class="ui tab" data-tab="asymmetric_config">
+                                    <div class="ui form segment">
+                                        <h3 class="ui header">
+											系统非对称密钥对索引
+                                        </h3>
+                                        <div class="ui hidden divider"></div>
+                                        <div class="field">
+                                            <label>加密密钥索引</label>
+                                            <input placeholder="加密密钥索引" id="config_asymmetric_index_encrypt" type="text">
+                                        </div>
+                                        
+                                        <div class="field">
+                                            <label>签名密钥索引</label>
+                                            <input placeholder="签名密钥索引" id="config_asymmetric_index_signature" type="text">
+                                        </div>
+                                        
+                                        <div class="field">
+                                            <label>密钥交换密钥索引</label>
+                                            <input placeholder="密钥交换密钥索引" id="config_asymmetric_index_exchange" type="text">
+                                        </div>
+                                    
+                                        <div class="two fluid ui inverted buttons">
+							            	<div class="ui green basic deny button config_save">
+							                    <i class="checkmark icon"></i>
+												保存
+							                </div>
+							                <div class="ui grey basic deny button config_reset">
+							                    <i class="external icon"></i>
+												取消
+							                </div>
+							            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

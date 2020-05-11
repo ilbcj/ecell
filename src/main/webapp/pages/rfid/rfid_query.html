@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台控制台 - 标签查询</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	<div id="rfid_list_page" class="ui equal width left aligned padded grid stackable">
+	                    <div class="row">
+	                    	<div class="sixteen wide column">
+	                            <div class="ui segments">
+	                                <div class="ui segment">
+	                                    <h5 class="ui header">
+											标签查询
+	                                    </h5>
+	                                </div>
+	                                <div class="ui form segment">
+	                                    <div class="three fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="EPC" type="text" placeholder="EPC">
+			                                    </div>
+			                                </div>
+                                            <div class="field">
+                                            	<div id="rfid_search" type="button" class="ui button">
+		                                        	<i class="search icon"></i>查询
+		                                        </div>
+                                            </div>
+	                                    </div>
+									</div>
+	                                
+	                                <div class="ui segment">
+	                                    <table id="rfid_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="20%">EPC</th>
+	                                                <th width="20%">根密钥KCV</th>
+	                                                <th width="30%">工作参数</th>
+	                                                <th width="20%">创建时间</th>
+	                                                <th width="10%">操作</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <!-- 列表详情  -->
+					<div id="rfid_detail_page" class="ui equal width left aligned padded grid stackable displaynone">
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui segments">
+									<div class="ui segment">
+										<h5 class="ui header">标签详情</h5>
+									</div>
+									<div class="ui form segment">
+										<div class="three fields">
+											<div class="field">
+												<div class="ui input">
+													<span class="group_span"><label class="labelFontdef">EPC</label></span>
+													<input id="EPC1" name="EPC1" type="text" readonly="true">
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui input">
+													<span class="group_span"><label class="labelFontdef">USER</label></span>
+													<input id="USER" name="USER" type="text" readonly="true">
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui input">
+													<span class="group_span"><label class="labelFontdef">查验次数</label></span>
+													<input id="LENGTH" name="LENGTH" type="text" readonly="true">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="ui segment">
+										<table id="rfidCheck_main_table" class="ui large celled striped table">
+											<thead>
+											<tr>
+												<th width="50%">次数</th>
+												<th width="50%">时间</th>
+											</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<div class="ui segment">
+										<div class="ui buttons" id="appRegistDiv">
+											<button id="rfid_detail_back" class="ui button">
+												<i class="reply icon"></i>返回
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 列表详情结束 -->
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

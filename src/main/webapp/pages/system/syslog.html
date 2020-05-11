@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>数据压缩系统 - 日志管理</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner ui equal width left aligned padded grid stackable">
+                    <div class="row">
+                    	<div class="sixteen wide column">
+                            <div class="ui segments">
+                                <div class="ui segment">
+                                    <h5 class="ui header">
+										日志列表
+                                    </h5>
+                                </div>
+                                <div class="ui form segment">
+	                                    <div class="four fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="syslog_search_name" type="text" placeholder="操作员名称">
+			                                    </div>
+		                                    </div>
+		                                    <div class="field">
+			                                    <div id='syslog_search_type' class="ui dropdown selection" tabindex="0">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text">操作类型</div>
+                                                    <div class="menu" tabindex="-1">
+                                                    	<div class="item" data-value="">全部</div>
+                                                    	<div class="item" data-value="保存压缩配置">保存压缩配置</div>
+                                                    	<div class="item" data-value="保存线程配置">保存线程配置</div>
+                                                    	<div class="item" data-value="压缩数据">压缩数据</div>
+                                                    	<div class="item" data-value="修改密码">修改密码</div>
+                                                    	<div class="item" data-value="保存用户">保存用户</div>
+                                                    	<div class="item" data-value="修改用户">修改用户</div>
+                                                    	<div class="item" data-value="删除用户">删除用户</div>
+                                                    	<div class="item" data-value="登录">登录</div>
+                                                    	<div class="item" data-value="退出">退出</div>
+                                                    </div>
+                                               </div>
+		                                    </div>
+		                                    <div class="field">
+			                                    <div class="ui input">
+			                                        <div id="syslog_search" type="button" class="ui button">
+			                                        	<i class="search icon"></i>查询
+			                                        </div>
+			                                    </div>
+		                                    </div>
+	                                    </div>
+									</div>
+	                                <div class="ui segment">
+	                                    <table id="syslog_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="5%">ID</th>
+	                                                <th width="10%">操作者</th>
+	                                                <th width="15%">操作类型</th>
+	                                                <th width="35%">参数</th>
+	                                                <th width="5%">地址</th>
+	                                                <th width="10%">操作时间</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

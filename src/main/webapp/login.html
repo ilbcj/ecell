@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <!-- Site Properities -->
+    <meta name="generator" content="Visual Studio 2015" />
+    <title>Stagb Admin Template</title>
+    <meta name="description" content="Stagb Admin Template" />
+    <meta name="keywords" content="html5, ,semantic,ui, library, framework, javascript,jquery,template,blog,stagb,template" />
+    <link href="semantic/dist/semantic.min.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+    <link href="plugins/pacejs/pace.css" rel="stylesheet" />
+    <link href="plugins/lobibox/css/lobibox.css" rel="stylesheet" />
+    
+	
+</head>
+<body>
+    <div class="ui container" style="padding-top:10%">
+        <div class="ui grid center aligned">
+            <div class="row">
+                <div class="sixteen wide tablet six wide computer column">
+                    <div class="ui left aligned segment">
+
+                        <div id="form1" class="ui form">
+
+                            <h1 class="ui header center aligned">
+                                <img src="img/logo.png" alt="stagblogo" class="ui small image">
+
+                                <div class="content">
+
+                                </div>
+                            </h1>
+
+                            <div class="field">
+                                <label>
+                                    ID:
+                                </label>
+                                <div class="ui fluid icon input">
+                                    <input name="user_name" id="u_name" type="email" autocomplete="off" style="width:100%!important;min-width:100%;width:100%;">
+                                    <i class="icon mail outline"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>
+                                    Password:
+                                </label>
+                                <div class="ui fluid icon input">
+                                    <input name="password" id="u_pass" type="password" autocomplete="off" style="width:100%!important;min-width:100%;width:100%;">
+                                    <i class="icon key"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+
+                                <a id="loginbtn" href="javascript:void(0);" class="ui teal right labeled icon button fluid">
+                                    Login
+                                    <i class="icon sign in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="plugins/pacejs/pace.js"></script>
+	<script src="plugins/lobibox/js/notifications.js"></script>
+
+    <script>
+        var colors = ["#F25F5C", "#247BA0", "#8e44ad", "#ED6A5A", "#32936F", "#2c3e50", "#E83F6F", "#32936F", "#2E294E"];
+        var rand = Math.floor(Math.random() * colors.length);
+        $('body').css("background-color", colors[rand]);
+        
+        if( EnvCheck() == false ) {
+			location.href='error.html?tip=' + envMessage;
+		}
+        
+        function EnvCheck() {
+			try{
+				if(window.Storage && window.localStorage && window.localStorage instanceof Storage){
+				}
+				else {
+					envMessage = '浏览器暂不支持localStorage';
+					console.log(envMessage);
+					return false;
+				}
+			} catch (error) {
+				envMessage = '浏览器暂不支持localStorage';
+				console.log(envMessage);
+				return false;
+			}
+
+			return true;
+		}
+        
+        //支持Enter键登录
+        document.onkeydown = function(e){
+            if(!e) e = window.event;
+            if((e.keyCode || e.which) == 13){
+                var obtnLogin=document.getElementById("loginbtn");
+                obtnLogin.focus();
+            }
+        };
+        
+        $(function () {
+			
+			//, headers: { 'x-requested-with': 'XMLHttpRequest' }
+    		$.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
+    
+		    $('#loginbtn').on('click.login', function(){
+		    	var postdata = {};
+		    	postdata.username = $('#u_name').val();
+		    	postdata.password = $('#u_pass').val();
+				
+				$('#loginbtn').addClass('disabled');
+				Pace.track(function(){
+				$.ajax({
+					type: 'POST',
+					async: true,
+					url: '/cell/login/idpwd',
+					//contentType: "application/json;charset=UTF-8",
+					//data: JSON.stringify( postdata )
+					data: postdata
+				})
+				.done(function(data){
+					if(data.code == 0) {
+						location.href='index.html';
+					}
+					else {
+						$('#loginbtn').removeClass('disabled');
+						Lobibox.notify('error', {
+		                    size: 'normal',
+		                    rounded: false,
+		                    delayIndicator: true,
+		                    msg: data.msg + '[' + data.code + ']',
+		                    icon: 'warning icon',
+		                    title: '登录失败',
+		                    showClass: undefined,
+		                    hideClass: undefined,
+		                    sound: undefined,
+		                    img: undefined,
+		                    delay: undefined
+						});
+					}
+				})
+				.fail(function(){
+					$('#loginbtn').removeClass('disabled');
+					Lobibox.notify('error', {
+	                    size: 'normal',
+	                    rounded: false,
+	                    delayIndicator: true,
+	                    msg: '访问服务器失败',
+	                    icon: 'warning icon',
+	                    title: '登录失败',
+	                    showClass: undefined,
+	                    hideClass: undefined,
+	                    sound: undefined,
+	                    img: undefined,
+	                    delay: undefined
+					});
+				});
+				});
+				
+				return;
+		    });
+		    
+		});
+    </script>
+</body>
+</html>

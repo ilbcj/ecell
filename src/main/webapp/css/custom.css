@@ -1,0 +1,10 @@
+
+/*bootstrap slider css*/
+
+.slider.slider-horizontal {
+    width: 100% !important;
+}
+
+.slider.slider-horizontal .slider-tick-label {
+	padding-top: 24px !important;
+}

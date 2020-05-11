@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台控制台 - 密钥列表</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	<div id="key_list_page" class="ui equal width left aligned padded grid stackable">
+	                    <div class="row">
+	                    	<div class="sixteen wide column">
+	                            <div class="ui segments">
+	                                <div class="ui segment">
+	                                    <h5 class="ui header">
+											密钥列表
+	                                    </h5>
+	                                </div>
+	                                <div class="ui form segment">
+	                                    <div class="three fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="keylist_search_devid" type="text" placeholder="设备ID">
+			                                    </div>
+			                                </div>    
+			                                <div class="field displaynone">
+			                                    <div class="ui input">
+			                                        <input id="keylist_search_appid" type="text" placeholder="应用ID">
+			                                    </div>
+			                                </div>  
+                                            <div class="field">
+                                            	<div id="keylist_search" type="button" class="ui button">
+		                                        	<i class="search icon"></i>查询
+		                                        </div>
+                                            </div>
+	                                    </div>
+									</div>
+	                                
+	                                <div class="ui segment">
+                                		<!--<div class="ui buttons">
+		                                    <button id="add_key_list" class="ui button"><i class="plus icon"></i>添加</button>
+		                                </div>-->
+
+	                                    <table id="keylist_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="15%">设备ID</th>
+	                                                <th width="15%">应用ID</th>
+	                                                <th width="10%">保护密钥</th>
+	                                                <th width="10%">签到密钥</th>
+	                                                <th width="10%">分片密钥</th>
+	                                                <th width="10%">指令密钥</th>
+	                                                <th width="10%">数据密钥</th>
+	                                                <th width="10%">CPK密钥</th>
+	                                                <th width="10%">SM9密钥</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <!-- /#key_list_page -->
+                    
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

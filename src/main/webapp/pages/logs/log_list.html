@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台控制台 - 业务日志</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	<div id="log_list_page" class="ui equal width left aligned padded grid stackable">
+	                    <div class="row">
+	                    	<div class="sixteen wide column">
+	                            <div class="ui segments">
+	                                <div class="ui segment">
+	                                    <h5 class="ui header">
+											日志记录
+	                                    </h5>
+	                                </div>
+	                                <div class="ui form segment">
+	                                    <div class="six fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="loglist_search_devid" type="text" placeholder="设备ID">
+			                                    </div>
+			                                </div>    
+			                                <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="loglist_search_appid" type="text" placeholder="应用ID">
+			                                    </div>
+			                                </div>
+			                                <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="loglist_search_traceid" type="text" placeholder="交易流水号">
+			                                    </div>
+			                                </div>
+			                                <div class="field">
+			                                    <div id="loglist_search_opt" class="ui action dropdown selection" tabindex="0">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text">操作类型</div>
+                                                    <div class="menu" tabindex="-1">
+                                                    	<div class="item" data-value="">操作类型</div>
+                                                    	<div class="item" data-value="1">设备激活</div>
+                                                    	<div class="item" data-value="2">激活验证</div>
+                                                    	<div class="item" data-value="3">状态查询</div>
+                                                    	<div class="item" data-value="4">设备预签到</div>
+                                                    	<div class="item" data-value="5">设备签到</div>
+                                                    	<div class="item" data-value="6">退出签到</div>
+                                                    	<div class="item" data-value="7">数据解析</div>
+                                                    	<div class="item" data-value="8">指令保护</div>
+                                                    	<div class="item" data-value="9">设备注册</div>
+                                                    	<div class="item" data-value="10">数据保护</div>
+                                                    	<div class="item" data-value="11">指令解析</div>
+                                                    	<div class="item" data-value="12">设备注销</div>
+                                                    	<div class="item" data-value="13">批量数据解析</div>
+                                                        <div class="item" data-value="14">批量数据保护</div>
+                                                        <div class="item" data-value="15">心跳</div>
+                                                        <div class="item" data-value="16">心跳确认</div>
+                                                        <div class="item" data-value="17">数据签名</div>
+                                                    	<div class="item" data-value="18">数据验签</div>
+                                                        <div class="item" data-value="19">数据采集</div>
+                                                        <div class="item" data-value="20">文件数据保护</div>
+                                                        <div class="item" data-value="21">文件数据解析</div>
+                                                        <div class="item" data-value="22">通用远程服务</div>
+                                                        <div class="item" data-value="23">RFID获取工作密钥</div>
+                                                        <div class="item" data-value="26">RFID生成安全域</div>
+                                                    </div>
+			                                    </div>
+			                                </div>
+			                                <div class="field">
+			                                    <div id="loglist_search_result" class="ui action dropdown selection" tabindex="0">
+                                                    <i class="dropdown icon"></i>
+                                                    <div class="default text">操作结果</div>
+                                                    <div class="menu" tabindex="-1">
+                                                    	<div class="item" data-value="">操作结果</div>
+                                                    	<div class="item" data-value="1">成功</div>
+                                                    	<div class="item" data-value="2">失败</div>
+                                                    </div>
+			                                    </div>
+			                                </div>
+                                            <div class="field">
+                                            	<div id="loglist_search" type="button" class="ui button">
+		                                        	<i class="search icon"></i>查询
+		                                        </div>
+                                            </div>
+	                                    </div>
+									</div>
+	                                
+	                                <div class="ui segment">
+                                		<!--<div class="ui buttons">
+		                                    <button id="add_log" class="ui button"><i class="plus icon"></i>添加</button>
+		                                </div>-->
+
+	                                    <table id="loglist_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="10%">流水号</th>
+	                                                <th width="10%">设备ID</th>
+	                                                <th width="10%">应用ID</th>
+	                                                <th width="5%">平台</th>
+	                                                <th width="10%">操作</th>
+	                                                <th width="10%">结果</th>
+	                                                <th width="10%">操作时间</th>
+	                                                <th width="10%">耗时</th>
+	                                                <th width="25%">备注</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <!-- /#log_list_page -->
+                    
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

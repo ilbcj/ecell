@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Hsm Cmd Test</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+		<link href="semantic/dist/semantic.min.css" rel="stylesheet" />
+		<style type="text/css">
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<div class="mainWrap navslide">
+					<div class="ui grid">
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui segments">
+									<div class="ui segment">
+										 加密机指令测试
+									</div>
+									<div class="ui form segment">
+										<div class="fields">
+											<div class="fourteen wide field">
+												<div id='hsm_cmd_send_id' class="ui fluid action dropdown selection" tabindex="0">
+													<i class="dropdown icon"></i>
+													<div class="default text">默认原指令发送</div>
+													<div class="menu" tabindex="-1">
+														<div class="item" data-value="">指令形式选择</div>
+														<div class="item" data-value="1">原指令发送</div>
+														<div class="item" data-value="2">十六进制指令发送</div>
+													</div>
+												</div>
+											</div>
+											<div class="two wide field">
+												<div id="hsm_cmd_search" type="button" class="ui right floated button">
+													<i class="search icon"></i>发送
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ui three column divided celled grid">
+						<div class="column">
+							<div class="field">
+								<!--<div class="ui fluid input">
+									<input id="hsm_cmd_send_text" type="text" placeholder="输入指令">
+								</div>-->
+								<form class="ui form">
+									<textarea id="hsm_cmd_send_text" name="maxLength" rows="20" placeholder="输入指令"></textarea>
+								</form>
+							</div>
+						</div>
+						<div class="column">
+								原指令输出：
+							<div style="word-wrap:break-word;overflow:auto" id="response_cmd">
+							</div>
+						</div>
+						<div class="column">
+								HEX指令输出：
+							<div style="word-wrap:break-word;overflow:auto" id="response_hexcmd">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--jquery-->
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<!--jquery-->
+		<!--semantic-->
+		<script src="semantic/dist/semantic.min.js"></script>
+		<!--semantic-->
+		<script>
+			$(".ui.dropdown").dropdown({
+				allowCategorySelection: true,
+				transition: "fade up"
+			});
+			$(function() {
+				$('#hsm_cmd_search').on('click.hsm', function() {
+					var requstCmd = {};
+					var a = requstCmd.Cmdstr = $('#hsm_cmd_send_text').val();
+					var b = requstCmd.strId = $('#hsm_cmd_send_id').dropdown('get value');
+					if(b == "") {
+						requstCmd.strId = "1";
+					}
+					if(a == "") {
+						alert("请填写具体指令");
+						return;
+					};
+					$.ajax({
+						type: 'POST',
+						async: true,
+						url: 'hsm/queryhsmcmd',
+						data: requstCmd,
+						success: function(result) {
+							if(result.code == 0) {
+								$("#response_cmd").empty()
+								$("#response_cmd").append(result.reCmd);
+								$("#response_hexcmd").empty()
+								$("#response_hexcmd").append(result.reHexCmd);
+							} else {
+								alert(result.msg);
+							}
+						},
+					})
+				});
+			});
+		</script>
+	</body>
+</html>

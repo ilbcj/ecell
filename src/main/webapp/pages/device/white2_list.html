@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>安全基础平台控制台 - 设备白名单</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="dev_white_grid1" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						                设备白名单
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="four fields">
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_white_devId" type="text" placeholder="设备ID">
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_white_devName" type="text" placeholder="设备名字">
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui action input">
+														<input id="dev_white_appIds" type="text" placeholder="应用ID">
+														<button id="dev_white_appIdListButton" class="ui button">选择</button>
+													</div>
+												</div>
+												<div class="field">
+													<div id="dev_white_button" type="button" class="ui right floated button">
+														<i class="search icon"></i>查询
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+											<table id="dev_white_table" class="ui large celled striped table">
+												<thead>
+													<tr>
+														<th width="20%">设备ID</th>
+														<th width="20%">设备名称</th>
+														<th width="20%">应用ID</th>
+														<th width="20%">应用名称</th>
+														<th width="20%">状态</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="dev_white_grid2" class="ui equal width left aligned padded grid stackable displaynone">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						               应用id列表
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="fields">
+												<div class="two wide field">
+													<div class="ui input">
+													    <span class="group_span"> <label
+														    class="labelFontdef">应用ID</label>
+													    </span>
+												    </div>
+													<!--<label for="wd">应用ID</label>-->
+												</div>
+												<div class="twelve wide field">
+													<div class="ui fluid input">
+														<input id="dev_white_appList_appId" type="text">
+													</div>
+												</div>
+												<div class="two wide field">
+													<button id="dev_white_appList_button" class="ui button">
+                                                                                                                 查询
+                                                    </button>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+											<button id="dev_white_appList_checkclear" class="ui button">
+                                                                                                 清空选择
+                                            </button>
+											<table id="dev_white_appList_table" class="ui large celled striped table">
+												<thead>
+													<tr>
+														<th width="25%">选择</th>
+														<th width="25%">应用ID</th>
+														<th width="25%">应用名字</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+										<div class="ui segment">
+											<div class="ui buttons save_span" id="selectappidList">
+											    <button id="dev_white_appList_confirm" class="ui button">
+                                                                                                        确定
+                                                </button>
+										    </div>
+											<!--<button id="appid_submit_b" class="ui button save_span">
+                                                                                                 确定
+                                            </button>-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.mainWrapInner end -->
+				</div>
+				<!--maincontent-->
+			</div>
+		</div>
+	</body>
+
+</html>

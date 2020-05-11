@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>安全基础平台控制台 - 设备黑名单</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="dev_logout_grid" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						                设备注销
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="three fields">
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_logout_devId" type="text" placeholder="设备ID">
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_logout_devName" type="text" placeholder="设备名称">
+													</div>
+												</div>
+												<div class="field">
+													<div id="dev_logout_devButton" type="button" class="ui floated button">
+														<i class="search icon"></i>查询
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+											<table id="dev_logout_table" class="ui large fixed single line celled striped table">
+												<thead>
+													<tr>
+														<th width="13%">设备ID</th>
+														<th width="13%">设备名称</th>
+														<th width="11%">设备类别</th>
+														<th width="13%">厂商名称</th>
+														<th width="15%">应用名称</th>
+														<th width="15%">位置</th>
+														<th width="11%">IP</th>
+														<th width="10%">操作</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="dev_logout_modal" class="ui basic modal">                                                                                  
+				            <div class="header">
+							        注销设备
+				            </div>
+				            <div class="image content">
+				                <div class="image">
+				                    <i class="archive icon"></i>
+				                </div>
+				                <div class="description">
+				                    <p id="dev_logout_model_descript"></p>
+				                </div>
+				            </div>
+				            <div class="actions">
+				                <div id="dev_logout_model_devInfo" class="two fluid ui inverted buttons">
+				            	    <div id="dev_logout_model_dele" class="ui green basic inverted deny button">
+				                        <i class="checkmark icon"></i>
+									        确认注销
+				                    </div>
+				                    <div class="ui red basic inverted deny button">
+				                        <i class="remove icon"></i>
+									       取消
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+					</div>
+					<!-- /.mainWrapInner end -->
+				</div>
+				<!--maincontent-->
+			</div>
+		</div>
+	</body>
+
+</html>

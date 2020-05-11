@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>安全基础平台控制台 - 设备黑名单</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="dev_regist_grid1" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						                设备注册
+                   					        </h3>
+										</div>
+										<div class="ui segment">
+											<div id="dev_regist_tab" class="ui top attached tabular menu stackable">
+												<a class="active item" data-tab="one">设备注册</a>
+												<a class="item" data-tab="two">批量设备注册</a>
+											</div>
+											<div class="ui form bottom attached active tab segment" data-tab="one">
+												<div class="two fields">
+													<div class="field">
+														<label>设备ID</label>
+														<input id="dev_regist_devid" type="text" placeholder="设备ID,如果不填将会自动生成">
+													</div>
+													<div class="field">
+														<label>设备名称</label>
+														<input id="dev_regist_devname" type="text" placeholder="设备名称">
+													</div>
+												</div>
+												<div class="two fields">
+													<div class="field">
+														<label>设备类型</label>
+														<input id="dev_regist_devtype" type="text" placeholder="设备类型">
+													</div>
+													<div class="field">
+														<label>厂商名称</label>
+														<input id="dev_regist_tradename" type="text" placeholder="厂商名称">
+													</div>
+												</div>
+												<div class="two fields">
+													<div class="field">
+														<label>IP</label>
+														<input id="dev_regist_ip" type="text" placeholder="IP">
+													</div>
+													<div class="field">
+														<label>位置</label>
+														<input id="dev_regist_location" type="text" placeholder="位置">
+													</div>
+												</div>
+												<div class="field">
+													<label>所属应用</label>
+													<div class="ui action input">
+														<input id="dev_regist_appids" type="text" placeholder="所属应用">
+														<button id="app_list_regist" class="ui button">选择</button>
+													</div>
+												</div>
+												<div class="ui segment">
+													<div class="ui buttons" id="devRegistButtons">
+														<button id="device_info_sumbit" class="ui button">
+                                                            <i class="save icon"></i>保存
+                                                        </button>
+														<button id="device_info_empty" class="ui button">
+                                                            <i class="erase icon"></i>清空
+                                                        </button>
+													</div>
+												</div>
+											</div>
+											<div class="ui form bottom attached tab segment" data-tab="two">
+												<div class="two fields">
+													<div class="field">
+														<form id="device_import_info" method="post" enctype="multipart/form-data">
+															<div class="two fields">
+																<div class="field">
+																	<div class="ui input">
+																		<input type="file" name="file">
+																	</div>
+																</div>
+																<div class="field">
+																	<div id="import_deviceRegist" type="button" class="ui green button">
+																		<i class="privacy icon"></i>导入
+																	</div>
+																</div>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--<div class="ui form segment">
+											<h5 class="ui header">
+                   						               批量设备导入
+                   					        </h5>
+											<div class="two fields">
+												<div class="field">
+													<form id="device_import_info" method="post" enctype="multipart/form-data">
+														<div class="two fields">
+															<div class="field">
+																<div class="ui input">
+																	<input type="file" name="file">
+																</div>
+															</div>
+															<div class="field">
+																<div id="import_deviceRegist" type="button" class="ui green button">
+																	<i class="privacy icon"></i>导入
+																</div>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>-->
+										<!--<div class="ui form segment">
+											<h5 class="ui header">
+                   						                单个设备导入
+                   					        </h5>
+											<div class="two fields">
+												<div class="field">
+													<label>设备ID</label>
+													<input id="dev_regist_devid" type="text" placeholder="设备ID,如果不填将会自动生成">
+												</div>
+												<div class="field">
+													<label>设备名称</label>
+													<input id="dev_regist_devname" type="text" placeholder="设备名称">
+												</div>
+											</div>
+											<div class="two fields">
+												<div class="field">
+													<label>设备类型</label>
+													<input id="dev_regist_devtype" type="text" placeholder="设备类型">
+												</div>
+												<div class="field">
+													<label>厂商名称</label>
+													<input id="dev_regist_tradename" type="text" placeholder="厂商名称">
+												</div>
+											</div>
+											<div class="two fields">
+												<div class="field">
+													<label>所属应用</label>
+													<div class="ui action input">
+														<input id="dev_regist_appids" type="text" placeholder="所属应用">
+														<button id="app_list_regist" class="ui button">选择</button>
+													</div>
+												</div>
+												<div class="field">
+													<label>位置</label>
+													<input id="dev_regist_location" type="text" placeholder="位置">
+												</div>
+											</div>
+											<div class="two fields">
+												<div class="field">
+													<label>IP</label>
+													<input id="dev_regist_ip" type="text" placeholder="IP">
+												</div>
+												<div class="field displaynone">
+												</div>
+											</div>
+										</div>-->
+										<!--<div class="ui segment">
+											<div class="ui buttons save_span" id="selectappidList">
+												<button id="device_info_sumbit" class="ui button">
+                                                                                                        保存
+                                                </button>
+												<button id="device_info_empty" class="ui button">
+                                                                                                        清空
+                                                </button>
+											</div>
+										</div>-->
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="dev_regist_grid2" class="ui equal width left aligned padded grid stackable displaynone">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						               应用id列表
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="fields">
+												<div class="two wide field">
+													<div class="ui input">
+														<span class="group_span"> <label
+														    class="labelFontdef">应用ID</label>
+													    </span>
+													</div>
+													<!--<label for="wd">应用ID</label>-->
+												</div>
+												<div class="twelve wide field">
+													<div class="ui fluid input">
+														<input id="app_list_Search_R" type="text">
+													</div>
+												</div>
+												<div class="two wide field">
+													<button id="app_list_button_R" class="ui button">
+                                                                                                                 查询
+                                                    </button>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+												<div class="field">
+													<button id="dev_regist_appList_checkClear" class="ui button">
+                                                                                                                清空选择
+                                                   </button>
+												</div>
+											<table id="app_lsit_table_R" class="ui large celled striped table">
+												<thead>
+													<tr>
+														<th width="25%">选择</th>
+														<th width="25%">应用ID</th>
+														<th width="25%">应用名字</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+										<div class="ui segment">
+											<div class="ui buttons save_span" id="selectappidList">
+												<button id="app_lsit_Regist_s" class="ui button">
+                                                                                                        确定
+                                                </button>
+											</div>
+											<!--<button id="appid_submit_b" class="ui button save_span">
+                                                                                                 确定
+                                            </button>-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.mainWrapInner end -->
+				</div>
+				<!--maincontent-->
+			</div>
+		</div>
+	</body>
+
+</html>

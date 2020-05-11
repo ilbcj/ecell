@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>安全基础平台控制台 - 设备黑名单</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="dev_black_grid" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						    设备黑名单
+                   					    </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="three fields">
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_black_devid" type="text" placeholder="设备ID">
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_black_ip" type="text" placeholder="IP">
+													</div>
+												</div>
+												<div class="field">
+													<div id="dev_black_button" type="button" class="ui right floated button">
+														<i class="search icon"></i>查询
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+											<table id="dev_black_table" class="ui large celled striped table">
+												<thead>
+													<tr>
+														<th width="5%"></th>
+														<th width="30%">设备ID</th>
+														<th width="25%">设备名称</th>
+														<th width="20%">位置</th>
+														<th width="20%">IP</th>
+													</tr>
+												</thead>
+												<!--<tbody>
+												</tbody>-->
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.mainWrapInner end -->
+				</div>
+				<!--maincontent-->
+			</div>
+		</div>
+	</body>
+
+</html>

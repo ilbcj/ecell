@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台 - 控制台</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+    <link href="semantic/dist/semantic.min.css" rel="stylesheet" />
+    <link href="plugins/pacejs/pace.css" rel="stylesheet" />
+    <link href="plugins/ionicons/css/ionicons.min.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+    <link href="plugins/bootstrapslider/bootstrap-slider.min.css" rel="stylesheet" />
+    <link href="plugins/datatable/dataTables.semanticui.css" rel="stylesheet" />
+    <link href="plugins/datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="plugins/chartist/chartist.min.css" rel="stylesheet" />
+    <link href="plugins/lobibox/css/lobibox.css" rel="stylesheet" />
+    <link href="plugins/tree/treetable/css/jquery.treetable.css" rel="stylesheet" />
+    <link href="plugins/tree/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet" />
+    <link href="plugins/tree/ztree/metroStyle/metroStyle.css" rel="stylesheet" />
+    <link href="img/favicon.ico" rel="shortcut icon"/>
+    <link href="css/my_style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css" type="text/css">
+</head>
+
+<body>
+    <div id="contextWrap">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  grey" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
+            <a class="item logo" href="index.html">
+                <img src="img/sfp_logo01.png" alt="anydeflogo" /><img src="img/thumblogo.png" alt="anydeflogo" class="displaynone" />
+            </a>
+            <div class="ui accordion inverted leftmenu">
+                <a class="item">
+	                <div class="ui inverted progress tiny yellow active" id="sidebar_progress1" data-percent="45">
+	                    <div class="bar" style="transition-duration: 200ms; width: 45%;">
+	                    </div>
+	                    <div class="label colhidden" style="margin-top: 10px"><span class="colhidden">正在加载菜单……</span></div>
+	                </div>
+	            </a>
+            </div>
+
+			<div class="ui divider"></div>
+
+        </div>
+
+        <div class="pusher">
+            <!--navbar-->
+            <div class="navslide navwrap">
+                <div class="ui menu icon borderless grid" data-color="inverted white">
+                    <a class="item labeled openbtn">
+                        <i class="ion-navicon-round big icon"></i>
+                    </a>
+                    <a class="item labeled expandit" onclick="toggleFullScreen(document.body)">
+                        <i class="ion-arrow-expand big icon"></i>
+                    </a>
+                    <div class="right menu colhidden">
+
+                        
+                        <div class="ui dropdown item">
+                            <i class="user circular large icon"></i> <span id="title_admin">admin</span> <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a id="change_pwd" class="item" href="#">修改口令</a>
+                                <div class="ui divider"></div>
+                                <a id="logout" class="item" href="#">退出</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--navbar-->
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="ui equal width left aligned padded grid stackable">
+                    	
+                    	<div class="row">
+                            <div class="sixteen wide tablet eight wide computer column">
+                                <div class="ui segments">
+                                    <div class="ui segment">
+                                        <h3 class="ui header">设备数量</h3>
+                                    </div>
+                                    <div class="ui segment">
+                                        <canvas id="dev_quantity"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sixteen wide tablet eight wide computer column">
+                                <div class="ui segments">
+                                    <div class="ui segment">
+                                        <h3 class="ui header">各平台设备激活情况</h3>
+                                    </div>
+                                    <div class="ui segment">
+                                        <canvas id="platform_count"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="sixteen wide tablet eight wide computer column">
+                                <div class="ui segments">
+                                    <div class="ui segment">
+                                        <h3 class="ui header">各平台设备签到情况</h3>
+                                    </div>
+                                    <div class="ui segment">
+                                        <canvas id="signin_count"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sixteen wide tablet eight wide computer column">
+                                <div class="ui segments">
+                                    <div class="ui segment">
+                                        <h3 class="ui header">服务统计 -- 激活、签到、指令保护、数据解析</h3>
+                                    </div>
+                                    <div class="ui segment">
+                                        <canvas id="operate_count"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    
+                    
+                </div>
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+    
+    <div id="change_pwd_modal" class="ui standard modal">
+        <div class="header">
+			修改口令
+        </div>
+        <div class="image content">
+            <div class="description">
+                <div class="ui form segment">
+                    <div class="field">
+                        <label>旧口令</label>
+                        <input type="password" id="oldPwd">
+                    </div>
+                    <div class="field">
+                        <label>新口令</label>
+                        <input type="password" id="newPwd">
+                    </div>
+                    <div class="field">
+                        <label>重复新口令</label>
+                        <input type="password" id="rePwd">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui positive button">
+				修改
+            </div>
+            <div class="ui black deny button">
+				取消
+            </div>
+        </div>
+    </div>
+    <div id="mask_modal"></div>
+    <!-- alert -->
+     <script src="plugins/sweetalert2/custom-alert.js"></script>
+     <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+     
+    <!--jquery-->
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <!--jquery-->
+    <!--semantic-->
+    <script src="semantic/dist/semantic.min.js"></script>
+    <!--semantic-->
+    <!--counter number-->
+    <script src="plugins/counterup/jquery.counterup.min.js"></script>
+    <script src="plugins/counterup/waypoints.min.js"></script>
+    <!--counter number-->
+    <!--flot chart-->
+    <script src="plugins/flot/jquery.flot.js"></script>
+    <script src="plugins/flot/jquery.flot.resize.min.js"></script>
+    <script src="plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="plugins/flot/curvedLines.js"></script>
+    <script src="plugins/cookie/js.cookie.js"></script>
+    <!--flot chart-->
+    <!--chartjs chart-->
+    <script src="plugins/chartjs/chart.min.js"></script>
+    <script src="plugins/chartjs/Chartv1.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <!--chartjs chart-->
+    <script src="plugins/pacejs/pace.js"></script>
+    <script src="plugins/nicescrool/jquery.nicescroll.min.js"></script>
+	<script src="plugins/lobibox/js/notifications.js"></script>
+	<script src="plugins/bootstrapslider/bootstrapslider.min.js"></script>
+	<script src="plugins/datatable/jquery.dataTables.js"></script>
+	<script src="js/customjs/custom-datatable.js"></script>
+<!--	<script src="js/customjs/custom-chart.js"></script>-->
+    <script src="plugins/chartist/chartist.min.js"></script>
+    <script src="plugins/tree/treetable/jquery.treetable.js"></script>
+	<script src="plugins/tree/ztree/jquery.ztree.all.min.js"></script>
+    <script src="js/app.js"></script>
+	<script type="text/javascript">
+		var SFPOptions = {
+			basePath: '/ManageServer'
+		};
+		$(document).ready(function(){
+			$.ajax({
+			    type: "post",
+			    url: "/ManageServer/login/name",
+			    data: {
+			    },
+			    dataType: "json",
+			    success: function(result){
+					$('#title_admin').text(result.name);
+			    }
+			});
+		})
+	</script>    
+    <script src="js/main.js"></script>
+</body>
+
+</html>

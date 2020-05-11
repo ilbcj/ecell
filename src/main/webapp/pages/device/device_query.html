@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>安全基础平台控制台 - 设备黑名单</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="dev_query_grid1" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						    设备查询
+                   					    </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="three fields">
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_query_devId" type="text" placeholder="设备ID">
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui input">
+														<input id="dev_query_devName" type="text" placeholder="设备名称">
+													</div>
+												</div>
+												<div class="field">
+													<div id="dev_query_devbutton" type="button" class="ui floated button">
+														<i class="search icon"></i>查询
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="ui segment">
+											<table id="dev_query_table" class="ui large fixed single line celled striped table">
+												<thead>
+													<tr>
+														<th width="25%">设备ID</th>
+														<th width="20%">设备名称</th>
+														<th width="30%">应用名称</th>
+														<th width="13%">IP</th>
+														<th width="12%">操作</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="dev_query_grid2" class="ui equal width left aligned padded grid stackable displaynone">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+                   						               设备详情
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>设备ID</label>
+                   					        		<input id="dev_qu_det_devId" type="text" placeholder="设备ID">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>设备名称</label>
+                   					        		<input id="dev_qu_det_devName" type="text" placeholder="设备名称">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>设备类型</label>
+                   					        		<input id="dev_qu_det_devType" type="text" placeholder="设备类型">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>厂商名称</label>
+                   					        		<input id="dev_qu_det_tradeName" type="text" placeholder="厂商名称">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>位置</label>
+                   					        		<input id="dev_qu_det_locat" type="text" placeholder="位置">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>IP</label>
+                                                    <input id="dev_qu_det_ip" type="text" placeholder="IP">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="field">
+                   					        	<label>所属应用</label>
+                                                <input id="dev_qu_det_appId" type="text" placeholder="应用id列表">
+                   					        </div>
+										</div>
+										<div class="ui segment">
+											<div class="ui buttons save_span" id="devQueryButtons">
+											    <button id="dev_query_back" class="ui button">
+                                                    <i class="reply icon"></i>返回
+                                                </button>
+										    </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /.mainWrapInner end -->
+					</div>
+					<!--maincontent-->
+				</div>
+			</div>
+	</body>
+
+</html>

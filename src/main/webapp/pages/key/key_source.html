@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>安全基础平台控制台 - 密钥来源</title>
+    <link rel="icon" href="img/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=viewport content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <div id="contextWrap">
+        <div class="pusher">
+            <!--maincontent-->
+            <div class="mainWrap navslide">
+                <div class="mainWrapInner">
+                	<div id="key_source_page" class="ui equal width left aligned padded grid stackable">
+	                    <div class="row">
+	                    	<div class="sixteen wide column">
+	                            <div class="ui segments">
+	                                <div class="ui segment">
+	                                    <h5 class="ui header">
+											密钥来源
+	                                    </h5>
+	                                </div>
+	                                <div class="ui form segment">
+	                                    <div class="three fields">
+                                            <div class="field">
+			                                    <div class="ui input">
+			                                        <input id="keysource_search_devid" type="text" placeholder="设备ID">
+			                                    </div>
+			                                </div>    
+			                                <div class="field displaynone">
+			                                    <div class="ui input">
+			                                        <input id="keysource_search_appid" type="text" placeholder="应用ID">
+			                                    </div>
+			                                </div>  
+                                            <div class="field">
+                                            	<div id="keysource_search" type="button" class="ui button">
+		                                        	<i class="search icon"></i>查询
+		                                        </div>
+                                            </div>
+	                                    </div>
+									</div>
+	                                
+	                                <div class="ui segment">
+                                		<!--<div class="ui buttons">
+		                                    <button id="add_key_source" class="ui button"><i class="plus icon"></i>添加</button>
+		                                </div>-->
+
+	                                    <table id="keysource_main_table" class="ui large celled striped table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th width="25%">设备ID</th>
+	                                                <th width="25%">应用ID</th>
+	                                                <th width="25%">CPK密钥</th>
+	                                                <th width="25%">SM9密钥</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <!-- /#key_source_page -->
+                    
+                </div>
+                <!-- /.mainWrapInner end -->
+            </div>
+            <!--maincontent-->
+        </div>
+    </div>
+</body>
+
+</html>

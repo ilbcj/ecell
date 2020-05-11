@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		
+		<link type="text/css" rel="stylesheet" href="261837.css">
+		
+	</head>
+	<body>
+		<button type="button" id="login" class="btn bg-primary btn-block btn-flat">登录</button>
+        <button type="button" id="menu" class="btn bg-primary btn-block btn-flat">菜单</button>
+        <div class="liuxing"></div>
+	</body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script>
+var message = '<s:property value="message" />';
+$(function () {
+	
+		var liuxing = {
+		    rotate:0,
+		    init:function(){
+		        liuxing.drop();
+		        setInterval(liuxing.drop,800);
+		        setInterval(function(){
+		            for(var t=0;t<$('.liuxing div').size()/4;t++){
+		                var item = $('.liuxing div').eq($('.liuxing div').size()-t);
+		                item.remove();
+		            }
+		        },600);
+		    },
+		
+		    drop:function(){
+		        for(var i=0;i<2;i++){
+		            var j2=parseInt(Math.random()*300+3000);
+		            var j=parseInt(Math.random()*1600);
+		            var j1=parseInt(Math.random()*400+100);
+		            var n=parseInt(Math.random()*10-150);
+		            $('.liuxing').prepend('<div></div>').fadeIn();
+		            var item = $('.liuxing').children('div').eq(0);
+		            item.css({'left':j,'top':n});
+		            var wdt = item.width();
+		            item.css("height",20);
+		            item.animate({
+		                'height':wdt+20,
+		                'left':j-j1,
+		                'top':$(window).height()+20
+		            },j2);
+		        }
+		    }
+		};
+		
+		liuxing.init();
+		
+		
+    if( message != '' ) {
+		$("div.alert").removeClass('hidden').html('<i class="icon fa fa-warning"/>' + message);
+	}
+    
+    $('#login').on('click.login', function(){
+    	console.log('login');
+    	var postdata = {
+				'username': 'admin',
+				'password': 'admin'
+			};
+/*		$.ajax({
+			type: 'POST',
+			async: true,
+			url: 'http://192.168.1.80:8080/data_reduce/sys/login',
+			contentType: "application/json;charset=UTF-8",
+			xhrFields: {
+				withCredentials: true
+			},
+			data: JSON.stringify( postdata )
+		})
+		.done(function(data){
+	 		alert('ret data:' + JSON.stringify(data));
+		})
+		.fail(function(){
+			alert('ajax请求登录失败!');
+		});*/
+		
+		$.ajax({
+            type: "POST",
+			async: true,
+            url: "http://192.168.1.80:8080/data_reduce/sys/login",
+			data: JSON.stringify( postdata ),
+            //dataType:"json",
+			contentType: "application/json;charset=UTF-8",
+            xhrFields: {
+		         withCredentials: true
+		    }
+		})
+		.done(function(data){
+				alert(data);
+	
+		})
+		.fail(function(){
+			alert('获取战队和用户信息失败!');
+		});
+		
+		return;
+    });
+    
+    
+    $('#menu').on('click.menu', function(){
+    	console.log('menu');
+    	/*$.post('http://192.168.1.80:8080/data_reduce/sys/menu/nav', function(data){
+			alert('ret data:' + data);
+		});*/
+		
+		$.ajax({
+            url: "http://192.168.1.80:8080/data_reduce/sys/menu/nav",
+            type: "POST",
+            data: {},
+            dataType:"json",
+            xhrFields: {
+		         withCredentials: true
+		    }
+		})
+		.done(function(data){
+				alert(data);
+	
+		})
+		.fail(function(){
+			alert('获取战队和用户信息失败!');
+		});
+		
+
+    });
+    
+});
+  
+</script>
+</html>

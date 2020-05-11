@@ -1,0 +1,23 @@
+{
+	"sEmptyTable":   	"表中没有可用数据",
+	"sInfo":         	"共 _TOTAL_条，本页从_START_到 _END_",
+	"sInfoEmpty":    	"共 0 条记录",
+	"sInfoFiltered": 	"(从 _MAX_ 条记录中过滤)",
+	"sInfoPostFix":  	"",
+	"sInfoThousands":  	".",
+	"sLengthMenu":   	"每页显示 _MENU_ 条记录",
+	"sLoadingRecords": 	"正在加载数据...",
+	"sProcessing":   	"正在处理...",
+	"sSearch":       	"过滤条件",
+	"sZeroRecords":  	"没有找到符合条件的记录.",
+	"oPaginate": {
+		"sFirst":    	"首页",
+		"sPrevious": 	"上一页",
+		"sNext":     	"下一页",
+		"sLast":     	"尾页"
+	},
+	"oAria": {
+		"sSortAscending":  ": SortAscending",
+		"sSortDescending": ": SortDescending"
+	}
+}
