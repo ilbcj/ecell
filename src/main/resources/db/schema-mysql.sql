@@ -6,7 +6,7 @@ CREATE TABLE `ecell`.`tb_admin` (
   `name` VARCHAR(30) NOT NULL COMMENT '姓名',
   `status` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态',
   `token` VARCHAR(30) NOT NULL COMMENT 'token',
-  `session_id` VARCHAR(30) NOT NULL COMMENT 'sessionId',
+  `session_id` VARCHAR(64) NOT NULL COMMENT 'sessionId',
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;

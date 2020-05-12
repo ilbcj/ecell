@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class LoginController {
 	public R loginPwdPost(@RequestParam(value = "username") String adminId,
 			@RequestParam(value = "password") String pwd) {
 		String sessionid = getJSESSIONID();
+//		if( sessionid == null || sessionid.isEmpty() ) {
+//			HttpSession hs = httpRequest.getSession();
+//			sessionid = hs.getId();
+//			Cookie cookie = new Cookie("JSESSIONID", sessionid);
+//			httpResponse.addCookie(cookie);
+//		}
 		boolean isLogin = loginService.isLogined(sessionid);
 		boolean isLogout = loginService.isLogout(adminId);
 		if (isLogout) {

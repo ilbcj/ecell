@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>ECELL - 控制台</title>
+    <title>安全基础平台 - 控制台</title>
     <link rel="icon" href="img/favicon.ico" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,7 +29,7 @@
         <!--sidebar-->
         <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  grey" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
             <a class="item logo" href="index.html">
-                <img src="img/ecell_logo01.png" alt="ecelllogo" /><img src="img/thumblogo.png" alt="ecelllogo" class="displaynone" />
+                <img src="img/sfp_logo01.png" alt="anydeflogo" /><img src="img/thumblogo.png" alt="anydeflogo" class="displaynone" />
             </a>
             <div class="ui accordion inverted leftmenu">
                 <a class="item">
@@ -72,7 +72,7 @@
             <!--navbar-->
             <!--maincontent-->
             <div class="mainWrap navslide">
-                <!--<div class="ui equal width left aligned padded grid stackable">
+                <div class="ui equal width left aligned padded grid stackable">
                     	
                     	<div class="row">
                             <div class="sixteen wide tablet eight wide computer column">
@@ -123,7 +123,7 @@
                     
                     
                     
-                </div>-->
+                </div>
             </div>
             <!--maincontent-->
         </div>
@@ -200,12 +200,12 @@
     <script src="js/app.js"></script>
 	<script type="text/javascript">
 		var SFPOptions = {
-			basePath: '/cell'
+			basePath: '/ManageServer'
 		};
 		$(document).ready(function(){
 			$.ajax({
 			    type: "post",
-			    url: "/cell/login/name",
+			    url: "/ManageServer/login/name",
 			    data: {
 			    },
 			    dataType: "json",

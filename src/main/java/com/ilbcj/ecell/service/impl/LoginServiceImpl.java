@@ -93,8 +93,11 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	}
 
 	@Override
-	public boolean isLogined(String sessionid) {
-		Admin admin = adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getSessionId, sessionid));
+	public boolean isLogined(String sessionId) {
+		if( sessionId == null || sessionId.isEmpty() ) {
+			return false;
+		}
+		Admin admin = adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getSessionId, sessionId));
 		if(admin == null) {
 			return false; 
 		}
@@ -104,7 +107,7 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Override
 	public boolean isLogout(String adminId) {
 		Admin admin = adminMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getLoginId, adminId));
-		if(admin != null && admin.getStatus() == 2) {
+		if(admin != null && admin.getStatus() == Admin.STATUS_HANGUP) {
 			return true;
 		}
 		return false;
@@ -125,6 +128,6 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 		if(admin != null && admin.getPwd() != null && admin.getPwd().equals(pwd)) {
 			return R.ok();
 		}
-		return R.error("用户名为空或者密码错误");
+		return R.error("账号为空或者密码错误");
 	}
 }
