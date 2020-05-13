@@ -133,3 +133,19 @@ CREATE TABLE `ecell`.`tb_match_detail` (
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS tb_menu;
+CREATE TABLE `ecell`.`tb_menu` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `menu_id` INTEGER UNSIGNED NOT NULL COMMENT '菜单项ID',
+  `parent_id` INTEGER UNSIGNED NOT NULL COMMENT '父菜单项ID',
+  `name` VARCHAR(45) NOT NULL COMMENT '菜单名称',
+  `url` VARCHAR(45) COMMENT '访问URL',
+  `type` INTEGER UNSIGNED NOT NULL COMMENT '菜单类型',
+  `icon` VARCHAR(45) COMMENT '图标',
+  `order_num` INTEGER UNSIGNED COMMENT '顺序',
+  `perms` VARCHAR(256) COMMENT '权限',
+  `is_use` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;

@@ -32,11 +32,6 @@ public class LoginController {
 	@Autowired
 	private HttpServletResponse httpResponse;
 
-	@RequestMapping(value = "/idpwd", method = RequestMethod.GET)
-	public R loginPwd(@RequestParam(value = "username") String adminId, @RequestParam(value = "password") String pwd) {
-		return loginPwdPost(adminId, pwd);
-	}
-
 	@RequestMapping(value = "/name", method = RequestMethod.POST)
 	public R getAdminName() {
 		String sessionid = getJSESSIONID();
@@ -72,11 +67,6 @@ public class LoginController {
 		return R.ok().put("code", 70001).put("msg", "管理员不存在，或口令不正确.");
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public R logout() {
-		return logoutPost();
-	}
-
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public R logoutPost() {
 		String sessionid = getJSESSIONID();
@@ -98,11 +88,6 @@ public class LoginController {
 			return R.ok();
 		}
 		return R.error(-70004, "修改口令失败");
-	}
-	@RequestMapping(value = "/user/password", method = RequestMethod.GET)
-	public R changePwdGet(@RequestParam(value = "password") String password,
-			@RequestParam(value = "newPassword") String newPassword) {
-		return changePwdPost(password, newPassword);
 	}
 
 //	private String generateSESSIONID() {

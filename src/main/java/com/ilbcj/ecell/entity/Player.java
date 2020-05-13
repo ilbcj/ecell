@@ -16,6 +16,9 @@ public class Player implements Serializable, Comparable<Player>{
 	public static final Integer GENDER_UNSET = 0;
 	public static final Integer GENDER_MALE = 1;
 	public static final Integer GENDER_FEMALE = 2;
+	public static final String RACE_T = "T";
+	public static final String RACE_P = "P";
+	public static final String RACE_Z = "Z";
 	public static final int STATUS_INIT = 0;
 	public static final int STATUS_INUSE = 1;
 	public static final int STATUS_DELETE = 2;

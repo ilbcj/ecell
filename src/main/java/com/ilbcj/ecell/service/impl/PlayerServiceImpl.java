@@ -57,7 +57,7 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		Optional<String> picture = Optional.ofNullable( (String)parm.get("picture") );
 		player.setPicture(picture.orElse(""));
 		
-		Optional<String> teamName = Optional.ofNullable( (String)parm.get("teanName") );
+		Optional<String> teamName = Optional.ofNullable( (String)parm.get("teamName") );
 		player.setTeamName(teamName.orElse(""));
 		
 		Optional<String> qq = Optional.ofNullable( (String)parm.get("qq") );

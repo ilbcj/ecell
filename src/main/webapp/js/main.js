@@ -1,4 +1,4 @@
-/*! SFP main.js
+/*! ECELL main.js
  * ─────────神兽出没─────────
  *         ┌┐     ┌┐
  *       ┌┘┴────┘┴┐
@@ -20,7 +20,7 @@
  *
  * ────────感觉萌萌哒────────
  * ================
- * Main JS application file for SFP v1. This file
+ * Main JS application file for ECELL v1. This file
  * should be included in the main page. It controls some layout
  * options and data exchange with server.
  *
@@ -33,32 +33,32 @@
 
 //Make sure jQuery has been loaded before main.js
 if (typeof jQuery === 'undefined') {
-	throw new Error('SFP requires jQuery');
+	throw new Error('ECELL requires jQuery');
 	
 }
 
 
 /*
- * SFP
+ * ECELL
  * 
- * @type Object @description $.SFP is the main object for the app. It's used for
- * implementing functions and options related to the SFP. Keeping everything
+ * @type Object @description $.ECELL is the main object for the app. It's used for
+ * implementing functions and options related to the ECELL. Keeping everything
  * wrapped in an object prevents conflict with other plugins and is a better way
  * to organize our code.
  */
-$.SFP = {};
+$.ECELL = {};
 
 /*
- * -------------------- - SFP Options - -------------------- Modify these
+ * -------------------- - ECELL Options - -------------------- Modify these
  * options to suit your implementation
  */
-$.SFP.options = {
-	basePath: 'SFPdemo',
+$.ECELL.options = {
+	basePath: 'ECELLdemo',
 };
 
 /*
  * ------------------ - Implementation - ------------------ The next block of
- * code implements SFP's functions and plugins as specified by the options
+ * code implements ECELL's functions and plugins as specified by the options
  * above.
  */
 $(function () {
@@ -69,15 +69,15 @@ $(function () {
     
 
 	// Extend options if external options exist
-	if (typeof SFPOptions !== 'undefined') {
-		$.extend(true, $.SFP.options, SFPOptions);
+	if (typeof ECELLOptions !== 'undefined') {
+		$.extend(true, $.ECELL.options, ECELLOptions);
 	}
 
 	// Easy access to options
-	var o = $.SFP.options;
+	var o = $.ECELL.options;
 	console.log(o.basePath);
 	// Set up the object
-	_initSFP(o);
+	_initECELL(o);
 
 	// update $.post, contentType --> application/json
 	$.extend({
@@ -120,37 +120,32 @@ $(function () {
 	};
 	
 	// Active the main menu and custom menu
-	$.SFP.menu.activate();
+	$.ECELL.menu.activate();
 	
-	$.SFP.indexPage.activate();
-	setInterval(getLoc, 60000);
+	$.ECELL.indexPage.activate();
 });
 
-function getLoc() {
-	$.SFP.springTree.activate();
-};
-
 /*
- * ---------------------------------- - Initialize the SFP Object -
- * ---------------------------------- All SFP functions are implemented below.
+ * ---------------------------------- - Initialize the ECELL Object -
+ * ---------------------------------- All ECELL functions are implemented below.
  */
-function _initSFP(o) {
+function _initECELL(o) {
 	'use strict';
 	/*
 	 * Menu ====== Create main menu and custom menu
 	 * 
-	 * @type Object @usage $.SFP.menu.activate() @usage
-	 * $.SFP.menu.generateMenu()
+	 * @type Object @usage $.ECELL.menu.activate() @usage
+	 * $.ECELL.menu.generateMenu()
 	 */
-	$.SFP.menu = {
+	$.ECELL.menu = {
 		activate: function () {
 			$.post( o.basePath + '/sys/menu/nav?rand=' + Math.random(), function(data){
 				if( data.code == 0 ) {
 					// sessionStorage.permissions = data.permissions;
-					$.SFP.menu.generateMenu(data.menuList);
+					$.ECELL.menu.generateMenu(data.menuList);
 				}
 				else {
-					$.SFP.ErrOccurred(data.message, data.code);
+					$.ECELL.ErrOccurred(data.message, data.code);
 				}
 			},'json');
 			
@@ -161,14 +156,14 @@ function _initSFP(o) {
 			 */
 			
 			// add logoff event
-			$('#logout').on('click.SFP.admin.off', function(e){
+			$('#logout').on('click.ECELL.admin.off', function(e){
 				$.post(o.basePath + '/login/logout', function(data){
 					window.location = o.basePath + '/login.html';
 				});
 			});
 			
 			// add changepwd event
-			$('#change_pwd').on('click.SFP.changepwd.data-api',function(e){
+			$('#change_pwd').on('click.ECELL.changepwd.data-api',function(e){
     			$('#oldPwd').val('');
     			$('#newPwd').val('');
     			$('#rePwd').val('');
@@ -180,7 +175,7 @@ function _initSFP(o) {
 		    			var rePwd = $('#rePwd').val();
 		    			if( newPwd == null || newPwd == '' || newPwd != rePwd ) {
 		    				var message = "新口令为空或两次输入的新口令内容不一致！";
-							$.SFP.tipMessage(message, false);
+							$.ECELL.tipMessage(message, false);
 							return;
 		    			}
 		    			
@@ -190,10 +185,10 @@ function _initSFP(o) {
 						$.post(o.basePath + '/login/user/password', postData, function(data, textStatus, jqXHR) {
 							if( data.code == 0 ) {
 								var message = '修改口令操作成功!';
-								$.SFP.tipMessage(message);
+								$.ECELL.tipMessage(message);
 							} else {
 								var message = '修改口令操作失败![' + data.msg + ', ' + data.code + ']';
-								$.SFP.tipMessage(message, false);
+								$.ECELL.tipMessage(message, false);
 							}
 						}, 'json');
 			        }
@@ -283,20 +278,20 @@ function _initSFP(o) {
 		    $.each(menuList, function(indexOne, levelOne){
 		    	if(levelOne.list) {
 					$.each(levelOne.list, function(indexTwo, levelTwo){
-						$('.menuentry_' + levelTwo.menuId).on('click.SFP.menu.data-api', function(e){
+						$('.menuentry_' + levelTwo.menuId).on('click.ECELL.menu.data-api', function(e){
 							$('.modal').remove();
 			    			$('div.mainWrap').load(levelTwo.url + '?random=' + Math.random() + ' .mainWrapInner',
-			    				function(response,status,xhr){$.SFP.CheckLoad(response);$.SFP.PageActivate(levelTwo.url);});
+			    				function(response,status,xhr){$.ECELL.CheckLoad(response);$.ECELL.PageActivate(levelTwo.url);});
 			    		});
 					});
 				}
 		    });
 		}
-	};// end of $.SFP.menu
+	};// end of $.ECELL.menu
 	
-	$.SFP.indexPage = {
+	$.ECELL.indexPage = {
 		activate: function () {
-			$.post(o.basePath + '/stat/devquantity?rand=' + Math.random(), {}, function(data,textStatus, jqXHR) {
+			/*$.post(o.basePath + '/stat/devquantity?rand=' + Math.random(), {}, function(data,textStatus, jqXHR) {
 				if( data.code == 0 ) {
 					var devQuantity = document.getElementById("dev_quantity").getContext("2d");
 					
@@ -318,7 +313,7 @@ function _initSFP(o) {
 				    });
 				} else {
 					var message = '加载统计信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 			
@@ -390,7 +385,7 @@ function _initSFP(o) {
 				    });
 				} else {
 					var message = '加载统计信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 			
@@ -418,7 +413,7 @@ function _initSFP(o) {
 				   });
 				} else {
 					var message = '加载统计信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 			
@@ -518,21 +513,21 @@ function _initSFP(o) {
 				    });
 				} else {
 					var message = '加载统计信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
-			}, 'json');			
+			}, 'json');		*/	
 		}
-	};// end of $.SFP.indexPage
+	};// end of $.ECELL.indexPage
 	
 	/*
 	 * admin ====== admin infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.admin.activate() @usage
-	 * $.SFP.admin.queryAdmin() @usage $.SFP.admin.addAdminWindow() @usage
-	 * $.SFP.admin.adminDetailReturn() @usage $.SFP.admin.saveAdminConfirm()
-	 * @usage $.SFP.admin.delAdmin() @usage $.SFP.admin.delAdminConfirm()
+	 * @type Object @usage $.ECELL.admin.activate() @usage
+	 * $.ECELL.admin.queryAdmin() @usage $.ECELL.admin.addAdminWindow() @usage
+	 * $.ECELL.admin.adminDetailReturn() @usage $.ECELL.admin.saveAdminConfirm()
+	 * @usage $.ECELL.admin.delAdmin() @usage $.ECELL.admin.delAdminConfirm()
 	 */
-	$.SFP.admin = {
+	$.ECELL.admin = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -547,7 +542,7 @@ function _initSFP(o) {
 				        d.username = $('#admin_search_name').val();
 				        d.status = 1;
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -596,15 +591,15 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#admin_search').on('click.SFP.admin.query', $.SFP.admin.queryAdmin);
-			$('#add_admin').on('click.SFP.admin.add', $.SFP.admin.addAdminWindow);
-			$('#admin_detail_save').on('click.SFP.admin.detailsave', $.SFP.admin.saveAdminConfirm);
-			$('#admin_detail_return').on('click.SFP.admin.detailreturn', $.SFP.admin.adminDetailReturn);
+			$('#admin_search').on('click.ECELL.admin.query', $.ECELL.admin.queryAdmin);
+			$('#add_admin').on('click.ECELL.admin.add', $.ECELL.admin.addAdminWindow);
+			$('#admin_detail_save').on('click.ECELL.admin.detailsave', $.ECELL.admin.saveAdminConfirm);
+			$('#admin_detail_return').on('click.ECELL.admin.detailreturn', $.ECELL.admin.adminDetailReturn);
 			$('#admin_main_table').on( 'draw.dt', function () {
-				$('.admin_info').on('click.SFP.admin.detail', $.SFP.admin.addAdminWindow);
-				$('.admin_del').on('click.SFP.admin.delete.single', $.SFP.admin.delAdmin);
+				$('.admin_info').on('click.ECELL.admin.detail', $.ECELL.admin.addAdminWindow);
+				$('.admin_del').on('click.ECELL.admin.delete.single', $.ECELL.admin.delAdmin);
 			});
-			$('#admin_confirm_modal_confirm').on('click.SFP.admin.delconfirm', $.SFP.admin.delAdminConfirm);
+			$('#admin_confirm_modal_confirm').on('click.ECELL.admin.delconfirm', $.ECELL.admin.delAdminConfirm);
 			
 		},
 		queryAdmin: function () {
@@ -633,7 +628,7 @@ function _initSFP(o) {
 				}
 				else {
 					var message = '获取管理员权限信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -654,14 +649,14 @@ function _initSFP(o) {
 		    var repwd = $('#admin_repwd').val().trim();
 		    if( adminId == 0 && pwd.length == 0 ) {
 		    	var message = '保存管理员信息失败![添加管理员时，口令不能为空]';
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 		    if( pwd != repwd ) {
 		    	var message = '保存管理员信息失败![口令与重复口令不匹配，请重新输入!]';
 		    	$('#admin_pwd').val('');
 		    	$('#admin_repwd').val('');
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 			var postData = {};
@@ -686,14 +681,14 @@ function _initSFP(o) {
 			}
 			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.SFP.admin.adminDetailReturn();
+					$.ECELL.admin.adminDetailReturn();
 					
 					$('#admin_main_table').DataTable().ajax.reload();
 					var message = '保存管理员信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				} else {
 					var message = '保存管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -715,368 +710,122 @@ function _initSFP(o) {
 			$.post(o.basePath + '/sys/user/delete', postData, function(data, textStatus, jqXHR) {
 				if( data.code == 0 ) {
 					var message = '管理员信息已删除!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 					$('#admin_main_table').DataTable().ajax.reload();
 				} else {
 					var message = '删除管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.admin
-	//密钥下载记录
-	$.SFP.keyDownload={
-			activate: function() {
-				var dtable = $('#keyDownloadList_main_table').DataTable({
-					ajax: {
-						url: o.basePath + '/key/list',
-						type: 'POST',
-						data: function(d) {
-							var devID=$('#keyDownloadList_devid').val().trim();
-							var appID=$('#keyDownloadList_appid').val().trim();
-							d.devId = devID;
-							d.appId = appID;
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [{
-						data: 'devId',
-						className : 'my_table_full'}, {
-						data: 'appId',
-						className : 'my_table_full'
-					}, {
-						data: 'protectKCV'
-					}, {
-						data: 'signinKCV'
-					}, {
-						data: 'halfKCV'
-					}, {
-						data: 'commandKCV'
-					}, {
-						data: 'dataKCV'
-					}, {
-						data: 'cpkKCV'
-					}, {
-						data: 'sm9KCV'
-					},{
-						data: 'status'
-					}],
-					columnDefs: [
-						{
-							render: function(data, type, row) {
-								var html = '';
-								if(data == 1) {
-									html = '<span class="ui basic red button">未下载</span>';
-								} else if(data == 2||data==3||data==4) {
-									html = '<span class="ui basic green button">已下载</span>';
-								} 
-								return html;
-							},
-							targets: 9
-						}
-				],
-		        pagingType: "full_numbers_icon",
-					rowId: 'id',
-					order: [1, 'desc'],
-					responsive: true
-				});
-
-				// listen page items' event
-				$('#keyDownloadList_search').on('click.SFP.keyDownload.query',
-					$.SFP.keyDownload.queryKeyList);
-			},
-			queryKeyList: function() {
-				$('#keyDownloadList_main_table').DataTable().ajax.reload();
-				return;
-			}
-	};//密钥下载记录结束
-	//密钥注销记录
-	$.SFP.keyExit={
-			activate: function() {
-				var dtable = $('#keyExitList_main_table').DataTable({
-					ajax: {
-						url: o.basePath + '/key/list',
-						type: 'POST',
-						data: function(d) {
-							var devID=$('#keyExitList_devid').val().trim();
-							var appID=$('#keyExitList_appid').val().trim();
-							d.devId = devID;
-							d.appId = appID;
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [{
-						data: 'devId',
-						className : 'my_table_full'
-					}, {
-						data: 'appId',
-						className : 'my_table_full'
-					}, {
-						data: 'protectKCV'
-					}, {
-						data: 'signinKCV'
-					}, {
-						data: 'halfKCV'
-					}, {
-						data: 'commandKCV'
-					}, {
-						data: 'dataKCV'
-					}, {
-						data: 'cpkKCV'
-					}, {
-						data: 'sm9KCV'
-					},{
-						data: 'status'
-					}],
-					columnDefs: [
-						{
-							render: function(data, type, row) {
-								var html = '';
-								if(data == 4) {
-									html = '<span class="ui basic red button">已注销</span>';
-								} else  {
-									html = '<span class="ui basic green button">未注销</span>';
-								} 
-								return html;
-							},
-							targets: 9
-						}
-				],
-					rowId: 'id',
-					order: [1, 'desc'],
-					responsive: true
-				});
-
-				// listen page items' event
-				$('#keyExitList_search').on('click.SFP.keyDownload.query',
-					$.SFP.keyExit.queryKeyList);
-			},
-			queryKeyList: function() {
-				$('#keyExitList_main_table').DataTable().ajax.reload();
-				return;
-			}
-	};//密钥注销记录结束
-	//密钥更新
-	$.SFP.keyUpdate={
-			activate: function() {
-				var dtable = $('#keyUpdateList_main_table').DataTable({
-					ajax: {
-						url: o.basePath + '/key/updateList',
-						type: 'POST',
-						data: function(d) {
-							var devID=$('#keyUpdateList_devid').val().trim();
-							var appID=$('#keyUpdateList_appid').val().trim();
-							d.devId = devID;
-							d.appId = appID;
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					
-					columns: [{
-						data: 'devId',
-						className : 'my_table_full'
-					}, {
-						data: 'appId',
-						className : 'my_table_full'
-					}, {
-						data: 'version'
-					}, {
-						data: 'nextVersion'
-					}, {
-						data: null
-					},],
-					columnDefs: [
-						{
-							render: function(data, type, row) {
-								var str=row.nextVersion.trim();
-								var html = '';
-								if(str == ''&&row.status!="1") {
-									html = '<span class="ui basic red button updateKey" data-id="' + row.id + '">更新</span>';
-								} else  {
-									html = '<span class="ui basic red button disabled">更新</span>';
-								} 
-								return html;
-							},
-							targets: 4
-						}
-				],
-					rowId: 'id',
-					order: [1, 'desc'],
-					responsive: true
-				});
-				$('#keyUpdateList_main_table').on( 'draw.dt', function () {
-					$('.updateKey').on('click.SFP.keyUpdate.updateKey', $.SFP.keyUpdate.updateKey);
-				});
-				// listen page items' event
-				$('#keyUpdateList_search').on('click.SFP.keyUpdate.query',
-					$.SFP.keyUpdate.queryKeyList);
-			},
-			updateKey:function(){
-				var id=$(this).data('id');
-				var rowData = $('#keyUpdateList_main_table').DataTable().row('#'+id).data();
-				var postData = {};
-				postData.devId = rowData.devId;
-				postData.appId = rowData.appId;
-				var urlTarget = o.basePath + '/key/updateKey/';
-				$.postjson(urlTarget + '?rand=' + Math.random(), JSON
-						.stringify(postData),
-						function(data, textStatus, jqXHR) {
-							if(data.code ==0) {
-								$('#keyUpdateList_main_table').DataTable().ajax.reload(null, false);
-								$.SFP.tipMessageSuccess("密钥更新成功。");
-							} else {
-								var msg = data.msg;
-								$.SFP.tipMessage(msg, false);
-							}
-						}, 'json');
-			},
-			queryKeyList: function() {
-				$('#keyUpdateList_main_table').DataTable().ajax.reload();
-				return;
-			}
-	};//密钥结束
-	// 策略角色管理
-	var rowID = '';
-	var delRoleId = '';
-	$.SFP.strategy = {
-		'flag': 0,
+	};// end of $.ECELL.admin
+	
+	$.ECELL.player = {
 		activate: function() {
-			$(".ui.modal.small").modal("attach events", ".modalfour", "show");
-
 			$(".ui.dropdown").dropdown({
 				allowCategorySelection: true,
 				transition: "fade up"
 			});
-			var flag = true;
-			if(flag) {
-				$.post(o.basePath + '/algorithm/allAlgorithm?devid=', {},
-					function(data, textStatus, jqXHR) {
-						if(data.code == 0) {
-							var list = data.list;
-							for(var i = 0; i < list.length; i++) {
-								if(list[i].algoType == 1) {
-									if(list[i].algoName == 'sm4') {
-										$(".encryptionAlgorithm").prepend(
-											"<div class='item' data-value=" +
-											list[i].algoId +
-											">" +
-											list[i].algoName +
-											"</div>");
-									}
-
-								} else if(list[i].algoType == 2) {
-									$(".signatureAlgorithm").prepend(
-										"<div class='item' data-value=" +
-										list[i].algoId + ">" +
-										list[i].algoName +
-										"</div>");
-								}
-							}
-							$(".encryptionAlgorithm").prepend(
-								"<div class='item' data-value=" + 0 +
-								">" + "</div>");
-						} else {
-							$.SFP.tipMessage("算法列表加载失败！", false);
-						}
-					}, 'json');
-				flag = false;
-			}
-			var dtable = $('#role_main_table')
-				.DataTable({
-					ajax: {
-						url: o.basePath + '/strategy/RoleList',
-						type: 'POST',
-						data: function(d) {
-							d.roleName = $('#role_search_name')
-								.val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
+			
+			var dtable = $('#player_main_table').DataTable({
+				ajax:{
+					url: o.basePath + '/player/list',
+					type: 'POST',
+					data: function ( d ) {
+				        d.nick = $('#player_search_nick').val();
+				        d.name = $('#player_search_name').val();
 					},
-					processing: true,
-					serverSide: true,
-					columns: [{
-						data: 'roleName'
-					}, {
-						data: 'des'
-					}, {
-						data: null
-					}],
-					rowId: 'roleId',
-					// pagingType: "full_numbers_icon",
-					columnDefs: [{
-						render: function(data, type, row) {
+					dataSrc: $.ECELL.ParseDataTableResult
+				},
+				processing: true,
+				serverSide: true,
+				columns: [
+					{ data: 'nick' },
+					{ data: 'name' },
+					{ data: 'race' },
+					{ data: 'teamName' },
+					{ data: null }
+				],
+				rowId: 'id',
+		        columnDefs: [
+		        	{
+						render: function ( data, type, row ) {
 							var html = '';
-							html = '<div class="btn-group">';
-							html += '<a class="ui red horizontal label del_role" data-id="' +
-								row.roleId +
-								'"><i class="large remove user icon"></i>删除</a>';
-							html += '<a class="ui blue horizontal label mod_role" data-id="' +
-								row.roleId +
-								'"><i class="large edit icon"></i>详情</a>';
-							html += '</div>';
+							if( data == 'T' ) {
+								html = '<span class="ui basic black button">人族</span>';
+							}
+							else if( data == 'P' ) {
+								html = '<span class="ui basic black button">神族</span>';
+							}
+							else if( data == 'Z' ) {
+								html = '<span class="ui basic black button">虫族</span>';
+							}
 							return html;
 						},
 						targets: 2
-					}],
-					order: [1, 'desc'],
-					responsive: true
-				});
-			$('#role_search').on('click.SFP.strategy.queryRoleList',
-				$.SFP.strategy.queryRoleList);
-			$('#add_Role').on('click.SFP.strategy.add_Role',
-				$.SFP.strategy.add_Role);
-			$('#delete_false').on('click.SFP.strategy.delete_false',
-				$.SFP.strategy.delete_false);
-			$('#delete_true').on('click.SFP.strategy.add_Role',
-				$.SFP.strategy.delete_true);
-			$('#back_buttonS').on('click.SFP.strategy.back_buttonS',
-				$.SFP.strategy.back_buttonS);
-			$('#back_buttonM').on('click.SFP.strategy.back_buttonM',
-				$.SFP.strategy.back_buttonM);
-
-			// $('#add_role').on('click.SFP.strategy.save_Role',
-			// $.SFP.strategy.save_Role);
-			$.SFP.strategy.save_Role(true);
-			$('#role_main_table').on(
-				'draw.dt',
-				function() {
-					$('.del_role').on('click.SFP.strategy.deletea',
-						$.SFP.strategy.deletea);
-					$('.mod_role').on('click.SFP.strategy.modifyRole',
-						$.SFP.strategy.modifyRole);
-				});
+					},
+					{
+						render: function ( data, type, row ) {
+							var html = '';
+								html = '<div class="btn-group">';
+								html += '<div class="ui green horizontal label player_update disabled" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
+								html += '<a class="ui red horizontal label player_delete" data-id="' + row.id + '"><i class="large trash outline icon"></i>删除</a>';
+								html += '</div>';
+							return html;							
+						},
+						targets: 4
+					}
+				],
+		        //order: [1, 'desc'],
+				responsive: true
+		    });
+			
+			// listen page items' event
+			$('#player_search').on('click.ECELL.player.query', $.ECELL.player.query);
+			$('#player_main_table').on( 'draw.dt', function () {
+				$('.player_update').on('click.ECELL.player.update', $.ECELL.player.contentToggle);
+				$('.player_delete').on('click.ECELL.player.delete', $.ECELL.player.delConfirm);
+			});
+            $('#add_player').on('click.ECELL.player.content', $.ECELL.player.contentToggle);
+            $('#player_content_save').on('click.ECELL.player.save', $.ECELL.player.regist);
+            $('#player_content_return').on('click.ECELL.player.return', $.ECELL.player.contentToggle);
+            $('#del_player_yes').on('click.ECELL.player.del.yes', $.ECELL.player.delConfirmYes);
 		},
-
-        sumberCheck:function(value){
-        	var r = /^\+?[1-9][0-9]*$/;//正整数
-        	if(value==""){
-        		return true;
-        	}
-            if(!r.test(value)){
-            	return false;
-            }
-            if(value>10080){
-            	return false;
-            }
-            if(value<1){
-            	return false;	
-            }
-            return true;
-        },
-		back_buttonS: function() {
-			$.SFP.strategy.emptyVal();
-			$('#Role_list_page,#Role_regist_page').toggleClass('displaynone');
+		query: function () {
+			$('#player_main_table').DataTable().ajax.reload();
+			return;
 		},
-		back_buttonM: function() {
-			$.SFP.strategy.emptyVal();
-			$('#Role_list_page,#Role_regist_page').toggleClass('displaynone');
-
+		emptyVal: function() {
+			$('#role_name').val('');
+			$('#role_Des').val('');
+			$("#signBox").attr("checked", false);
+			$("#dataBox").attr("checked", false);
+			$("#cmdBox").attr("checked", false);
+			$('#signEnyAlgo').dropdown('clear');
+			$('#signSigAlgo').dropdown('clear');
+			$('#dataEnyAlgo').dropdown('clear');
+			$('#dataSignAlgo').dropdown('clear');
+			$('#cmdEnyAlgo').dropdown('clear');
+			$('#cmdSignAlgo').dropdown('clear');
+			$('#role_input_heartbeat').val('');
+			$('#role_input_datagather').val('');
+		},
+        contentToggle: function() {
+			$.ECELL.player.emptyVal();
+			$('#player_list,#player_content').toggleClass('displaynone');
+		},
+		delConfirm: function() {
+			var playerId = $(this).data('id');
+			$('#player_delconfirm_modal').data('del_player_id', playerId);
+			var rowData = $('#player_main_table').DataTable().row( '#' + playerId ).data();
+			var message = '是否删除 <span class="ui red label huge">' + rowData.nick + '</span> 选手？';
+			$('#player_confirm_modal_message').html(message);
+			$("#player_delconfirm_modal").modal({
+				closable: false
+			}).modal('show');
+		},
+		delConfirmYes: function() {
+			
 		},
 		delete_true: function() {
 			var postData = {};
@@ -1086,14 +835,14 @@ function _initSFP(o) {
 				.stringify(postData),
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
-						$.SFP.tipMessageSuccess("角色删除成功。");
+						$.ECELL.tipMessageSuccess("角色删除成功。");
 						$('#role_main_table').DataTable().ajax.reload();
 						$("#delete_role_model").modal({
 							closable: false
 						}).modal('hidden');
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 		},
@@ -1151,7 +900,7 @@ function _initSFP(o) {
 							'displaynone');
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 			$("#modify_role")
@@ -1160,12 +909,12 @@ function _initSFP(o) {
 						if(!e.isPropagationStopped()) { // 确定stopPropagation是否被调用过
 							var roleName = $('#role_name').val().trim();
 							if(roleName == "") {
-								$.SFP.tipMessage("请输入角色名称！", false);
+								$.ECELL.tipMessage("请输入角色名称！", false);
 								return false;
 							}
 							var roleDes = $('#role_Des').val().trim();
 							if(roleDes == "") {
-								$.SFP.tipMessage("请输入角色备注！", false);
+								$.ECELL.tipMessage("请输入角色备注！", false);
 								return false;
 							}
 							var postData = {};
@@ -1178,7 +927,7 @@ function _initSFP(o) {
 									var statusE = $('#signEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1186,7 +935,7 @@ function _initSFP(o) {
 									var statusS = $('#signSigAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签名算法类型！",
+										$.ECELL.tipMessage("请选择签名算法类型！",
 											false);
 										return false;
 									}
@@ -1200,7 +949,7 @@ function _initSFP(o) {
 									var statusE = $('#dataEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1208,7 +957,7 @@ function _initSFP(o) {
 									var statusS = $('#dataSignAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签到算法类型！",
+										$.ECELL.tipMessage("请选择签到算法类型！",
 											false);
 										return false;
 									}
@@ -1222,7 +971,7 @@ function _initSFP(o) {
 									var statusE = $('#cmdEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1230,7 +979,7 @@ function _initSFP(o) {
 									var statusS = $('#cmdSignAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签名算法类型！",
+										$.ECELL.tipMessage("请选择签名算法类型！",
 											false);
 										return false;
 									}
@@ -1241,7 +990,7 @@ function _initSFP(o) {
 								if(!($('#cmdBox').is(':checked') ||
 										$('#dataBox').is(':checked') || $(
 											'#signBox').is(':checked'))) {
-									$.SFP.tipMessage("请勾选策略参数！", false);
+									$.ECELL.tipMessage("请勾选策略参数！", false);
 									return false;;
 								}
 							
@@ -1262,15 +1011,15 @@ function _initSFP(o) {
 							    }
 							    postData.dataGatherTime = dataGatherTime;
 							    /*if(heartbeatTime == "" && dataGatherTime == ""){
-							    	$.SFP.tipMessage("请输入时间间隔策略！", false);
+							    	$.ECELL.tipMessage("请输入时间间隔策略！", false);
 								    return false;
 							    }*/
-							    if(!$.SFP.strategy.sumberCheck(heartbeatTime)){
-							    	$.SFP.tipMessage("输入的时间格式不对", false);
+							    if(!$.ECELL.strategy.sumberCheck(heartbeatTime)){
+							    	$.ECELL.tipMessage("输入的时间格式不对", false);
 							    	return false;
 							    }
-							    if(!$.SFP.strategy.sumberCheck(dataGatherTime)){
-							    	$.SFP.tipMessage("输入的时间格式不对", false);
+							    if(!$.ECELL.strategy.sumberCheck(dataGatherTime)){
+							    	$.ECELL.tipMessage("输入的时间格式不对", false);
 							    	return false;
 							    }
 							    
@@ -1285,7 +1034,7 @@ function _initSFP(o) {
 									function(data, textStatus,
 										jqXHR) {
 										if(data.code == 0) {
-											$.SFP
+											$.ECELL
 												.tipMessageSuccess("角色修改成功。");
 											$(
 													'#role_main_table')
@@ -1295,7 +1044,7 @@ function _initSFP(o) {
 													'#Role_list_page,#Role_regist_page')
 												.toggleClass(
 													'displaynone');
-											$.SFP.strategy
+											$.ECELL.strategy
 												.emptyVal();
 											$(this)
 												.parents(
@@ -1304,9 +1053,9 @@ function _initSFP(o) {
 											return false;
 										} else {
 											var msg = data.msg;
-											$.SFP.tipMessage(
+											$.ECELL.tipMessage(
 												msg, false);
-											$.SFP.strategy
+											$.ECELL.strategy
 												.emptyVal();
 											return false;
 										}
@@ -1322,7 +1071,7 @@ function _initSFP(o) {
 		deletea: function() {
 			var roleId = $(this).data('id');
 			delRoleId = roleId + '';
-			$("#delete_role_model").modal({
+			$("#player_delconfirm_modal").modal({
 				closable: false
 			}).modal('show');
 
@@ -1356,12 +1105,12 @@ function _initSFP(o) {
 						if(!e.isPropagationStopped()) { // 确定stopPropagation是否被调用过
 							var roleName = $('#role_name').val().trim();
 							if(roleName == "") {
-								$.SFP.tipMessage("请输入角色名称！", false);
+								$.ECELL.tipMessage("请输入角色名称！", false);
 								return false;
 							}
 							var roleDes = $('#role_Des').val().trim();
 							if(roleDes == "") {
-								$.SFP.tipMessage("请输入角色备注！", false);
+								$.ECELL.tipMessage("请输入角色备注！", false);
 								return false;
 							}
 							
@@ -1374,7 +1123,7 @@ function _initSFP(o) {
 									var statusE = $('#signEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1382,7 +1131,7 @@ function _initSFP(o) {
 									var statusS = $('#signSigAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签名算法类型！",
+										$.ECELL.tipMessage("请选择签名算法类型！",
 											false);
 										return false;
 									}
@@ -1396,7 +1145,7 @@ function _initSFP(o) {
 									var statusE = $('#dataEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1404,7 +1153,7 @@ function _initSFP(o) {
 									var statusS = $('#dataSignAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签到算法类型！",
+										$.ECELL.tipMessage("请选择签到算法类型！",
 											false);
 										return false;
 									}
@@ -1418,7 +1167,7 @@ function _initSFP(o) {
 									var statusE = $('#cmdEnyAlgo')
 										.dropdown('get value');
 									if(statusE == "") {
-										$.SFP.tipMessage("请选择加密算法类型！",
+										$.ECELL.tipMessage("请选择加密算法类型！",
 											false);
 										return false;
 									}
@@ -1426,7 +1175,7 @@ function _initSFP(o) {
 									var statusS = $('#cmdSignAlgo')
 										.dropdown('get value');
 									if(statusS == "") {
-										$.SFP.tipMessage("请选择签名算法类型！",
+										$.ECELL.tipMessage("请选择签名算法类型！",
 											false);
 										return false;
 									}
@@ -1437,7 +1186,7 @@ function _initSFP(o) {
 								if(!($('#cmdBox').is(':checked') ||
 										$('#dataBox').is(':checked') || $(
 											'#signBox').is(':checked'))) {
-									$.SFP.tipMessage("请勾选策略参数！", false);
+									$.ECELL.tipMessage("请勾选策略参数！", false);
 									return false;;
 								}
 							
@@ -1456,15 +1205,15 @@ function _initSFP(o) {
 							    }
 							    postData.dataGatherTime = dataGatherTime;
 							    /*if(heartbeatTime == "" && dataGatherTime == ""){
-							    	$.SFP.tipMessage("请输入策略间隔时间！", false);
+							    	$.ECELL.tipMessage("请输入策略间隔时间！", false);
 								    return false;
 							    }*/
-							    if(!$.SFP.strategy.sumberCheck(heartbeatTime)){
-							    	$.SFP.tipMessage("输入的时间格式不对", false);
+							    if(!$.ECELL.strategy.sumberCheck(heartbeatTime)){
+							    	$.ECELL.tipMessage("输入的时间格式不对", false);
 							    	return false;
 							    }
-							    if(!$.SFP.strategy.sumberCheck(dataGatherTime)){
-							    	$.SFP.tipMessage("输入的时间格式不对！", false);
+							    if(!$.ECELL.strategy.sumberCheck(dataGatherTime)){
+							    	$.ECELL.tipMessage("输入的时间格式不对！", false);
 							    	return false;
 							    }
 								
@@ -1479,7 +1228,7 @@ function _initSFP(o) {
 									function(data, textStatus,
 										jqXHR) {
 										if(data.code == 0) {
-											$.SFP
+											$.ECELL
 												.tipMessageSuccess("角色添加成功。");
 											$(
 													'#role_main_table')
@@ -1489,7 +1238,7 @@ function _initSFP(o) {
 													'#Role_list_page,#Role_regist_page')
 												.toggleClass(
 													'displaynone');
-											$.SFP.strategy
+											$.ECELL.strategy
 												.emptyVal();
 											$(this)
 												.parents(
@@ -1498,7 +1247,7 @@ function _initSFP(o) {
 											return false;
 										} else {
 											var msg = data.msg;
-											$.SFP.tipMessage(
+											$.ECELL.tipMessage(
 												msg, false);
 											return false;
 										}
@@ -1515,12 +1264,12 @@ function _initSFP(o) {
 		}
 	}; // 策略角色管理结束
 	// 应用注册开始
-	$.SFP.appRegist = {
+	$.ECELL.appRegist = {
 		activate: function() {
-			$('#app_regist').on('click.SFP.appRegist.app_regist',
-				$.SFP.appRegist.app_regist);
-			$('#app_regist_empty').on('click.SFP.appRegist.app_regist_empty',
-				$.SFP.appRegist.app_regist_empty);
+			$('#app_regist').on('click.ECELL.appRegist.app_regist',
+				$.ECELL.appRegist.app_regist);
+			$('#app_regist_empty').on('click.ECELL.appRegist.app_regist_empty',
+				$.ECELL.appRegist.app_regist_empty);
 
 		},
 		emptyVal: function() {
@@ -1529,7 +1278,7 @@ function _initSFP(o) {
 			$('#appType').val('');
 		},
 		app_regist_empty: function() {
-			$.SFP.appRegist.emptyVal();
+			$.ECELL.appRegist.emptyVal();
 		},
 		app_regist: function() {
 			var appName = $('#appName').val().trim();
@@ -1562,11 +1311,11 @@ function _initSFP(o) {
 					            html: msg,
 					           allowOutsideClick: false
 					        })
-						$.SFP.appRegist.emptyVal();
+						$.ECELL.appRegist.emptyVal();
 					} else {
 
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 
@@ -1574,7 +1323,7 @@ function _initSFP(o) {
 
 	}; // 应用注册结束
 	// 应用查询开始
-	$.SFP.appQuery = {
+	$.ECELL.appQuery = {
 		activate: function() {
             $('#app_detail_tab .item').tab();
 			var dtable = $('#app_main_table').DataTable({
@@ -1585,7 +1334,7 @@ function _initSFP(o) {
 						d.appName = $('#appName').val();
 						d.appId = $('#appId').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -1614,11 +1363,11 @@ function _initSFP(o) {
 			});
 			$('#app_main_table').on('draw.dt',
 				function() {
-					$('.appDetail').on('click.SFP.appQuery.appDetail', $.SFP.appQuery.appDetail);
+					$('.appDetail').on('click.ECELL.appQuery.appDetail', $.ECELL.appQuery.appDetail);
 				});
-			$('#app_search').on('click.SFP.appQuery.queryAppList', $.SFP.appQuery.queryAppList);
-			$('#app_detail_back').on('click.SFP.appQuery.app_detail_back', $.SFP.appQuery.app_detail_back);
-			$("#genkey").on('click.SFP.appQuery.genkey', $.SFP.appQuery.genkey)
+			$('#app_search').on('click.ECELL.appQuery.queryAppList', $.ECELL.appQuery.queryAppList);
+			$('#app_detail_back').on('click.ECELL.appQuery.app_detail_back', $.ECELL.appQuery.app_detail_back);
+			$("#genkey").on('click.ECELL.appQuery.genkey', $.ECELL.appQuery.genkey)
 		},
 		app_detail_back: function() {
 			$('#app_detail_page,#app_list_page').toggleClass('displaynone');
@@ -1648,7 +1397,7 @@ function _initSFP(o) {
                                     if(json.code != 0) {
                                         json.list = [];
                                         var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-                                        $.SFP.tipMessage(message, false);
+                                        $.ECELL.tipMessage(message, false);
                                     }
                                     return json.list;
                                 }
@@ -1678,7 +1427,7 @@ function _initSFP(o) {
                         });
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 			$('#app_detail_page,#app_list_page').toggleClass('displaynone');
@@ -1704,7 +1453,7 @@ function _initSFP(o) {
                         });
                     }else{
                         var msg = result.msg;
-                        $.SFP.tipMessage(msg, false);
+                        $.ECELL.tipMessage(msg, false);
                     }
                 },
                 error:function(){
@@ -1718,7 +1467,7 @@ function _initSFP(o) {
 		}
 	}; // 应用查询结束
 	// 应用修改开始
-	$.SFP.appUpdate = {
+	$.ECELL.appUpdate = {
 		activate: function() {
 			var dtable = $('#app_main_table')
 				.DataTable({
@@ -1729,7 +1478,7 @@ function _initSFP(o) {
 							d.appName = $('#appName').val();
 							d.appId = $('#appId').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -1759,15 +1508,15 @@ function _initSFP(o) {
 			$('#app_main_table').on(
 				'draw.dt',
 				function() {
-					$('.appUpdate').on('click.SFP.appUpdate.appUpdate',
-						$.SFP.appUpdate.appUpdate);
+					$('.appUpdate').on('click.ECELL.appUpdate.appUpdate',
+						$.ECELL.appUpdate.appUpdate);
 				});
-			$('#app_search').on('click.SFP.appUpdate.queryAppList',
-				$.SFP.appUpdate.queryAppList);
-			$('#app_update').on('click.SFP.appUpdate.app_update',
-				$.SFP.appUpdate.app_update);
-			$('#app_update_back').on('click.SFP.appUpdate.app_update_back',
-				$.SFP.appUpdate.app_update_back);
+			$('#app_search').on('click.ECELL.appUpdate.queryAppList',
+				$.ECELL.appUpdate.queryAppList);
+			$('#app_update').on('click.ECELL.appUpdate.app_update',
+				$.ECELL.appUpdate.app_update);
+			$('#app_update_back').on('click.ECELL.appUpdate.app_update_back',
+				$.ECELL.appUpdate.app_update_back);
 		},
 		emptyVal: function() {
 			$('#appId_update').val('');
@@ -1777,7 +1526,7 @@ function _initSFP(o) {
 		app_update_back: function() {
 
 			$('#app_update_page,#app_list_page').toggleClass('displaynone');
-			$.SFP.appUpdate.emptyVal();
+			$.ECELL.appUpdate.emptyVal();
 		},
 		app_update: function() {
 			var appName = $('#appName_update').val().trim();
@@ -1797,10 +1546,10 @@ function _initSFP(o) {
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
 						$('#app_main_table').DataTable().ajax.reload();
-						$.SFP.tipMessageSuccess("应用修改成功。");
+						$.ECELL.tipMessageSuccess("应用修改成功。");
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 
@@ -1820,7 +1569,7 @@ function _initSFP(o) {
 						$('#appType_update').val(data.app.appType);
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 			$('#app_update_page,#app_list_page').toggleClass('displaynone');
@@ -1832,7 +1581,7 @@ function _initSFP(o) {
 		}
 	}; // 应用修改结束
 	// 应用注销开始
-	$.SFP.appLogout = {
+	$.ECELL.appLogout = {
 		activate: function() {
 			var dtable = $('#app_main_table')
 				.DataTable({
@@ -1843,7 +1592,7 @@ function _initSFP(o) {
 							d.appName = $('#appName').val();
 							d.appId = $('#appId').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -1873,11 +1622,11 @@ function _initSFP(o) {
 			$('#app_main_table').on(
 				'draw.dt',
 				function() {
-					$('.appLogout').on('click.SFP.appLogout.appLogout',
-						$.SFP.appLogout.appLogout);
+					$('.appLogout').on('click.ECELL.appLogout.appLogout',
+						$.ECELL.appLogout.appLogout);
 				});
-			$('#app_search').on('click.SFP.appLogout.queryAppList',
-				$.SFP.appLogout.queryAppList);
+			$('#app_search').on('click.ECELL.appLogout.queryAppList',
+				$.ECELL.appLogout.queryAppList);
 		},
 		appLogout: function() {
 			var appId = $(this).data('id') + '';
@@ -1889,11 +1638,11 @@ function _initSFP(o) {
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
 						$('#app_main_table').DataTable().ajax.reload();
-						$.SFP.tipMessageSuccess("应用注销成功。");
+						$.ECELL.tipMessageSuccess("应用注销成功。");
 
 					} else {
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 		},
@@ -1903,12 +1652,12 @@ function _initSFP(o) {
 		}
 	}; // 应用结束
 	// 管理员添加开始
-	$.SFP.adminInsert = {
+	$.ECELL.adminInsert = {
 		activate: function() {
-			$('#admin_regist').on('click.SFP.adminInsert.admin_regist',
-				$.SFP.adminInsert.admin_regist);
-			$('#admin_regist_empty').on('click.SFP.adminInsert.emptyVal',
-				$.SFP.adminInsert.emptyVal);
+			$('#admin_regist').on('click.ECELL.adminInsert.admin_regist',
+				$.ECELL.adminInsert.admin_regist);
+			$('#admin_regist_empty').on('click.ECELL.adminInsert.emptyVal',
+				$.ECELL.adminInsert.emptyVal);
 		},
 		emptyVal: function() {
 			$('#admin_Id').val('');
@@ -1919,26 +1668,26 @@ function _initSFP(o) {
 		admin_regist: function() {
 			var adminId = $('#admin_Id').val().trim();
 			if(adminId == "") {
-				$.SFP.tipMessage("请输入管理员账号！", false);
+				$.ECELL.tipMessage("请输入管理员账号！", false);
 				return false;
 			}
 			var name = $('#admin_Name').val().trim();
 			if(name == "") {
-				$.SFP.tipMessage("请输入管理员姓名！", false);
+				$.ECELL.tipMessage("请输入管理员姓名！", false);
 				return false;
 			}
 			var pwd = $('#admin_pwd1').val().trim();
 			if(pwd == "") {
-				$.SFP.tipMessage("请输入密码！", false);
+				$.ECELL.tipMessage("请输入密码！", false);
 				return false;
 			}
 			var pwd2 = $('#admin_pwd2').val().trim();
 			if(pwd2 == "") {
-				$.SFP.tipMessage("请输入确认密码！", false);
+				$.ECELL.tipMessage("请输入确认密码！", false);
 				return false;
 			}
 			if(!(pwd2 == pwd)) {
-				$.SFP.tipMessage("两次输入密码不一致！", false);
+				$.ECELL.tipMessage("两次输入密码不一致！", false);
 				return false;
 			}
 			var postData = {};
@@ -1950,19 +1699,19 @@ function _initSFP(o) {
 				.stringify(postData),
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
-						$.SFP.tipMessageSuccess("管理员添加成功。");
-						$.SFP.adminInsert.emptyVal();
+						$.ECELL.tipMessageSuccess("管理员添加成功。");
+						$.ECELL.adminInsert.emptyVal();
 					} else {
 
 						var msg = data.msg;
-						$.SFP.tipMessage(msg, false);
+						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
 
 		}
 	}; // 管理员添加结束
 	// 管理员查询开始
-	$.SFP.adminQuery = {
+	$.ECELL.adminQuery = {
 		activate: function() {
 			var dtable = $('#admin_main_table')
 				.DataTable({
@@ -1973,7 +1722,7 @@ function _initSFP(o) {
 							d.adminId = $('#admin_Id').val();
 							d.name = $('#admin_Name').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -2036,30 +1785,30 @@ function _initSFP(o) {
 			$('#admin_main_table').on(
 				'draw.dt',
 				function() {
-					$('.start_admin').on('click.SFP.adminQuery.start_admin',
-						$.SFP.adminQuery.start_admin);
-					$('.del_admin').on('click.SFP.adminQuery.del_admin',
-							$.SFP.adminQuery.del_admin);
-					$('.mod_admin').on('click.SFP.adminQuery.mod_admin',
-							$.SFP.adminQuery.mod_admin);
+					$('.start_admin').on('click.ECELL.adminQuery.start_admin',
+						$.ECELL.adminQuery.start_admin);
+					$('.del_admin').on('click.ECELL.adminQuery.del_admin',
+							$.ECELL.adminQuery.del_admin);
+					$('.mod_admin').on('click.ECELL.adminQuery.mod_admin',
+							$.ECELL.adminQuery.mod_admin);
 				});
 
-			$('#admin_search').on('click.SFP.adminQuery.admin_search',
-					$.SFP.adminQuery.admin_search);
-			$('#admin_mod_back').on('click.SFP.adminQuery.admin_mod_back',
-					$.SFP.adminQuery.admin_mod_back);
-			$('#admin_regist_mod').on('click.SFP.adminQuery.admin_regist_mod',
-					$.SFP.adminQuery.admin_regist_mod);
+			$('#admin_search').on('click.ECELL.adminQuery.admin_search',
+					$.ECELL.adminQuery.admin_search);
+			$('#admin_mod_back').on('click.ECELL.adminQuery.admin_mod_back',
+					$.ECELL.adminQuery.admin_mod_back);
+			$('#admin_regist_mod').on('click.ECELL.adminQuery.admin_regist_mod',
+					$.ECELL.adminQuery.admin_regist_mod);
 		},
 		admin_regist_mod:function(){
 			var adminId = $('#admin_Id_mod').val().trim();
 			if(adminId == "") {
-				$.SFP.tipMessage("请输入管理员账号！", false);
+				$.ECELL.tipMessage("请输入管理员账号！", false);
 				return false;
 			}
 			var name = $('#admin_Name_mod').val().trim();
 			if(name == "") {
-				$.SFP.tipMessage("请输入管理员姓名！", false);
+				$.ECELL.tipMessage("请输入管理员姓名！", false);
 				return false;
 			}
 			var pwd = $('#admin_pwd1_mod').val().trim();
@@ -2071,7 +1820,7 @@ function _initSFP(o) {
 				
 			}
 			if(!(pwd2 == pwd)) {
-				$.SFP.tipMessage("两次输入密码不一致！", false);
+				$.ECELL.tipMessage("两次输入密码不一致！", false);
 				return false;
 			}
 			var postData = {};
@@ -2083,12 +1832,12 @@ function _initSFP(o) {
 				.stringify(postData),
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
-						$.SFP.tipMessageSuccess("管理员修改成功。");
+						$.ECELL.tipMessageSuccess("管理员修改成功。");
 						$('#admin_main_table').DataTable().ajax.reload();
 			            $('#admin_list_page_mod,#admin_list_page').toggleClass('displaynone');
-			        	$.SFP.adminQuery.emptyVal();
+			        	$.ECELL.adminQuery.emptyVal();
 					} else {
-						$.SFP.tipMessage(data.msg, false);
+						$.ECELL.tipMessage(data.msg, false);
 					}
 				}, 'json');
 		},
@@ -2099,7 +1848,7 @@ function _initSFP(o) {
 			$('#admin_pwd2_mod').val('');
 		},
 		admin_mod_back:function(){
-			$.SFP.adminQuery.emptyVal();
+			$.ECELL.adminQuery.emptyVal();
             $('#admin_list_page_mod,#admin_list_page').toggleClass('displaynone');
 		},
 		start_admin:function(){
@@ -2115,14 +1864,14 @@ function _initSFP(o) {
 					if(data.code == 0) {
 						$('#admin_main_table').DataTable().ajax.reload(null, false);
 					} else {
-						$.SFP.tipMessage(data.msg, false);
+						$.ECELL.tipMessage(data.msg, false);
 					}
 				}, 'json');
 		},
 		del_admin:function(){
 			var adminId = $(this).data('id') + '';
 			if(adminId=='admin'){
-				$.SFP.tipMessage("超级管理员不允许注销！", false);
+				$.ECELL.tipMessage("超级管理员不允许注销！", false);
 				return ;
 				
 			}
@@ -2137,7 +1886,7 @@ function _initSFP(o) {
 					if(data.code == 0) {
 						$('#admin_main_table').DataTable().ajax.reload(null, false);
 					} else {
-						$.SFP.tipMessage(data.msg, false);
+						$.ECELL.tipMessage(data.msg, false);
 					}
 				}, 'json');
 		},
@@ -2154,7 +1903,7 @@ function _initSFP(o) {
 							$('#admin_Name_mod').val(data.admin.name);
 						} else {
 							var msg=data.msg;
-							$.SFP.tipMessage(msg, false);
+							$.ECELL.tipMessage(msg, false);
 						}
 					}, 'json');
             $('#admin_list_page_mod,#admin_list_page').toggleClass('displaynone');
@@ -2170,7 +1919,7 @@ function _initSFP(o) {
 	}; // 管理员查询结束
 	//设备组管理开始
 	var appidVL =[];
-	$.SFP.groupRole = {
+	$.ECELL.groupRole = {
 			activate:function (){
 				$(".ui.dropdown").dropdown({
 				    allowCategorySelection: true,
@@ -2184,7 +1933,7 @@ function _initSFP(o) {
 					        d.deviceGroupName = $('#dev_group_ser').val();
 					        d.roleName = $('#dev_role_ser').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -2219,26 +1968,26 @@ function _initSFP(o) {
                         }
 				} else {
 					var message = '获取角色信息失败![' + data.msg + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 
 
-			    $('#dev_role_group_b').on('click.SFP.group.querygroup', $.SFP.groupRole.querygroup);
-			    $('#add_device_group').on('click.SFP.group.add', $.SFP.groupRole.GroupWindow);
+			    $('#dev_role_group_b').on('click.ECELL.group.querygroup', $.ECELL.groupRole.querygroup);
+			    $('#add_device_group').on('click.ECELL.group.add', $.ECELL.groupRole.GroupWindow);
 			    
-			    $('#add_appId_List').on('click.SFP.group.addAppList', $.SFP.groupRole.addappidList);
-			    $('#appId_List_button').on('click.SFP.group.queryAppList', $.SFP.groupRole.queryappidList);
+			    $('#add_appId_List').on('click.ECELL.group.addAppList', $.ECELL.groupRole.addappidList);
+			    $('#appId_List_button').on('click.ECELL.group.queryAppList', $.ECELL.groupRole.queryappidList);
 			    
-			    $('#appid_submit_b').on('click.SFP.group.appidSubmit', $.SFP.groupRole.appidSumbit);
-			    $('#sumbit_group_info').on('click.SFP.group.groupinfoSubmit', $.SFP.groupRole.groupinfoSubmit);
-			    $('#sumbit_group_back').on('click.SFP.group.groupinfoBack', $.SFP.groupRole.groupinfoSubmitBack);
+			    $('#appid_submit_b').on('click.ECELL.group.appidSubmit', $.ECELL.groupRole.appidSumbit);
+			    $('#sumbit_group_info').on('click.ECELL.group.groupinfoSubmit', $.ECELL.groupRole.groupinfoSubmit);
+			    $('#sumbit_group_back').on('click.ECELL.group.groupinfoBack', $.ECELL.groupRole.groupinfoSubmitBack);
 			    
-			    $('#del_group_button').on('click.SFP.group.deleteGroupButton', $.SFP.groupRole.deleteGroup);
+			    $('#del_group_button').on('click.ECELL.group.deleteGroupButton', $.ECELL.groupRole.deleteGroup);
 			    
 			    $('#group_role_table').on( 'draw.dt', function () {
-				    $('.group_info').on('click.SFP.group.detail', $.SFP.groupRole.GroupWindow);
-				    $('.group_del').on('click.SFP.group.delete.single', $.SFP.groupRole.delGroup);
+				    $('.group_info').on('click.ECELL.group.detail', $.ECELL.groupRole.GroupWindow);
+				    $('.group_del').on('click.ECELL.group.delete.single', $.ECELL.groupRole.delGroup);
 			    });
 			},
 			addappidList:function(){
@@ -2249,7 +1998,7 @@ function _initSFP(o) {
 						data: function ( d ) {
 					        d.appId = $('#appid_list_Search').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -2269,16 +2018,16 @@ function _initSFP(o) {
 								var flag = true;
 								if(appidVL.length==0){
 									flag = false;
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.groupRole.checkoutdecide(this)">';
+									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.ECELL.groupRole.checkoutdecide(this)">';
 								}
 								for (var i = 0; i < appidVL.length; i++) {
 									if(row.appId==appidVL[i].appid){
 										flag = false;
-									html += '<input type="checkbox" checked="checked" name="example" id="'+row.appId+'" onclick="$.SFP.groupRole.checkoutdecide(this)">';
+									html += '<input type="checkbox" checked="checked" name="example" id="'+row.appId+'" onclick="$.ECELL.groupRole.checkoutdecide(this)">';
 								}
 						      }
 								if(flag){
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.groupRole.checkoutdecide(this)">';
+									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.ECELL.groupRole.checkoutdecide(this)">';
 								}
 								    html +='<label class="coloring black"></label></div>';
 								return html;							
@@ -2350,7 +2099,7 @@ function _initSFP(o) {
 					$('body').getNiceScroll().resize();
 				} else {
 					var message = '获取设备组信息失败![' + data.msg + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 
@@ -2398,11 +2147,11 @@ function _initSFP(o) {
 					if (result.code==0) {
 						var message = result.msg;
 						message = '信息保存成功';
-					    $.SFP.tipMessage(message);
+					    $.ECELL.tipMessage(message);
 					    $('#group_role_table').DataTable().ajax.reload();
 					}else {
 						var message = '保存设备组信息失败![' + result.msg + ']';
-					    $.SFP.tipMessage(message, false);
+					    $.ECELL.tipMessage(message, false);
 					}
 				},
 				error:function(){
@@ -2428,11 +2177,11 @@ function _initSFP(o) {
 					textStatus, jqXHR) {
 				if (data.code == 0) {
 					var message = data.msg;
-					$.SFP.tipMessage("删除成功");
+					$.ECELL.tipMessage("删除成功");
 					$('#group_role_table').DataTable().ajax.reload();
 				} else {
 					var message = '删除组失败![' + data.msg + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		   },
@@ -2443,7 +2192,7 @@ function _initSFP(o) {
 	//设备组管理结束
 	
 	//设备版本管理
-	$.SFP.deviceversion = {
+	$.ECELL.deviceversion = {
 			activate: function () {
 				var dtable = $('#device_version_main_table').DataTable({
 					ajax:{
@@ -2453,7 +2202,7 @@ function _initSFP(o) {
 					        d.devId = $('#device_version_search_devid').val();
 					        d.appId = $('#device_version_search_appid').val();
 						},
-						dataSrc: $.SFP.ParseDataTableResult
+						dataSrc: $.ECELL.ParseDataTableResult
 					},
 					processing: true,
 					serverSide: true,
@@ -2470,7 +2219,7 @@ function _initSFP(o) {
 					responsive: true
 			    });
 				
-				$('#device_version_search_button').on('click.SFP.deviceversion.query', $.SFP.deviceversion.queryDeviceVersionList);
+				$('#device_version_search_button').on('click.ECELL.deviceversion.query', $.ECELL.deviceversion.queryDeviceVersionList);
 			},
 			queryDeviceVersionList : function () {
 				$('#device_version_main_table').DataTable().ajax.reload();
@@ -2480,200 +2229,14 @@ function _initSFP(o) {
 	//设备版本管理结束
 	
 	
-	/*
-	 * device white list ====== device white list infomation maintain page
-	 * 
-	 * @type Object @usage $.SFP.whiteList.activate() @usage
-	 * $.SFP.whiteList.queryWhiteList()
-	 */
-	$.SFP.whiteList = {
-		activate: function () {
-			var dtable = $('#dwl_main_table').DataTable({
-				ajax:{
-					url: o.basePath + '/dev/wl/list',
-					type: 'POST',
-					data: function ( d ) {
-				        d.devId = $('#dwl_search_devid').val();
-				        d.appId = $('#dwl_search_appid').val();
-					},
-					dataSrc: $.SFP.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-					{ data: 'devId' },
-					{ data: 'appId' },
-					{ data: 'status' },
-					{ data: 'policyStatus' },
-					{ data: null }
-				],
-				rowId: 'id',
-		        // pagingType: "full_numbers_icon",
-		        columnDefs: [
-		        	{
-						render: function ( data, type, row ) {
-							var html = '';
-							if( data == 1 ) {
-								html = '<span class="ui basic red button">初始化</span>';
-							}
-							else if( data == 2 ) {
-								html = '<span class="ui basic green button">已激活</span>';
-							}
-							else if( data == 3 ) {
-								html = '<span class="ui basic black button">注销</span>';
-							}
-							return html;
-						},
-						targets: 2
-					},
-					{
-						render: function ( data, type, row ) {
-							var html = '';
-							if(row.status != 3) {
-								if( data == 1 ) {
-									html = '<span class="ui basic green button">启用</span>';
-								}
-								else if( data == 2 ) {
-									html = '<span class="ui basic red button">停用</span>';
-								}
-							}
-							return html;
-						},
-						targets: 3
-					},
-					{
-						render: function ( data, type, row ) {
-							var html = '';
-							if(row.status != 3) {
-								if(row.policyStatus == 1) {
-									html = '<div class="btn-group">';
-									html += '<div class="ui green horizontal label dwl_policy_up disabled" data-id="' + row.id + '"><i class="large edit icon"></i>启用</div>';
-									html += '<a class="ui red horizontal label dwl_policy_down" data-id="' + row.id + '"><i class="large trash outline icon"></i>停用</a>';
-									html += '</div>';
-								}
-								else if(row.policyStatus == 2) {
-									html = '<div class="btn-group">';
-									html += '<a class="ui green horizontal label dwl_policy_up " data-id="' + row.id + '"><i class="large edit icon"></i>启用</a>';
-									html += '<div class="ui red horizontal label dwl_policy_down disabled" data-id="' + row.id + '"><i class="large trash outline icon"></i>停用</div>';
-									html += '</div>';
-								}
-							}
-							return html;							
-						},
-						targets: 4
-					}
-				],
-		        order: [1, 'desc'],
-				responsive: true
-		    });
-			
-			// listen page items' event
-			$('#dwl_search').on('click.SFP.whiteList.query', $.SFP.whiteList.queryWhiteList);
-			$('#dwl_main_table').on( 'draw.dt', function () {
-				$('.dwl_policy_up').on('click.SFP.whiteList.policyup', $.SFP.whiteList.policyUp);
-				$('.dwl_policy_down').on('click.SFP.whiteList.policydown', $.SFP.whiteList.policyDown);
-			});
-            $('#add_white_list').on('click.SFP.whiteList.add', $.SFP.whiteList.addWhiteListModal);
-            $('#device_detail_save').on('click.SFP.whiteList.save', $.SFP.whiteList.deviceRegister);
-            $('#device_detail_return').on('click.SFP.whiteList.return', $.SFP.whiteList.returnModal);
-		},
-		queryWhiteList: function () {
-			$('#dwl_main_table').DataTable().ajax.reload();
-			return;
-		},
-		policyUp: function () {
-			var wlId = $(this).data('id');
-			if( undefined == wlId ) {
-				$.SFP.tipMessage("白名单数据异常，请重新打开页面再次尝试或联系管理员", false);
-				return;
-			}
-			
-			$.SFP.whiteList.policyUpdate(wlId, 1);
-		},
-		policyDown: function () {
-			var wlId = $(this).data('id');
-			if( undefined == wlId ) {
-				$.SFP.tipMessage("白名单数据异常，请重新打开页面再次尝试或联系管理员", false);
-				return;
-			}
-			
-			$.SFP.whiteList.policyUpdate(wlId, 2);
-		},
-		policyUpdate: function (wlId, upDownFlag) {
-			var rowData = $('#dwl_main_table').DataTable().row('#'+wlId).data();
-			
-			var postData = {};
-			postData.devId = rowData.devId;
-			postData.appId = rowData.appId;
-			
-			var urlTarget = o.basePath + '/dev/wl/';
-			if( upDownFlag == 1 ) {
-				urlTarget += 'policyup';
-			}
-			else if( upDownFlag == 2 ){
-				urlTarget += 'policydown';
-			}
-			
-			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
-				if( data.code == 0 ) {
-					$('#dwl_main_table').DataTable().ajax.reload(null, false);
-				}
-				else {
-					var message = '修改白名单策略失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
-				}
-			}, 'json');
-			return;
-		},
-        addWhiteListModal: function () {
-		    $("#device_detail_page").modal({closable:true}).modal('show');
-        },
 
-        returnModal: function () {
-            $("#device_detail_page").modal('hide');
-            $('#devid').val("");
-            $('#appid').val("");
-        },
-
-        deviceRegister: function (){
-
-		    var devid = $('#devid').val();
-            var appid = $('#appid').val();
-            if( undefined == devid || devid == '') {
-                var message = 'devid is "" or not be undefined!';
-                $.SFP.tipMessage(message, false);
-                return;
-            }
-            if( undefined == appid || appid == '') {
-                var message = 'appid is "" or not be undefined!';
-                $.SFP.tipMessage(message, false);
-                return;
-            }
-
-            $.post(o.basePath + '/dev/addDevice?devid=' + devid + '&appid=' + appid, {}, function(data,textStatus, jqXHR) {
-                if( data.code == 0 ) {
-                    $.SFP.whiteList.returnModal();
-                    // 重新装载数据信息
-                    $('#dwl_main_table').DataTable().ajax.reload();
-                    var message = 'devid:' + devid + ',appid:' + appid + '注册成功！';
-                    $.SFP.tipMessage(message, true);
-                }
-                else {
-                    $.SFP.whiteList.returnModal();
-                    var message = 'devid:' + devid + ',appid:' + appid + '注册失败！[' + data.code+ ' : ' + data.msg + ']';
-                    $.SFP.tipMessage(message, false);
-                }
-            }, 'json');
-         }
-	};// end of $.SFP.whiteList
-	
 	/*
 	 * device black list ====== device black list infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.blackList.activate() @usage
-	 * $.SFP.blackList.queryBlackList()
+	 * @type Object @usage $.ECELL.blackList.activate() @usage
+	 * $.ECELL.blackList.queryBlackList()
 	 */
-	$.SFP.blackList = {
+	$.ECELL.blackList = {
 		activate: function () {
 			var dtable = $('#dbl_main_table').DataTable({
 				ajax:{
@@ -2683,7 +2246,7 @@ function _initSFP(o) {
 				        d.devId = $('#dbl_search_devid').val();
 				        d.appId = $('#dbl_search_appid').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -2699,21 +2262,21 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#dbl_search').on('click.SFP.blackList.query', $.SFP.blackList.queryBlackList);
+			$('#dbl_search').on('click.ECELL.blackList.query', $.ECELL.blackList.queryBlackList);
 		},
 		queryBlackList: function () {
 			$('#dbl_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.blackList
+	};// end of $.ECELL.blackList
 	
 	/*
 	 * key list ====== key list infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.keyList.activate() @usage
-	 * $.SFP.keyList.queryKeyList()
+	 * @type Object @usage $.ECELL.keyList.activate() @usage
+	 * $.ECELL.keyList.queryKeyList()
 	 */
-	$.SFP.keyList = {
+	$.ECELL.keyList = {
 		activate: function () {
 			var dtable = $('#keylist_main_table').DataTable({
 				ajax:{
@@ -2723,7 +2286,7 @@ function _initSFP(o) {
 				        d.devId = $('#keylist_search_devid').val();
 				        d.appId = $('#keylist_search_appid').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -2764,21 +2327,21 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#keylist_search').on('click.SFP.keyList.query', $.SFP.keyList.queryKeyList);
+			$('#keylist_search').on('click.ECELL.keyList.query', $.ECELL.keyList.queryKeyList);
 		},
 		queryKeyList: function () {
 			$('#keylist_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.keyList
+	};// end of $.ECELL.keyList
 	
 	/*
 	 * key source ====== key source infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.keySource.activate() @usage
-	 * $.SFP.keySource.queryKeyList()
+	 * @type Object @usage $.ECELL.keySource.activate() @usage
+	 * $.ECELL.keySource.queryKeyList()
 	 */
-	$.SFP.keySource = {
+	$.ECELL.keySource = {
 		activate: function () {
 			var dtable = $('#keysource_main_table').DataTable({
 				ajax:{
@@ -2788,7 +2351,7 @@ function _initSFP(o) {
 				        d.devId = $('#keysource_search_devid').val();
 				        d.appId = $('#keysource_search_appid').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -2822,21 +2385,21 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#keysource_search').on('click.SFP.keySource.query', $.SFP.keySource.queryKeySource);
+			$('#keysource_search').on('click.ECELL.keySource.query', $.ECELL.keySource.queryKeySource);
 		},
 		queryKeySource: function () {
 			$('#keysource_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.keySource
+	};// end of $.ECELL.keySource
 	
 	/*
 	 * hsm list ====== hsm list infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.hsmList.activate() @usage
-	 * $.SFP.hsmList.queryHsmList()
+	 * @type Object @usage $.ECELL.hsmList.activate() @usage
+	 * $.ECELL.hsmList.queryHsmList()
 	 */
-	$.SFP.hsmList = {
+	$.ECELL.hsmList = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -2857,7 +2420,7 @@ function _initSFP(o) {
 						 * value');
 						 */
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -2894,21 +2457,21 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#hsmlist_search').on('click.SFP.logList.query', $.SFP.hsmList.queryHsmList);
+			$('#hsmlist_search').on('click.ECELL.logList.query', $.ECELL.hsmList.queryHsmList);
 		},
 		queryHsmList: function () {
 			$('#hsmlist_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.hsmList
+	};// end of $.ECELL.hsmList
 	
 	/*
 	 * log list ====== log list infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.logList.activate() @usage
-	 * $.SFP.logList.queryLogList()
+	 * @type Object @usage $.ECELL.logList.activate() @usage
+	 * $.ECELL.logList.queryLogList()
 	 */
-	$.SFP.logList = {
+	$.ECELL.logList = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -2926,7 +2489,7 @@ function _initSFP(o) {
 				        d.optFlag = $('#loglist_search_opt').dropdown('get value');
 				        d.status = $('#loglist_search_result').dropdown('get value');
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -3046,20 +2609,20 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#loglist_search').on('click.SFP.logList.query', $.SFP.logList.queryLogList);
+			$('#loglist_search').on('click.ECELL.logList.query', $.ECELL.logList.queryLogList);
 		},
 		queryLogList: function () {
 			$('#loglist_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.logList
+	};// end of $.ECELL.logList
 	
 	/*
 	 * role ====== role infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.role.activate() @usage $.SFP.role.queryRole()
+	 * @type Object @usage $.ECELL.role.activate() @usage $.ECELL.role.queryRole()
 	 */
-	$.SFP.role = {
+	$.ECELL.role = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -3073,7 +2636,7 @@ function _initSFP(o) {
 					data: function ( d ) {
 				        d.rolename = $('#role_search_name').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -3098,29 +2661,29 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#role_search').on('click.SFP.role.query', $.SFP.role.queryRole);			
+			$('#role_search').on('click.ECELL.role.query', $.ECELL.role.queryRole);			
 		},
 		queryRole: function () {
 			$('#role_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.role
+	};// end of $.ECELL.role
 	
 	/*
 	 * config ====== config infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.config.activate() @usage $.SFP.config.save()
-	 * @usage $.SFP.config.reset()
+	 * @type Object @usage $.ECELL.config.activate() @usage $.ECELL.config.save()
+	 * @usage $.ECELL.config.reset()
 	 */
-	$.SFP.config = {
+	$.ECELL.config = {
 		activate: function () {
 			$('.tabular .item').tab();
 			
-			$.SFP.config.reset();
+			$.ECELL.config.reset();
 			
 			// listen page items' event
-			$('.config_reset').on('click.SFP.config.reset', $.SFP.config.reset);
-			$('.config_save').on('click.SFP.config.save', $.SFP.config.save);
+			$('.config_reset').on('click.ECELL.config.reset', $.ECELL.config.reset);
+			$('.config_save').on('click.ECELL.config.save', $.ECELL.config.save);
 			
 		},
 		reset: function () {
@@ -3183,7 +2746,7 @@ function _initSFP(o) {
 				}
 				else {
 					var message = '获取配置信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3219,26 +2782,26 @@ function _initSFP(o) {
 			var urlTarget = o.basePath + '/sys/config/update';
 			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.SFP.config.reset();
+					$.ECELL.config.reset();
 					
 					$('#role_main_table').DataTable().ajax.reload();
 					var message = '保存配置信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				} else {
 					var message = '保存配置信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.config
+	};// end of $.ECELL.config
 	
 	/*
 	 * syslog ====== syslog infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.syslog.activate() @usage
-	 * $.SFP.syslog.queryLog()
+	 * @type Object @usage $.ECELL.syslog.activate() @usage
+	 * $.ECELL.syslog.queryLog()
 	 */
-	$.SFP.syslog = {
+	$.ECELL.syslog = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -3255,7 +2818,7 @@ function _initSFP(o) {
 				        d.username = $('#syslog_search_name').val();
 				        d.operation = $('#syslog_search_type').dropdown('get value');
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -3284,21 +2847,21 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#syslog_search').on('click.SFP.syslog.query', $.SFP.syslog.querySyslog);
+			$('#syslog_search').on('click.ECELL.syslog.query', $.ECELL.syslog.querySyslog);
 		},
 		querySyslog: function () {
 			$('#syslog_main_table').DataTable().ajax.reload();
 			return;
 		}
-	};// end of $.SFP.syslog
+	};// end of $.ECELL.syslog
 	
 	/*
 	 * symmetricRoot ====== symmetric root key infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.symmetricRoot.activate() @usage
-	 * $.SFP.symmetricRoot.save() @usage $.SFP.symmetricRoot.reset()
+	 * @type Object @usage $.ECELL.symmetricRoot.activate() @usage
+	 * $.ECELL.symmetricRoot.save() @usage $.ECELL.symmetricRoot.reset()
 	 */
-	$.SFP.symmetricRoot = {
+	$.ECELL.symmetricRoot = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -3334,7 +2897,7 @@ function _initSFP(o) {
 					data: function ( d ) {
 				        d.username = $('#symmetric_root_search_name').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -3383,20 +2946,20 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#symmetric_root_search').on('click.SFP.symmetricroot.query', $.SFP.symmetricRoot.querySymmetricRoot);
-			$('#add_symmetric_root').on('click.SFP.symmetricroot.add', $.SFP.symmetricRoot.addSymmetricRootWindow);
-			$('#symmetric_root_detail_save').on('click.SFP.symmetricroot.detailsave', $.SFP.symmetricRoot.saveAdminConfirm);
-			$('#symmetric_root_detail_return').on('click.SFP.symmetricroot.detailreturn', $.SFP.symmetricRoot.adminDetailReturn);
-			$('#revoke_symmetric_root').on('click.SFP.symmetricroot.revoke', $.SFP.symmetricRoot.revokeSymmetricRootWindow);
-			$('#backup_symmetric_root').on('click.SFP.symmetricroot.backup', $.SFP.symmetricRoot.backupSymmetricRootWindow);
-			$('#recover_symmetric_root').on('click.SFP.symmetricroot.recover', $.SFP.symmetricRoot.recoverSymmetricRootWindow);
+			$('#symmetric_root_search').on('click.ECELL.symmetricroot.query', $.ECELL.symmetricRoot.querySymmetricRoot);
+			$('#add_symmetric_root').on('click.ECELL.symmetricroot.add', $.ECELL.symmetricRoot.addSymmetricRootWindow);
+			$('#symmetric_root_detail_save').on('click.ECELL.symmetricroot.detailsave', $.ECELL.symmetricRoot.saveAdminConfirm);
+			$('#symmetric_root_detail_return').on('click.ECELL.symmetricroot.detailreturn', $.ECELL.symmetricRoot.adminDetailReturn);
+			$('#revoke_symmetric_root').on('click.ECELL.symmetricroot.revoke', $.ECELL.symmetricRoot.revokeSymmetricRootWindow);
+			$('#backup_symmetric_root').on('click.ECELL.symmetricroot.backup', $.ECELL.symmetricRoot.backupSymmetricRootWindow);
+			$('#recover_symmetric_root').on('click.ECELL.symmetricroot.recover', $.ECELL.symmetricRoot.recoverSymmetricRootWindow);
 			$('#symmetric_root_main_table').on( 'draw.dt', function () {
-				$('.symmetric_root_info').on('click.SFP.symmetricroot.detail', $.SFP.symmetricRoot.addSymmetricRootWindow);
-				$('.symmetric_root_distribution').on('click.SFP.symmetricroot.distribution', $.SFP.symmetricRoot.distributionSymmetricRoot);
+				$('.symmetric_root_info').on('click.ECELL.symmetricroot.detail', $.ECELL.symmetricRoot.addSymmetricRootWindow);
+				$('.symmetric_root_distribution').on('click.ECELL.symmetricroot.distribution', $.ECELL.symmetricRoot.distributionSymmetricRoot);
 			});
-			$('#symmetric_root_genkey_random').on('click.SFP.symmetricroot.delconfirm', $.SFP.symmetricRoot.genkeyRandom);
-			$('#symmetric_root_genkey_cipher').on('click.SFP.symmetricroot.delconfirm', $.SFP.symmetricRoot.genkeyCipher);
-			$('#symmetric_root_genkey_input').on('click.SFP.symmetricroot.delconfirm', $.SFP.symmetricRoot.genkeyInput);
+			$('#symmetric_root_genkey_random').on('click.ECELL.symmetricroot.delconfirm', $.ECELL.symmetricRoot.genkeyRandom);
+			$('#symmetric_root_genkey_cipher').on('click.ECELL.symmetricroot.delconfirm', $.ECELL.symmetricRoot.genkeyCipher);
+			$('#symmetric_root_genkey_input').on('click.ECELL.symmetricroot.delconfirm', $.ECELL.symmetricRoot.genkeyInput);
 			
 			
 		},
@@ -3426,7 +2989,7 @@ function _initSFP(o) {
 				}
 				else {
 					var message = '获取管理员权限信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3455,7 +3018,7 @@ function _initSFP(o) {
 		    
 		    if( adminId == 0 && pwd.length == 0 ) {
 		    	var message = '保存管理员信息失败![添加管理员时，口令不能为空]';
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 		    
@@ -3463,7 +3026,7 @@ function _initSFP(o) {
 		    	var message = '保存管理员信息失败![口令与重复口令不匹配，请重新输入!]';
 		    	$('#admin_pwd').val('');
 		    	$('#admin_repwd').val('');
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 		    
@@ -3490,14 +3053,14 @@ function _initSFP(o) {
 			
 			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.SFP.admin.adminDetailReturn();
+					$.ECELL.admin.adminDetailReturn();
 					
 					$('#admin_main_table').DataTable().ajax.reload();
 					var message = '保存管理员信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				} else {
 					var message = '保存管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3555,23 +3118,23 @@ function _initSFP(o) {
 			$.post(o.basePath + '/sys/user/delete', postData, function(data, textStatus, jqXHR) {
 				if( data.code == 0 ) {
 					var message = '管理员信息已删除!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 					$('#admin_main_table').DataTable().ajax.reload();
 				} else {
 					var message = '删除管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.symmetricRoot
+	};// end of $.ECELL.symmetricRoot
 
 	/*
 	 * symmetricSub ====== symmetric sub key infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.symmetricSub.activate() @usage
-	 * $.SFP.symmetricSub.save() @usage $.SFP.symmetricSub.reset()
+	 * @type Object @usage $.ECELL.symmetricSub.activate() @usage
+	 * $.ECELL.symmetricSub.save() @usage $.ECELL.symmetricSub.reset()
 	 */
-	$.SFP.symmetricSub = {
+	$.ECELL.symmetricSub = {
 		activate: function () {
 			$(".ui.dropdown").dropdown({
 			    allowCategorySelection: true,
@@ -3661,7 +3224,7 @@ function _initSFP(o) {
 					data: function ( d ) {
 				        d.username = $('#symmetric_sub_search_name').val();
 					},
-					dataSrc: $.SFP.ParseDataTableResult
+					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
@@ -3714,14 +3277,14 @@ function _initSFP(o) {
 		    });
 			
 			// listen page items' event
-			$('#symmetric_sub_search').on('click.SFP.symmetricsub.query', $.SFP.symmetricSub.querySymmetricSub);
-			$('#add_symmetric_sub').on('click.SFP.symmetricsub.add', $.SFP.symmetricSub.addSymmetricSubWindow);
-			$('#symmetric_sub_detail_save').on('click.SFP.symmetricsub.detailsave', $.SFP.symmetricSub.saveAdminConfirm);
-			$('#symmetric_sub_detail_return').on('click.SFP.symmetricsub.detailreturn', $.SFP.symmetricSub.adminDetailReturn);
-			$('#revoke_symmetric_sub').on('click.SFP.symmetricsub.revoke', $.SFP.symmetricSub.revokeSymmetricSubWindow);
+			$('#symmetric_sub_search').on('click.ECELL.symmetricsub.query', $.ECELL.symmetricSub.querySymmetricSub);
+			$('#add_symmetric_sub').on('click.ECELL.symmetricsub.add', $.ECELL.symmetricSub.addSymmetricSubWindow);
+			$('#symmetric_sub_detail_save').on('click.ECELL.symmetricsub.detailsave', $.ECELL.symmetricSub.saveAdminConfirm);
+			$('#symmetric_sub_detail_return').on('click.ECELL.symmetricsub.detailreturn', $.ECELL.symmetricSub.adminDetailReturn);
+			$('#revoke_symmetric_sub').on('click.ECELL.symmetricsub.revoke', $.ECELL.symmetricSub.revokeSymmetricSubWindow);
 			$('#symmetric_sub_main_table').on( 'draw.dt', function () {
-				$('.symmetric_sub_info').on('click.SFP.symmetricsub.detail', $.SFP.symmetricSub.addSymmetricSubWindow);
-				$('.symmetric_sub_distribution').on('click.SFP.symmetricsub.distribution', $.SFP.symmetricSub.distributionSymmetricSub);
+				$('.symmetric_sub_info').on('click.ECELL.symmetricsub.detail', $.ECELL.symmetricSub.addSymmetricSubWindow);
+				$('.symmetric_sub_distribution').on('click.ECELL.symmetricsub.distribution', $.ECELL.symmetricSub.distributionSymmetricSub);
 				
 				$("#symmetric_sub_main_table").treetable({
 					theme : "vsStyle",
@@ -3754,12 +3317,12 @@ function _initSFP(o) {
 				});
 			});
 			/*
-			 * $('#symmetric_sub_genkey_random').on('click.SFP.symmetricsub.delconfirm',
-			 * $.SFP.symmetricSub.genkeyRandom);
-			 * $('#symmetric_sub_genkey_cipher').on('click.SFP.symmetricsub.delconfirm',
-			 * $.SFP.symmetricSub.genkeyCipher);
-			 * $('#symmetric_sub_genkey_input').on('click.SFP.symmetricsub.delconfirm',
-			 * $.SFP.symmetricSub.genkeyInput);
+			 * $('#symmetric_sub_genkey_random').on('click.ECELL.symmetricsub.delconfirm',
+			 * $.ECELL.symmetricSub.genkeyRandom);
+			 * $('#symmetric_sub_genkey_cipher').on('click.ECELL.symmetricsub.delconfirm',
+			 * $.ECELL.symmetricSub.genkeyCipher);
+			 * $('#symmetric_sub_genkey_input').on('click.ECELL.symmetricsub.delconfirm',
+			 * $.ECELL.symmetricSub.genkeyInput);
 			 */
 			
 			
@@ -3792,7 +3355,7 @@ function _initSFP(o) {
 				}
 				else {
 					var message = '获取管理员权限信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3821,7 +3384,7 @@ function _initSFP(o) {
 		    
 		    if( adminId == 0 && pwd.length == 0 ) {
 		    	var message = '保存管理员信息失败![添加管理员时，口令不能为空]';
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 		    
@@ -3829,7 +3392,7 @@ function _initSFP(o) {
 		    	var message = '保存管理员信息失败![口令与重复口令不匹配，请重新输入!]';
 		    	$('#admin_pwd').val('');
 		    	$('#admin_repwd').val('');
-				$.SFP.tipMessage(message, false);
+				$.ECELL.tipMessage(message, false);
 				return;
 		    }
 		    
@@ -3856,14 +3419,14 @@ function _initSFP(o) {
 			
 			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.SFP.admin.adminDetailReturn();
+					$.ECELL.admin.adminDetailReturn();
 					
 					$('#admin_main_table').DataTable().ajax.reload();
 					var message = '保存管理员信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				} else {
 					var message = '保存管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3913,31 +3476,31 @@ function _initSFP(o) {
 			$.post(o.basePath + '/sys/user/delete', postData, function(data, textStatus, jqXHR) {
 				if( data.code == 0 ) {
 					var message = '管理员信息已删除!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 					$('#admin_main_table').DataTable().ajax.reload();
 				} else {
 					var message = '删除管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.symmetricSub
+	};// end of $.ECELL.symmetricSub
 	
 	/*
 	 * worksconfig ====== worksconfig infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.worksconfig.activate() @usage
-	 * $.SFP.worksconfig.save() @usage $.SFP.worksconfig.reset()
+	 * @type Object @usage $.ECELL.worksconfig.activate() @usage
+	 * $.ECELL.worksconfig.save() @usage $.ECELL.worksconfig.reset()
 	 */
-	$.SFP.worksconfig = {
+	$.ECELL.worksconfig = {
 		activate: function () {
 			$('.tabular .item').tab();
 			
-			$.SFP.worksconfig.reset();
+			$.ECELL.worksconfig.reset();
 			
 			// listen page items' event
-			$('.config_reset').on('click.SFP.worksconfig.reset', $.SFP.worksconfig.reset);
-			$('.config_save').on('click.SFP.worksconfig.save', $.SFP.worksconfig.save);
+			$('.config_reset').on('click.ECELL.worksconfig.reset', $.ECELL.worksconfig.reset);
+			$('.config_save').on('click.ECELL.worksconfig.save', $.ECELL.worksconfig.save);
 			
 		},
 		reset: function () {
@@ -3967,7 +3530,7 @@ function _initSFP(o) {
 				}
 				else {
 					var message = '获取配置信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -3987,34 +3550,34 @@ function _initSFP(o) {
 			var urlTarget = o.basePath + '/run/saveOrUpdate';
 			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data,textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.SFP.worksconfig.reset();
+					$.ECELL.worksconfig.reset();
 					
 					var message = '保存配置信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				} else {
 					var message = '保存配置信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.worksconfig
+	};// end of $.ECELL.worksconfig
 
 	/*
 	 * batchcompress ====== batchcompress infomation maintain page
 	 * 
-	 * @type Object @usage $.SFP.batchcompress.activate() @usage
-	 * $.SFP.batchcompress.refreshTask() @usage $.SFP.batchcompress.start()
+	 * @type Object @usage $.ECELL.batchcompress.activate() @usage
+	 * $.ECELL.batchcompress.refreshTask() @usage $.ECELL.batchcompress.start()
 	 */
-	$.SFP.batchcompress = {
+	$.ECELL.batchcompress = {
 		activate: function () {
 			$('.tabular .item').tab();
 			
-			$.SFP.batchcompress.refreshTask();
+			$.ECELL.batchcompress.refreshTask();
 			
 			// listen page items' event
-			$('.batch_starter').on('click.SFP.batchcompress.save', $.SFP.batchcompress.start);
-			$('.batch_refresh').on('click.SFP.batchcompress.refreshTask', $.SFP.batchcompress.refreshTask);
-			$('#datacompress_progress_modal_confirm').on('click.SFP.batchcompress.refreshTask', $.SFP.batchcompress.refreshTask);
+			$('.batch_starter').on('click.ECELL.batchcompress.save', $.ECELL.batchcompress.start);
+			$('.batch_refresh').on('click.ECELL.batchcompress.refreshTask', $.ECELL.batchcompress.refreshTask);
+			$('#datacompress_progress_modal_confirm').on('click.ECELL.batchcompress.refreshTask', $.ECELL.batchcompress.refreshTask);
 		},
 		refreshTask: function () {
 			$('#compress_source').val('');
@@ -4045,11 +3608,11 @@ function _initSFP(o) {
 						$("#algorithmic_list :radio[value='" + data.arithmetic + "']").prop('checked',true);
 					}
 					var message = '读取任务信息成功!';
-					$.SFP.tipMessage(message);
+					$.ECELL.tipMessage(message);
 				}
 				else {
 					var message = '获取配置信息失败![' + data.msg + ', ' + data.code + ']';
-					$.SFP.tipMessage(message, false);
+					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
 		},
@@ -4078,7 +3641,7 @@ function _initSFP(o) {
 			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
 	    			$('#compress_progresser').progress('set.total', total);
-					$.SFP.batchcompress.updateProgress();
+					$.ECELL.batchcompress.updateProgress();
 				} else {
 					var message = '启动批量数据压缩失败![' + data.msg + ', ' + data.code + ']';
 					$('#datacompress_progress_message').append(message);
@@ -4106,7 +3669,7 @@ function _initSFP(o) {
 						$('#datacompress_progress_modal_confirm').removeClass('disabled');
 					}
 					else {
-						$.SFP.batchcompress.updateProgress();
+						$.ECELL.batchcompress.updateProgress();
 					}
 				} else {
 					var message = '读取进度信息失败![' + data.msg + ', ' + data.code + ']';
@@ -4117,14 +3680,14 @@ function _initSFP(o) {
 				}
 			}, 'json');
 		}
-	};// end of $.SFP.batchcompress
+	};// end of $.ECELL.batchcompress
 
 	/*
 	 * TipMessage(message) ========== Showing the info or warn message.
 	 * 
-	 * @type Function @usage: $.SFP.tipMessage(message)
+	 * @type Function @usage: $.ECELL.tipMessage(message)
 	 */
-	$.SFP.tipMessage = function(message, isAutoClose) {
+	$.ECELL.tipMessage = function(message, isAutoClose) {
 		// isAutoClose = arguments[1]===undefined ? true : arguments[1];
 		var autoClose = arguments[1];
 		var type = 'error';
@@ -4144,8 +3707,8 @@ function _initSFP(o) {
             img: undefined,
             delay: autoClose
 		});
-	};// end of $.SFP.tipMessage
-	$.SFP.tipMessageSuccess = function(message, isAutoClose) {
+	};// end of $.ECELL.tipMessage
+	$.ECELL.tipMessageSuccess = function(message, isAutoClose) {
 		// isAutoClose = arguments[1]===undefined ? true : arguments[1];
 		var autoClose = arguments[1];
 		var type = 'error';
@@ -4165,1810 +3728,65 @@ function _initSFP(o) {
             img: undefined,
             delay: autoClose
 		});
-	};// end of $.SFP.tipMessage
+	};// end of $.ECELL.tipMessage
   
 	/*
 	 * CheckLoad() ========== check load response.
 	 * 
-	 * @type Function @usage: $.SFP.CheckLoad(response)
+	 * @type Function @usage: $.ECELL.CheckLoad(response)
 	 */
-	$.SFP.CheckLoad = function(response) {
+	$.ECELL.CheckLoad = function(response) {
 		if(! new RegExp('mainWrapInner').test(response) ){
 			window.location.href = '404.html';
 		}
 			
-	};// end of $.SFP.checkLoad
+	};// end of $.ECELL.checkLoad
 
 	/*
 	 * ErrOccurred() ========== deal with error message, jump to error page
 	 * 
-	 * @type Function @usage: $.SFP.ErrOccurred(response)
+	 * @type Function @usage: $.ECELL.ErrOccurred(response)
 	 */
-	$.SFP.ErrOccurred = function(msg, code) {
+	$.ECELL.ErrOccurred = function(msg, code) {
 		sessionStorage.errTip = msg + '[' + code + ']';
 		location.href='error.html';
-	}// end of $.SFP.errOccurred
+	}// end of $.ECELL.errOccurred
 	
 	/*
 	 * PageActivate() ========== do page initialize
 	 * 
-	 * @type Function @usage: $.SFP.PageActivate(response)
+	 * @type Function @usage: $.ECELL.PageActivate(response)
 	 */
-	$.SFP.PageActivate = function(url) {
+	$.ECELL.PageActivate = function(url) {
 		// if( url == 'modules/sys/menu.html' ) {
 		if( url == 'pages/system/admin.html' ) {
-			$.SFP.admin.activate();
+			$.ECELL.admin.activate();
 		}
 		/*
-		 * else if( url == 'pages/system/role.html' ) { $.SFP.role.activate(); }
+		 * else if( url == 'pages/system/role.html' ) { $.ECELL.role.activate(); }
 		 * else if( url == 'pages/system/config.html' ) {
-		 * $.SFP.config.activate(); }
+		 * $.ECELL.config.activate(); }
 		 */
-		else if( url == 'pages/device/white_list.html' ) {
-			$.SFP.whiteList.activate();
+		else if( url == 'pages/player/player.html' ) {
+			$.ECELL.player.activate();
 		}
-		else if( url == 'pages/device/black_list.html' ) {
-			$.SFP.blackList.activate();
-		}
-		else if( url == 'pages/key/key_list.html' ) {
-			$.SFP.keyList.activate();
-		}
-		else if( url == 'pages/key/key_source.html' ) {
-			$.SFP.keySource.activate();
-		}
-		else if( url == 'pages/cipher/hsm_list.html' ) {
-			$.SFP.hsmList.activate();
-		}
-		else if( url == 'pages/logs/log_list.html' ) {
-			$.SFP.logList.activate();
-		}else if( url == 'pages/strategy/role_list.html' ) {
-			$.SFP.strategy.activate();
-		}else if( url == 'pages/groups/device_group.html' ) {
-			   $.SFP.groupRole.activate();
-		}else if( url == 'pages/device/device_regist.html' ) {
-			   $.SFP.deviceRegister.activate();
-		}else if( url == 'pages/device/device_query.html' ) {
-			   $.SFP.deviceQuery.activate();
-		}else if( url == 'pages/device/device_modeifi.html' ) {
-			   $.SFP.deviceModifiy.activate();
-		}else if( url == 'pages/device/device_logout.html' ) {
-			   $.SFP.deviceLogout.activate();
-		}else if( url == 'pages/device/white2_list.html' ) {
-			   $.SFP.deviceWhiteList.activate();
-		}else if( url == 'pages/device/black2_list.html' ) {
-			   $.SFP.deviceBlackList.activate();
-		}else if(url == 'pages/app/app_regist.html') {
-			$.SFP.appRegist.activate();
-		} else if(url == 'pages/app/app_query.html') {
-			$.SFP.appQuery.activate();
-		} else if(url == 'pages/app/app_update.html') {
-			$.SFP.appUpdate.activate();
-		} else if(url == 'pages/app/app_logout.html') {
-			$.SFP.appLogout.activate();
-		} else if(url == 'pages/system/admin_insert.html') {
-			$.SFP.adminInsert.activate();
-		} else if(url == 'pages/system/admin_query.html') {
-			$.SFP.adminQuery.activate();
-		}else if(url == 'pages/key/key_download.html') {
-			$.SFP.keyDownload.activate();
-		}else if(url == 'pages/key/key_exit.html') {
-			$.SFP.keyExit.activate();
-		}else if(url == 'pages/key/key_update.html') {
-			$.SFP.keyUpdate.activate();
-		}else if(url == 'pages/version/device_version.html') {
-			$.SFP.deviceversion.activate();
-		}else if(url == 'pages/config/config_query.html') {
-            $.SFP.rfidConfig.activate();
-        }else if(url == 'pages/rfid/rfid_query.html') {
-            $.SFP.rfidQuery.activate();
-        }else if(url == "pages/monitor/spring_monitor.html"){
-        	$.SFP.springMonitor.activate();
-        }else if(url == "pages/monitor/spring_tree.html"){
-        	$.SFP.springTree.activate();
-        }else if(url == "pages/monitor/db_list.html"){
-        	$.SFP.dbMonitorList.activate();
-        }else if(url == "pages/monitor/mongodb_list.html"){
-        	$.SFP.mongoMonitorList.activate();
-        }else if(url == "pages/monitor/redis_list.html"){
-        	$.SFP.redisMonitorList.activate();
-        }
-	}// end of $.SFP.PageActivate
-	
-	$.SFP.redisMonitorList = {
-			activate:function (){
-					var dtable = $('#redis_monitor_table').DataTable({
-						ajax:{
-							url: o.basePath + '/monitor/redisList',
-							type: 'POST',
-							data: function ( d ) {
-							},
-							dataSrc: function (json){
-								if(json.code != 0) {
-				                    json.list = [];
-				                    var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-				                    $.SFP.tipMessage(message, false);
-			                    }
-			                    return json.list;
-							},
-						},
-						processing: true,
-						serverSide: true,
-						columns: [
-							{ data: 'mode' },
-							{ data: 'role' },
-							{ data: 'addr' },
-							{ data: 'memory' },
-							{ data: 'uptime' },
-							{ data: 'status' },
-						],
-						rowId: 'id',
-				        //pagingType: "full_numbers_icon",
-				        columnDefs: [
-				            {
-							render: function ( data, type, row ) {
-								var html = '';
-								if( data == '1' ) {
-									html = '<span class="ui basic green button">正常</span>';
-								}
-								else if( data == '2' ) {
-									html = '<span class="ui basic red button">异常</span>';
-								}
-								return html;
-							},
-							targets: 5
-							}
-						],
-				        order: [1, 'desc'],
-						responsive: true
-				   });
-			},		
-		}
-		
-		$.SFP.mongoMonitorList = {
-			activate:function (){
-					var dtable = $('#mongodb_monitor_table').DataTable({
-						ajax:{
-							url: o.basePath + '/monitor/mongodbList',
-							type: 'POST',
-							data: function ( d ) {
-							},
-							dataSrc: function (json){
-								if(json.code != 0) {
-				                    json.list = [];
-				                    var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-				                    $.SFP.tipMessage(message, false);
-			                    }
-			                    return json.list;
-							},
-							error: function(xhr, textStatus, errorThrown){
-								alert(xhr.responseJSON.message);
-							},
-						},
-						processing: true,
-						serverSide: true,
-						columns: [
-							{ data: 'addr' },
-							{ data: 'stateStr' },
-							{ data: 'uptime' },
-							{ data: 'health' },
-							{ data: 'lastHeartbeat' },
-						],
-						rowId: 'id',
-				        //pagingType: "full_numbers_icon",
-				        columnDefs: [
-				            {
-							render: function ( data, type, row ) {
-								var html = '';
-								if( data == '1.0' ) {
-									html = '<span class="ui basic green button">正常</span>';
-								}
-								else if( data == '0.0' ) {
-									html = '<span class="ui basic red button">异常</span>';
-								}
-								return html;
-							},
-							targets: 3
-							}
-						],
-				        order: [1, 'desc'],
-						responsive: true
-				   });
-			},
-		}
-		
-		$.SFP.dbMonitorList = {
-			activate:function (){
-					var dtable = $('#db_monitor_table').DataTable({
-						ajax:{
-							url: o.basePath + '/monitor/dbList',
-							type: 'POST',
-							data: function ( d ) {
-							},
-							dataSrc: function (json){
-								if(json.code != 0) {
-				                    json.list = [];
-				                    var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-				                    $.SFP.tipMessage(message, false);
-			                    }
-			                    return json.list;
-							},
-						},
-						processing: true,
-						serverSide: true,
-						columns: [
-							{ data: 'addr' },
-							{ data: 'status' },
-						],
-						rowId: 'id',
-				        //pagingType: "full_numbers_icon",
-				        columnDefs: [
-				            {
-							render: function ( data, type, row ) {
-								var html = '';
-								if( data == '1' ) {
-									html = '<span class="ui basic green button">运行</span>';
-								}
-								else if( data == '2' ) {
-									html = '<span class="ui basic red button">停用</span>';
-								}
-								return html;
-							},
-							targets: 1
-							}
-						],
-				        order: [1, 'desc'],
-						responsive: true
-				   });
-			},
-		}
-		
-		$.SFP.springTree = {
-			activate: function() {
-				var myChart = echarts.init(document.getElementById('main_spring_tree'));
-				myChart.showLoading();
-				$.get(o.basePath + '/monitor/springTree', function(data) {
-					if(data.code == 0) {
-						myChart.hideLoading();
-						
-						var data2 = data.data1;
-						
-						if(data2.val==1){
-							data2.itemStyle = {
-	                            borderColor:'#00EE00'
-							};
-						}
-
-						echarts.util.each(data2.children, function(datum, index) {
-							if(datum.val==1){
-								datum.itemStyle = {
-	                                borderColor:'#00EE00'
-								};
-								datum.lineStyle = {
-	                                color:'#B3EE3A'
-								};
-								echarts.util.each(datum.children,function(datum, index){
-									if(datum.val==1){
-										datum.itemStyle = {
-	                                        borderColor:'#00EE00'
-								        };
-								        datum.lineStyle = {
-	                                        color:'#B3EE3A'
-								        };
-									}else{
-										datum.itemStyle = {
-	                                        borderColor:'#CD0000'
-								        };
-								        datum.lineStyle = {
-	                                        color:'#CD4F39'
-								        };
-									}
-									
-								});
-							}else{
-								datum.itemStyle = {
-	                                borderColor:'#CD0000'
-								};
-								datum.lineStyle = {
-	                                color:'#CD4F39'
-								};
-							}
-						});
-						
-						var option = {
-							title: {
-	                            text: '服务监控树',
-	                        },
-							tooltip: {
-								trigger: 'item',
-								triggerOn: 'mousemove'
-							},
-							series: [{
-								type: 'tree',
-
-								data: [data2],
-
-								top: '1%',
-								left: '14%',
-								bottom: '1%',
-								right: '15%',
-
-								symbolSize: 7,
-								
-								lineStyle:{
-	                               color:'#CD4F39'
-	                            },
-
-								label: {
-									position: 'left',
-									verticalAlign: 'middle',
-									align: 'right',
-									fontSize: 9
-								},
-
-								leaves: {
-									label: {
-										position: 'right',
-										verticalAlign: 'middle',
-										align: 'left'
-									}
-								},
-
-								expandAndCollapse: true,
-								animationDuration: 550,
-								animationDurationUpdate: 750
-							}]
-						};
-
-						myChart.setOption(option);
-					} else {
-						//alert("1111");
-					}
-
-				});
-				
-				var myChartDb = echarts.init(document.getElementById('main_db_tree'));
-				myChartDb.showLoading();
-				$.get(o.basePath + '/monitor/dbTree', function(data) {
-					if(data.code == 0) {
-						myChartDb.hideLoading();
-						
-						var data2 = data.data1;
-						
-						if(data2.val==1){
-							data2.itemStyle = {
-	                            borderColor:'#00EE00'
-							};
-						}
-
-						echarts.util.each(data2.children, function(datum, index) {
-							if(datum.val==1){
-								datum.itemStyle = {
-	                                borderColor:'#00EE00'
-								};
-								datum.lineStyle = {
-	                                color:'#B3EE3A'
-								};
-							}else{
-								datum.itemStyle = {
-	                                borderColor:'#CD0000'
-								};
-								datum.lineStyle = {
-	                                color:'#CD4F39'
-								};
-							}
-						});
-						
-						var option = {
-							tooltip: {
-								trigger: 'item',
-								triggerOn: 'mousemove'
-							},
-							series: [{
-								type: 'tree',
-
-								data: [data2],
-
-								top: '1%',
-								left: '23%',
-								bottom: '1%',
-								right: '31%',
-
-								symbolSize: 7,
-								
-								lineStyle:{
-	                               color:'#CD4F39'
-	                            },
-
-								label: {
-									position: 'left',
-									verticalAlign: 'middle',
-									align: 'right',
-									fontSize: 9
-								},
-
-								leaves: {
-									label: {
-										position: 'right',
-										verticalAlign: 'middle',
-										align: 'left'
-									}
-								},
-
-								expandAndCollapse: true,
-								animationDuration: 550,
-								animationDurationUpdate: 750
-							}]
-						};
-
-						myChartDb.setOption(option);
-					} else {
-						//alert("1111");
-					}
-
-				});
-				
-				var myChartMongo = echarts.init(document.getElementById('main_mongo_tree'));
-				myChartMongo.showLoading();
-				$.get(o.basePath + '/monitor/mongodbTree', function(data) {
-					if(data.code == 0) {
-						myChartMongo.hideLoading();
-						
-						var data2 = data.data1;
-						
-						if(data2.val==1){
-							data2.itemStyle = {
-	                            borderColor:'#00EE00'
-							};
-						}
-
-						echarts.util.each(data2.children, function(datum, index) {
-							if(datum.val==1){
-								datum.itemStyle = {
-	                                borderColor:'#00EE00'
-								};
-								datum.lineStyle = {
-	                                color:'#B3EE3A'
-								};
-							}else{
-								datum.itemStyle = {
-	                                borderColor:'#CD0000'
-								};
-								datum.lineStyle = {
-	                                color:'#CD4F39'
-								};
-							}
-						});
-						
-						var option = {
-							tooltip: {
-								trigger: 'item',
-								triggerOn: 'mousemove'
-							},
-							series: [{
-								type: 'tree',
-
-								data: [data2],
-
-								top: '1%',
-								left: '23%',
-								bottom: '1%',
-								right: '31%',
-
-								symbolSize: 7,
-								
-								lineStyle:{
-	                               color:'#CD4F39'
-	                            },
-
-								label: {
-									position: 'left',
-									verticalAlign: 'middle',
-									align: 'right',
-									fontSize: 9
-								},
-
-								leaves: {
-									label: {
-										position: 'right',
-										verticalAlign: 'middle',
-										align: 'left'
-									}
-								},
-
-								expandAndCollapse: true,
-								animationDuration: 550,
-								animationDurationUpdate: 750
-							}]
-						};
-
-						myChartMongo.setOption(option);
-					} else {
-						//alert("1111");
-					}
-
-				});
-				
-				var myChartRedis = echarts.init(document.getElementById('main_redis_tree'));
-				myChartRedis.showLoading();
-				$.get(o.basePath + '/monitor/redisTree', function(data) {
-					if(data.code == 0) {
-						myChartRedis.hideLoading();
-						
-						var data2 = data.data1;
-						
-						if(data2.val==1){
-							data2.itemStyle = {
-	                            borderColor:'#00EE00'
-							};
-						}
-
-						echarts.util.each(data2.children, function(datum, index) {
-							if(datum.val==1){
-								datum.itemStyle = {
-	                                borderColor:'#00EE00'
-								};
-								datum.lineStyle = {
-	                                color:'#B3EE3A'
-								};
-							}else{
-								datum.itemStyle = {
-	                                borderColor:'#CD0000'
-								};
-								datum.lineStyle = {
-	                                color:'#CD4F39'
-								};
-							}
-						});
-						
-						var option = {
-							tooltip: {
-								trigger: 'item',
-								triggerOn: 'mousemove'
-							},
-							series: [{
-								type: 'tree',
-
-								data: [data2],
-
-								top: '1%',
-								left: '23%',
-								bottom: '1%',
-								right: '31%',
-
-								symbolSize: 7,
-								
-								lineStyle:{
-	                               color:'#CD4F39'
-	                            },
-
-								label: {
-									position: 'left',
-									verticalAlign: 'middle',
-									align: 'right',
-									fontSize: 9
-								},
-
-								leaves: {
-									label: {
-										position: 'right',
-										verticalAlign: 'middle',
-										align: 'left'
-									}
-								},
-
-								expandAndCollapse: true,
-								animationDuration: 550,
-								animationDurationUpdate: 750
-							}]
-						};
-
-						myChartRedis.setOption(option);
-					} else {
-						//alert("1111");
-					}
-
-				});
-			}
-		}
-		
-		$.SFP.springMonitor = {
-			activate:function(){
-				var dtable = $('#spring_monitor_table').DataTable({
-					ajax:{
-						url: o.basePath + '/monitor/springList',
-						type: 'POST',
-						async: false,
-						data: function ( d ) {
-						},
-						dataSrc: function (json){
-							if(json.code != 0) {
-				                json.list = [];
-				                var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-				                $.SFP.tipMessage(message, false);
-			                }
-			            return json.list;
-						},
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-					    {
-	                     "className":      'details-control',
-	                     "orderable":      false,
-	                     "data":           null,
-	                     "defaultContent": ''
-	                    },
-						{ data: 'appName' },
-						{ data: 'number' },
-					],
-					rowId: 'id',
-			        order: [1, 'desc'],
-			        select: {
-			            selector: 'td:not(:first-child)',
-			            style: 'os'
-		           },
-					responsive: true
-			  });
-	            dtable.on( 'draw', function () {
-			        dtable.rows().every( function () {
-	                    this.child($.SFP.springMonitor.format(this.data())).show();
-	                });
-	            });
-			},
-			format:function(row){
-	 		    var html ='<table class = "ui fixed table">'+
-			                    '<thead>'+
-			                        '<th>ip:port</th>'+
-	                                '<th>注册时间</th>'+
-	                                '<th>最后一次续约时间</th>'+
-	                                '<th>心跳间隔时间</th>'+
-	                                '<th>健康状态</th>'+
-	                            '</thead>'+
-	                            '<tbody>';
-	                            for(var i =0;i<row.detail.length;i++){
-	                                html +='<tr>'+
-	                                            '<td>'+row.detail[i].addr+'</td>'+
-	                                            '<td>'+row.detail[i].registTime+'</td>'+
-	                                            '<td>'+row.detail[i].lastTime+'</td>'+
-	                                            '<td>'+row.detail[i].heartbeat+'</td>';
-	                                     html +='<td>';
-	                                                if(row.detail[i].status=='1'){
-	                                                    html +='<span  class="ui basic green button">正常</span>';
-	                                                }else{
-	                                            	    html +='<span  class="ui basic black button">异常</span>';       
-	                                                }
-	                                       html +='</td>';
-	                                html +='</tr>';
-	                            }
-	                        
-	                html +=    '</tbody>'+
-	                       '</table>';
-	            return html;
-			},
-		}
+	}// end of $.ECELL.PageActivate
 	
 	/*
 	 * ParseDataTableResult() ========== parse response data of datatable ajax
 	 * request
 	 * 
-	 * @type Function @usage: $.SFP.ParseDataTableResult(json)
+	 * @type Function @usage: $.ECELL.ParseDataTableResult(json)
 	 */
-	$.SFP.ParseDataTableResult = function(json) {
+	$.ECELL.ParseDataTableResult = function(json) {
 		if(json.code != 0) {
 			json.list = [];
 			var message = '获取数据失败![' + json.message + ', ' + json.code + ']';
-			$.SFP.tipMessage(message, false);
+			$.ECELL.tipMessage(message, false);
 		}
 		return json.list;
-	}// end of $.SFP.ParseDataTableResult
+	}// end of $.ECELL.ParseDataTableResult
 	
-	//设备注册开始
-	var appidR = [];
-	$.SFP.deviceRegister = {
-		activate:function (){
-			$('#dev_regist_tab .item').tab();
-			$('#app_list_regist').on('click.SFP.deviceregist.AppListR', $.SFP.deviceRegister.appidListR);
-			
-			$('#app_lsit_Regist_s').on('click.SFP.deviceregist.appidSubmit', $.SFP.deviceRegister.appidSumbit);
-			
-			$('#app_list_button_R').on('click.SFP.deviceregist.appidListButton', $.SFP.deviceRegister.appidListButton);
-			//清空全局变量
-			appidR = [];
-			console.log("device reg acivate");
-			
-			$('#dev_regist_appList_checkClear').on('click.SFP.deviceregist.RegistAppidListCheckClear', $.SFP.deviceRegister.RegistAppidListCheckClear);
-			
-			$('#device_info_sumbit').on('click.SFP.deviceregist.deviceinfoSubmit', $.SFP.deviceRegister.deviceinfoSubmit);
-			$('#device_info_empty').on('click.SFP.deviceregist.deviceinfoEmpty', $.SFP.deviceRegister.deviceinfoEmpty);
-			
-			$('#import_deviceRegist').on('click.SFP.deviceregist.deviceinfoImport', $.SFP.deviceRegister.deviceinfoImport);
-		},
-		deviceinfoSubmit : function(){
-			var devid = $('#dev_regist_devid').val();
-			var devname = $('#dev_regist_devname').val();
-			var devtype = $('#dev_regist_devtype').val();
-			var tradename = $('#dev_regist_tradename').val();
-			var appids = $('#dev_regist_appids').val();
-			var locationd = $('#dev_regist_location').val();
-			var ip = $('#dev_regist_ip').val();
-			if(appids==""){
-				$.SFP.tipMessage('保存设备信息时,所属应用不能为空', false);
-				return;
-			}
-			$.ajax({
-				url:o.basePath + '/device/register',
-				type:"post",
-				data:{
-					"devId":devid,
-					"appIds":appids,
-					"devName":devname,
-					"devType":devtype,
-					"tradeName":tradename,
-					"location":locationd,
-					"ip":ip,
-					},
-				dataType:"json",
-				success:function(result){
-					if (result.code==0) {
-						//清空全局变量
-						appidR = [];
-						swal({
-                            title: '设备注册',
-                            html: result.devId+":"+result.desc,
-                            allowOutsideClick: false
-                        });
-					    $.SFP.deviceRegister.deviceinfoEmpty();
-					}else {
-						var message = '注册设备时出现问题!['+result.msg+']';
-					    $.SFP.tipMessage(message, false);
-					}
-				},
-				error:function(){
-					alert("请求失败！");
-				}
-			});
-		},
-		deviceinfoImport : function(){
-			var formData =new FormData($("#device_import_info")[0]);
-			$.ajax({
-			    "url":  o.basePath + '/device/importDevice'+'?rand=' + Math.random(),
-			    "data":formData,
-			    "type": "POST",
-			    "dataType": "json",
-			     cache:false,
-			     contentType: false,
-			     processData: false,
-			    "success": function(json){
-			     if (json.code == 0) {
-			     	swal({
-                        title: '设备导入',
-                        html: json.desc,
-                        allowOutsideClick: false
-                   });
-			     } else{
-			    	swal({
-                        html: json.msg,
-                        allowOutsideClick: false
-                   });
-			     }
-			    },  
-			   });
-		},
-		appidListR : function(){
-			var atable = $('#app_lsit_table_R').DataTable({
-                ajax:{
-                    url: o.basePath + '/device/list',
-                    type: 'POST',
-                    data: function ( d ) {
-                        d.appId = $('#app_list_Search_R').val();
-                    },
-                    dataSrc: $.SFP.ParseDataTableResult
-                },
-                processing: true,
-                serverSide: true,
-                columns: [
-                    { data: '' ,
-                        className : 'center aligned'},
-                    { data: 'appId'},
-                    { data: 'appName'},
-                ],
-                rowId: 'id',
-                //pagingType: "full_numbers_icon",
-                columnDefs: [
-                    {
-                        render: function ( data, type, row ) {
-                            var html ='';
-                            html +='<div class="ui checkbox">';
-                            var flag = true;
-                            if(appidR.length==0){
-                                flag = false;
-                                html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceRegister.checkoutdecide(this)">';
-                            }
-                            for (var i = 0; i < appidR.length; i++) {
-                                if(row.appId==appidR[i].appid){
-                                    flag = false;
-                                    html += '<input type="checkbox" checked="checked" name="example" id="'+row.appId+'" onclick="$.SFP.deviceRegister.checkoutdecide(this)">';
-                                }
-                            }
-                            if(flag){
-                                html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceRegister.checkoutdecide(this)">';
-                            }
-                            html +='<label class="coloring black"></label></div>';
-                            return html;
-                        },
-                        targets: 0
-                    }
-                ],
-                order: [1, 'desc'],
-                responsive: true,
-                destroy: true
-            });
-            $('#dev_regist_grid1, #dev_regist_grid2').toggleClass('displaynone');
-		},
-		checkoutdecide : function(obj){
-		    	if($('#'+obj.id).is(':checked')){
-		    		var ob = {};
-		    		ob.appid = obj.id;
-		    		appidR.push(ob);
-		    	}else{
-		    		var indexv =0;
-				    for(var i = 0; i<appidR.length;i++){
-					    if(appidR[i].appid==obj.id){
-						    indexv=i;
-						    break;
-					    }
-				    }
-				    appidR.splice(indexv, 1);
-		    	}
-		    	
-		    },
-		appidSumbit : function(){
-			$('#app_list_Search_R').val("");
-		    $('#dev_regist_grid2, #dev_regist_grid1').toggleClass('displaynone');
-		    var str1 = "";
-		    for (var i = 0; i < appidR.length; i++) {
-				str1=str1+appidR[i].appid+",";
-			}
-		    str1=str1.substring(0,str1.length-1);
-		    $('#dev_regist_appids').val(str1);
-		},
-		appidListButton : function(){
-			$('#app_lsit_table_R').DataTable().ajax.reload();
-			return;
-		},
-		deviceinfoEmpty : function(){
-			//全局变量标记,全局变量清空
-			appidR = [];
-			$('#dev_regist_devid').val("");
-			$('#dev_regist_devname').val("");
-			$('#dev_regist_devtype').val("");
-			$('#dev_regist_tradename').val("");
-			$('#dev_regist_appids').val("");
-			$('#dev_regist_location').val("");
-			$('#dev_regist_ip').val("");
-		},
-		RegistAppidListCheckClear : function(){
-			//全局变量标记,全局变量清空
-			appidR = [];
-			$('#app_lsit_table_R').DataTable().ajax.reload();
-		},
-	};
-	//设备查询
-	$.SFP.deviceQuery = {
-		activate:function (){
-				var dtable = $('#dev_query_table').DataTable({
-					ajax:{
-						url: o.basePath + '/device/devicelist',
-						type: 'POST',
-						data: function ( d ) {
-					        d.devName = $('#dev_query_devName').val();
-					        d.devId= $('#dev_query_devId').val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-						{ data: 'deviceId' },
-						{ data: 'deviceName' },
-						{ data: 'appNames' },
-						{ data: 'ip' },
-					],
-					rowId: 'id',
-			        //pagingType: "full_numbers_icon",
-			        columnDefs: [
-			            {
-							createdCell: function(td, cellData, rowData) {
-								 $(td).attr("title",rowData.appNames);
-							},
-							targets: 2
-						},
-						{
-							render: function ( data, type, row ) {
-								var html = '';
-									html = '<div class="btn-group">';
-									html += '<div class="ui green horizontal label device_info" data-id="' + row.id + '"><i class="large edit icon"></i>详情</div>';
-									html += '</div>';
-								return html;							
-							},
-							targets: 4
-						}
-					],
-			        order: [1, 'desc'],
-					responsive: true
-			    });	
-	        $('#dev_query_table').on( 'draw.dt', function () {
-				$('.device_info').on('click.SFP.deviceQuery.detailinfo', $.SFP.deviceQuery.detail);
-			});
-			$('#dev_query_devbutton').on('click.SFP.deviceQuery.devQueryListButton', $.SFP.deviceQuery.devQueryListButton);
-			$('#dev_query_back').on('click.SFP.deviceQuery.devInfoBack', $.SFP.deviceQuery.devInfoBack);
-		},
-		detail:function(){
-			var Id = $(this).data('id');
-			$.postjson(o.basePath + '/device/devinfo?devTableId=' + Id + '&rand='
-					+ Math.random(), {}, function(data, textStatus, jqXHR) {
-				if (data.code == 0) {
-					
-						var deviceInfoList = data.deviceInfo;
-						for (var i = 0; i < deviceInfoList.length; i++) {
-							$('#dev_qu_det_devId').val(deviceInfoList[i].deviceId);
-					        $('#dev_qu_det_devName').val(deviceInfoList[i].deviceName);
-					        $('#dev_qu_det_devType').val(deviceInfoList[i].deviceType);
-					        $('#dev_qu_det_tradeName').val(deviceInfoList[i].tradeName);
-					        $('#dev_qu_det_locat').val(deviceInfoList[i].locationd);
-					        $('#dev_qu_det_ip').val(deviceInfoList[i].ip);
-						}
-						
-						var appIdList = data.appIdList;
-						var str1 = "";
-						for (var i = 0; i < appIdList.length; i++) {
-							str1=str1+appIdList[i].appId+",";
-						}
-						str1=str1.substring(0,str1.length-1)
-                        $('#dev_qu_det_appId').val(str1);
-
-			        $('#dev_query_grid1, #dev_query_grid2').toggleClass('displaynone');
-					$('body').getNiceScroll().resize();
-				} else {
-					var message = '获取设备信息失败![' + data.msg + ']';
-					$.SFP.tipMessage(message, false);
-				}
-			}, 'json');
-		},
-		devQueryListButton:function(){
-			$('#dev_query_table').DataTable().ajax.reload();
-			return;
-		},
-		devInfoBack:function(){
-			$('#dev_query_grid1, #dev_query_grid2').toggleClass('displaynone');
-		}
-	};
-	//设备修改开始
-	var appidM = [];
-	$.SFP.deviceModifiy = {
-		activate:function (){
-				var dtable = $('#dev_modify_table').DataTable({
-					ajax:{
-						url: o.basePath + '/device/devicelist',
-						type: 'POST',
-						data: function ( d ) {
-					        d.devName = $('#dev_modify_s_devName').val();
-					        d.devId= $('#dev_modify_s_devId').val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-						{ data: 'deviceId' },
-						{ data: 'deviceName' },
-						{ data: 'appNames' },
-						{ data: 'ip' },
-					],
-					rowId: 'id',
-			        //pagingType: "full_numbers_icon",
-			        columnDefs: [
-			            {
-							createdCell: function(td, cellData, rowData) {
-								 $(td).attr("title",rowData.appNames);
-							},
-							targets: 2
-						},
-						{
-							render: function ( data, type, row ) {
-								var html = '';
-									html = '<div class="btn-group">';
-									html += '<div class="ui yellow horizontal label device_info" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
-									html += '</div>';
-								return html;							
-							},
-							targets: 4
-						}
-					],
-			        order: [1, 'desc'],
-					responsive: true
-			    });
-			
-			$('#dev_modify_table').on( 'draw.dt', function () {
-				$('.device_info').on('click.SFP.deviceModifiy.detailinfo', $.SFP.deviceModifiy.detail);
-			});
-			
-		    $('#dev_modify_s_Button').on('click.SFP.deviceModifiy.devQueryListButton', $.SFP.deviceModifiy.devQueryListButton);
-		    $('#app_Button_M').on('click.SFP.deviceModifiy.appListButton', $.SFP.deviceModifiy.appListButton);
-		    
-		    $('#modify_appList_button').on('click.SFP.deviceModifiy.AppListM', $.SFP.deviceModifiy.appidListM);
-		    
-		    $('#dev_modify_devInfosave').on('click.SFP.deviceModifiy.devInfoSave', $.SFP.deviceModifiy.devInfoModify);
-		    $('#dev_modify_devInfoBack').on('click.SFP.deviceModifiy.devInfoBack', $.SFP.deviceModifiy.devInfoBack);
-		    
-		    $('#modify_applist_save').on('click.SFP.deviceModifiy.devQueryListButton', $.SFP.deviceModifiy.applistSave);
-		},
-		devQueryListButton:function(){
-			$('#dev_modify_table').DataTable().ajax.reload();
-			return;
-		},
-		appListButton : function(){
-			$('#app_list_modify').DataTable().ajax.reload();
-			return;
-		},
-		detail:function(){
-			$('#app_Serch_M_appid').val("");
-			//全局变量标记
-		    appidM =[];
-			var Id = $(this).data('id');
-			$.postjson(o.basePath + '/device/devinfo?devTableId=' + Id + '&rand='
-					+ Math.random(), {}, function(data, textStatus, jqXHR) {
-				if (data.code == 0) {
-					
-						var deviceInfoList = data.deviceInfo;
-						for (var i = 0; i < deviceInfoList.length; i++) {
-							$('#dev_modify_dt_devid').val(deviceInfoList[i].deviceId);
-					        $('#dev_modify_dt_devname').val(deviceInfoList[i].deviceName);
-					        $('#dev_modify_dt_devtype').val(deviceInfoList[i].deviceType);
-					        $('#dev_modify_dt_tradename').val(deviceInfoList[i].tradeName);
-					        $('#dev_modify_dt_location').val(deviceInfoList[i].locationd);
-					        $('#dev_modify_dt_ip').val(deviceInfoList[i].ip);
-						}
-						
-						var appIdList = data.appIdList;
-						var str1 = "";
-						for (var i = 0; i < appIdList.length; i++) {
-							//全局变量
-							var obj = {};
-							obj.appid = appIdList[i].appId;
-							appidM.push(obj);
-							//end
-							str1=str1+appIdList[i].appId+",";
-						}
-						str1=str1.substring(0,str1.length-1)
-                        $('#dev_modify_dt_appId').val(str1);
-                        
-                        $('#dev_modify_devInfosave').data('devTableId', Id);
-
-			        $('#dev_modify_grid1, #dev_modify_grid2').toggleClass('displaynone');
-					$('body').getNiceScroll().resize();
-				} else {
-					var message = '获取设备信息失败![' + data.msg + ']';
-					$.SFP.tipMessage(message, false);
-				}
-			}, 'json');
-		},
-		appidListM : function(){
-				var atable = $('#app_list_modify').DataTable({
-					ajax:{
-						url: o.basePath + '/device/list',
-						type: 'POST',
-						data: function ( d ) {
-					        d.appId = $('#app_Serch_M_appid').val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-					    { data: '' ,
-					      className : 'center aligned'},
-						{ data: 'appId'},
-						{ data: 'appName'},
-					],
-					rowId: 'id',
-			        //pagingType: "full_numbers_icon",
-			        columnDefs: [
-						{
-							render: function ( data, type, row ) {
-								var html ='';
-								    html +='<div class="ui checkbox">';
-								var flag = true;
-								if(appidM.length==0){
-									flag = false;
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceModifiy.checkoutdecide(this)">';
-								}
-								for (var i = 0; i < appidM.length; i++) {
-									if(row.appId==appidM[i].appid){
-										flag = false;
-									html += '<input type="checkbox" checked="checked" name="example" id="'+row.appId+'" onclick="$.SFP.deviceModifiy.checkoutdecide(this)">';
-								}
-						      }
-								if(flag){
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceModifiy.checkoutdecide(this)">';
-								}
-								    html +='<label class="coloring black"></label></div>';
-								return html;							
-							},
-							targets: 0
-						}
-					],
-			        order: [1, 'desc'],
-					responsive: true,
-					destroy: true
-			  }); 
-				$('#dev_modify_grid2, #dev_modify_grid3').toggleClass('displaynone'); 
-		},
-		checkoutdecide : function(obj){
-		    	if($('#'+obj.id).is(':checked')){
-		    		var ob = {};
-		    		ob.appid = obj.id;
-		    		appidM.push(ob);
-		    	}else{
-		    		var indexv =0;
-				    for(var i = 0; i<appidM.length;i++){
-					    if(appidM[i].appid==obj.id){
-						    indexv=i;
-						    break;
-					    }
-				    }
-				    appidM.splice(indexv, 1);
-		    	}
-		    	
-		},
-		applistSave:function(){
-			/*$('#app_Serch_M_appid').val("");*/
-		    $('#dev_modify_grid2, #dev_modify_grid3').toggleClass('displaynone');
-		    var str1 = "";
-		    for (var i = 0; i < appidM.length; i++) {
-				str1=str1+appidM[i].appid+",";
-			}
-		    str1=str1.substring(0,str1.length-1);
-		    $('#dev_modify_dt_appId').val(str1);
-		},
-		devInfoModify:function(){
-    	    var id = $('#dev_modify_devInfosave').data('devTableId');
-    	    var devid = $('#dev_modify_dt_devid').val();
-			var devName = $('#dev_modify_dt_devname').val();
-			var devType = $('#dev_modify_dt_devtype').val();
-			var tradeName = $('#dev_modify_dt_tradename').val();
-			var locationd = $('#dev_modify_dt_location').val();
-			var ip = $('#dev_modify_dt_ip').val();
-			var appids = $('#dev_modify_dt_appId').val();
-			$.ajax({
-				url:o.basePath + '/device/modifydevinfo',
-				type:"post",
-				data:{
-					"Id":id,
-					"devId":devid,
-					"devName":devName,
-					"devType":devType,
-					"tradeName":tradeName,
-					"locationd":locationd,
-					"ip":ip,
-					"appIds":appids
-					},
-				dataType:"json",
-				success:function(result){
-					if (result.code==0) {
-						var message = "";
-						if(result.msgadd==""&&result.msgdel==""){
-							message = '修改保存成功';
-							 $.SFP.tipMessage(message);
-						}else{
-							swal({
-                                title: '设备修改',
-                                type: 'warning',
-                                html: result.msgadd+' '+result.msgdel,
-                                allowOutsideClick: false
-                            });
-							//message = '['+result.msgadd+' '+result.msgdel+']';
-						}
-					    //$.SFP.tipMessage(message);
-					    $('#dev_modify_table').DataTable().ajax.reload();
-					    $('#dev_modify_grid1, #dev_modify_grid2').toggleClass('displaynone');
-					}else {
-						var message = '保存设备信息失败!['+result.msg+']';
-					    $.SFP.tipMessage(message, false);
-					}
-				},
-				error:function(){
-					alert("请求失败！");
-				}
-			});
-		},
-		devInfoBack:function(){
-			$('#dev_modify_grid1, #dev_modify_grid2').toggleClass('displaynone');
-		}
-	};
-	//设备注销
-	$.SFP.deviceLogout = {
-		activate:function(){
-				var dtable = $('#dev_logout_table').DataTable({
-					ajax:{
-						url: o.basePath + '/device/devicelist',
-						type: 'POST',
-						data: function ( d ) {
-					        d.devName = $('#dev_logout_devName').val();
-					        d.devId= $('#dev_logout_devId').val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-						{ data: 'deviceId' },
-						{ data: 'deviceName' },
-						{ data: 'deviceType' },
-						{ data: 'tradeName' },
-						{ data: 'appNames' },
-						{ data: 'locationd' },
-						{ data: 'ip' },
-					],
-					rowId: 'id',
-			        //pagingType: "full_numbers_icon",
-			        columnDefs: [
-			            {
-							createdCell: function(td, cellData, rowData) {
-								 $(td).attr("title",rowData.appNames);
-							},
-							targets: 4
-						},
-						{
-							render: function ( data, type, row ) {
-								var html = '';
-									html = '<div class="btn-group">';
-									html += '<div class="ui red horizontal label device_del" data-id="' + row.id + '"><i class="large trash outline icon"></i>注销</div>';
-									html += '</div>';
-								return html;							
-							},
-							targets: 7
-						}
-					],
-			        order: [1, 'desc'],
-					responsive: true
-			    });
-			$('#dev_logout_table').on( 'draw.dt', function () {
-				//没问题,必须先选定表之后,的类选择器才生效
-				$('.device_del').on('click.SFP.deviceLogout.devLogoutModel', $.SFP.deviceLogout.devLogoutModel);
-			});
-			$('#dev_logout_devButton').on('click.SFP.deviceLogout.devLogoutTable', $.SFP.deviceLogout.devLogoutTable);
-			$('#dev_logout_model_dele').on('click.SFP.deviceLogout.devLogout', $.SFP.deviceLogout.devLogout);
-			
-		},
-		devLogoutTable:function(){
-			$('#dev_logout_table').DataTable().ajax.reload();
-			return;
-		},
-		devLogoutModel:function(){
-		    var Id = $(this).data('id');
-		    var rowData = $('#dev_logout_table').DataTable().row('#' + Id).data();
-		    var message = '是否要注销设备[ ' + rowData.deviceId + ' ] ？'; 
-		    $('#dev_logout_model_descript').empty().append(message);
-		    $('#dev_logout_model_devInfo').data('devTableId', Id);
-		    $("#dev_logout_modal").modal({
-				closable : false
-			}).modal('show');
-
-		},
-		devLogout:function(){
-			var id = $('#dev_logout_model_devInfo').data('devTableId');
-		    var postData = {};
-		    postData.devTableId = id;
-		    $.post(o.basePath + '/device/logoutDevice', postData, function(data,
-				textStatus, jqXHR) {
-			    if (data.code == 0) {
-			    	var message = "";
-			    	if(data.msgremoke==''){
-						message = '注销成功';
-						$.SFP.tipMessage(message);
-					}else{
-						//message = '['+data.msgremoke+']';
-						swal({
-                            type: 'warning',
-                            title: '应用注销',
-                            html: data.msgremoke,
-                            allowOutsideClick: false
-                        });
-					}
-				    $('#dev_logout_table').DataTable().ajax.reload();
-			    } else {
-				    var message = '注销失败!['+data.msg+']';
-				    $.SFP.tipMessage(message, false);
-			    }
-	        }, 'json');		
-		}
-		
-	};
-	//设备白名单
-	var appidWsl = [];
-	$.SFP.deviceWhiteList = {
-		activate: function () {
-			appidWsl = [];
-			var dtable = $('#dev_white_table').DataTable({
-				ajax:{
-					url: o.basePath + '/device/deviceWslList',
-					type: 'POST',
-					data: function ( d ) {
-				        d.devId = $('#dev_white_devId').val();
-				        d.devName = $('#dev_white_devName').val();
-				        d.appIds = $('#dev_white_appIds').val();
-					},
-					dataSrc: $.SFP.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-					{ data: 'deviceId' },
-					{ data: 'deviceName' },
-					{ data: 'appId' },
-					{ data: 'appName' },
-					{ data: 'status' },
-				],
-				rowId: 'id',
-		        // pagingType: "full_numbers_icon",
-		        columnDefs: [
-		        	{
-						render: function ( data, type, row ) {
-							var html = '';
-							if( data == '1' ) {
-								html = '<span class="ui basic red button">初始化</span>';
-							}
-							else if( data == '2' ) {
-								html = '<span class="ui basic green button">已激活</span>';
-							}
-							else if( data == '3' ) {
-								html = '<span class="ui basic black button">注销</span>';
-							}
-							return html;
-						},
-						targets: 4
-					}
-				],
-		        order: [1, 'desc'],
-				responsive: true
-		  });
-		  $('#dev_white_button').on('click.SFP.deviceWhiteList.devWhiteTableB', $.SFP.deviceWhiteList.devWhiteTableB);
-		  
-		  $('#dev_white_appIdListButton').on('click.SFP.deviceWhiteList.AppListWsl', $.SFP.deviceWhiteList.AppListWsl);
-		  //全局变量清空按钮
-		  $('#dev_white_appList_checkclear').on('click.SFP.deviceWhiteList.AppListcheckClear', $.SFP.deviceWhiteList.AppListcheckClear);
-		  
-		  $('#dev_white_appList_confirm').on('click.SFP.deviceWhiteList.appidSubmit', $.SFP.deviceWhiteList.appidSumbit);
-		  $('#dev_white_appList_button').on('click.SFP.deviceWhiteList.devWhiteAppBut', $.SFP.deviceWhiteList.devWhiteAppBut);
-		},
-		devWhiteTableB:function(){
-			$('#dev_white_table').DataTable().ajax.reload();
-			return;
-		},
-		devWhiteAppBut:function(){
-			$('#dev_white_appList_table').DataTable().ajax.reload();
-			return;
-		},
-		AppListWsl:function(){
-				var atable = $('#dev_white_appList_table').DataTable({
-					ajax:{
-						url: o.basePath + '/device/list',
-						type: 'POST',
-						data: function ( d ) {
-					        d.appId = $('#dev_white_appList_appId').val();
-						},
-						dataSrc: $.SFP.ParseDataTableResult
-					},
-					processing: true,
-					serverSide: true,
-					columns: [
-					    { data: '' ,
-					      className : 'center aligned'},
-						{ data: 'appId'},
-						{ data: 'appName'},
-					],
-					rowId: 'id',
-			        //pagingType: "full_numbers_icon",
-			        columnDefs: [
-						{
-							render: function ( data, type, row ) {
-								var html ='';
-								    html +='<div class="ui checkbox">';
-								var flag = true;
-								if(appidWsl.length==0){
-									flag = false;
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceWhiteList.checkoutdecide(this)">';
-								}
-								for (var i = 0; i < appidWsl.length; i++) {
-									if(row.appId==appidWsl[i].appid){
-										flag = false;
-									html += '<input type="checkbox" checked="checked" name="example" id="'+row.appId+'" onclick="$.SFP.deviceWhiteList.checkoutdecide(this)">';
-								}
-						      }
-								if(flag){
-									html += '<input type="checkbox" name="example" id="'+row.appId+'" onclick="$.SFP.deviceWhiteList.checkoutdecide(this)">';
-								}
-								    html +='<label class="coloring black"></label></div>';
-								return html;							
-							},
-							targets: 0
-						}
-					],
-			        order: [1, 'desc'],
-					responsive: true,
-					destroy: true
-			  }); 
-			$('#dev_white_grid1, #dev_white_grid2').toggleClass('displaynone');
-		},
-		checkoutdecide : function(obj){
-		    	if($('#'+obj.id).is(':checked')){
-		    		var ob = {};
-		    		ob.appid = obj.id;
-		    		appidWsl.push(ob);
-		    	}else{
-		    		var indexv =0;
-				    for(var i = 0; i<appidWsl.length;i++){
-					    if(appidWsl[i].appid==obj.id){
-						    indexv=i;
-						    break;
-					    }
-				    }
-				    appidWsl.splice(indexv, 1);
-		    	}
-		    	
-		    },
-		appidSumbit : function(){
-			$('#dev_white_appList_appId').val("");
-		    $('#dev_white_grid1, #dev_white_grid2').toggleClass('displaynone');
-		    var str1 = "";
-		    for (var i = 0; i < appidWsl.length; i++) {
-				str1=str1+appidWsl[i].appid+",";
-			}
-		    str1=str1.substring(0,str1.length-1);
-		    $('#dev_white_appIds').val(str1);
-		},
-		AppListcheckClear:function(){
-			//清空选择
-			appidWsl = [];
-			$('#dev_white_appList_table').DataTable().ajax.reload();
-		}
-	}
-	//设备黑名单
-	$.SFP.deviceBlackList = {
-		activate:function(){
-			var dtable = $('#dev_black_table').DataTable({
-				ajax:{
-					url: o.basePath + '/device/deviceBlaList',
-					type: 'POST',
-					async: false,
-					data: function ( d ) {
-				        d.devId = $('#dev_black_devid').val();
-				        d.ip = $('#dev_black_ip').val();
-					},
-					dataSrc: $.SFP.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-				    {
-                     "className":      'details-control',
-                     "orderable":      false,
-                     "data":           null,
-                     "defaultContent": ''
-                    },
-					{ data: 'deviceId' },
-					{ data: 'deviceName' },
-					{ data: 'location' },
-					{ data: 'ip' },
-				],
-				rowId: 'id',
-		        order: [1, 'desc'],
-		        select: {
-		            selector: 'td:not(:first-child)',
-		            style: 'os'
-	           },
-				responsive: true
-		   });
-		    $('#dev_black_button').on('click.SFP.deviceBlackList.devblackTablereload', $.SFP.deviceBlackList.devblackTablereload);
-            dtable.on( 'draw', function () {
-		        dtable.rows().every( function () {
-                    this.child($.SFP.deviceBlackList.format(this.data())).show();
-                });
-            });
-            
-		    /*$('#dev_black_table tbody').on('click', 'td.details-control', function() {
- 	            var tr = $(this).closest('tr');
- 	            var row = dtable.row(tr);
-
- 	            if(row.child.isShown()) {
- 		            // This row is already open - close it
- 		            row.child.hide();
- 		            tr.removeClass('shown');
- 	            } else {
- 		            // Open this row
- 		            row.child($.SFP.deviceBlackList.format(row.data())).show();
- 		            tr.addClass('shown');
- 	            }
-            });*/
-		},
-		format:function(row){
- 		    var html ='<table class = "ui fixed table">'+
-/*		                    '<thead>'+
-		                        '<th>应用ID</th>'+
-                                '<th>应用名字</th>'+
-                                '<th>设备来源</th>'+
-                                '<th>操作</th>'+
-                            '</thead>'+*/
-                            '<tbody>';
-                            for(var i =0;i<row.detail.length;i++){
-                                html +='<tr>'+
-                                            '<td>应用id: '+row.detail[i].appId+'</td>'+
-                                            '<td>应用名字: '+row.detail[i].appName+'</td>';
-                                            if(row.detail[i].dataFrom=='1'){
-                                                html +='<td>状态: '+
-                                                            '<span class="ui basic green button">不在黑名单</span>'+
-                                                       '</td>';
-                                            }else{
-                                            	html +='<td>状态: '+
-                                                            '<span class="ui basic gray button">在黑名单中</span>'+
-                                                       '</td>';
-                                            }
-                                            html +='<td>操作: ';
-                                            if(row.detail[i].dataFrom=='1'){
-                                                html +='<span id="'+row.detail[i].id+'" class="ui basic yellow button" onclick="$.SFP.deviceBlackList.statusUpdata(this,'+"1"+')">加入黑名单</span>';
-                                            }else{
-                                            	html +='<span id="'+row.detail[i].id+'" class="ui basic black button" onclick="$.SFP.deviceBlackList.statusUpdata(this,'+"2"+')">从黑名单中移除</span>';
-                                                       
-                                            }
-                                        html += '</td>';   
-                                html +='</tr>';
-                            }
-                        
-                html +=    '</tbody>'+
-                       '</table>';
-            return html;
-		},
-		statusUpdata:function(obj,dataFrom){
-			 var id = obj.id;
-			$.ajax({
-				url:o.basePath + '/device/deviceBlackStatusUpdata',
-				type:"post",
-				data:{
-					"id":id,
-					"dataFrom":dataFrom
-					},
-				dataType:"json",
-				success:function(result){
-					if (result.code==0) {
-						if(dataFrom==1){
-							$.SFP.tipMessage('加入黑名单成功');
-						}else{
-							$.SFP.tipMessage('从黑名单移除成功');
-						}
-						$('#dev_black_table').DataTable().ajax.reload();
-					}else {
-						var message = '保存设备信息失败![' + result.msg + ']';
-					    $.SFP.tipMessage(message, false);
-					}
-				},
-				error:function(){
-					alert("请求失败！");
-				}
-			});
-		},
-		devblackTablereload:function(){
-			$('#dev_black_table').DataTable().ajax.reload();
-			return;
-		}
-	}
-
-	//RFID配置管理
-    $.SFP.rfidConfig = {
-        activate: function() {
-            var postData = {};
-            var urlTarget = o.basePath + '/config/query';
-            $.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData),
-                function(data, textStatus, jqXHR) {
-                    if(data.code == 0) {
-                        data = JSON.parse(data.data);
-                        $('#KEY_ID').val(data.KEY_ID);
-                        $('#KEY_KCV').val(data.KEY_KCV);
-                        $('#KEY_INFO').val(data.KEY_INFO);
-                    } else {
-                        var msg = data.msg;
-                        $.SFP.tipMessage(msg, false);
-                    }
-                }, 'json');
-
-            $('#config_save').on('click.SFP.rfidConfig.config_save',
-                $.SFP.rfidConfig.config_save);
-            $('#config_save_empty').on('click.SFP.rfidConfig.config_save_empty',
-                $.SFP.rfidConfig.config_save_empty);
-
-        },
-        emptyVal: function() {
-            $('#KEY_ID').val('');
-            $('#KEY_KCV').val('');
-            $('#KEY_INFO').val('');
-        },
-        config_save_empty: function() {
-            $.SFP.rfidConfig.emptyVal();
-        },
-        config_save: function() {
-            var KEY_ID = $('#KEY_ID').val().trim();
-            if(KEY_ID == "") {
-                $.SFP.tipMessage('应用ID不能为空', false);
-                return;
-            }
-            if (KEY_ID.length > 32){
-                $.SFP.tipMessage('应用ID不能超过32位', false);
-                return;
-			}
-            var KEY_KCV = $('#KEY_KCV').val().trim();
-            if(KEY_KCV == "") {
-                $.SFP.tipMessage('根密钥KCV不能为空', false);
-                return;
-            }
-            if (KEY_KCV.length > 32){
-                $.SFP.tipMessage('根密钥KCV不能超过32位', false);
-                return;
-            }
-            var KEY_INFO = $('#KEY_INFO').val().trim();
-            if(KEY_INFO == "") {
-                $.SFP.tipMessage('工作密钥参数不能为空', false);
-                return;
-            }
-            if (KEY_INFO.length > 32){
-                $.SFP.tipMessage('工作密钥参数不能超过32位', false);
-                return;
-            }
-            var postData = {};
-            postData.KEY_ID = KEY_ID;
-            postData.KEY_KCV = KEY_KCV;
-            postData.KEY_INFO = KEY_INFO;
-            var urlTarget = o.basePath + '/config/save';
-            /*$.ajax({
-                url: urlTarget + '?rand=' + Math.random(),
-                type: "post",
-                data: postData,
-                dataType: "json",
-                success:function(result){
-                    if(result.code == 0) {
-                        var msg='应用ID：'+KEY_ID+"<br>"+'根密钥CV：'+KEY_KCV+
-                            '<br>'+'工作密钥参数：'+KEY_INFO;
-                        swal({
-                            type: 'success',
-                            title: '配置成功',
-                            html: msg,
-                            allowOutsideClick: false
-                        });
-                    }else{
-                        var msg = result.msg;
-                        $.SFP.tipMessage(msg, false);
-                    }
-                },
-                error:function(){
-                    alert("请求失败！");
-                }
-            });*/
-            $.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function (result, textStatus, jqXHR) {
-                if (result.code == 0) {
-                    var msg = '应用ID：' + KEY_ID + "<br>" + '根密钥CV：' + KEY_KCV +
-                        '<br>' + '工作密钥参数：' + KEY_INFO;
-                    swal({
-                        type: 'success',
-                        title: '配置成功',
-                        html: msg,
-                        allowOutsideClick: false
-                    });
-                } else {
-                    var msg = result.msg;
-                    $.SFP.tipMessage(msg, false);
-                }
-            }, 'json');
-        }
-
-    };
-	//标签查询
-    $.SFP.rfidQuery = {
-        activate: function() {
-            var dtable = $('#rfid_main_table').DataTable({
-				ajax: {
-					url: o.basePath + '/rfid/list',
-					type: 'POST',
-					data: function(d) {
-						d.EPC = $('#EPC').val();
-					},
-					dataSrc: $.SFP.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-					{data: 'epc'},
-					{data: 'kcv'},
-					{data: 'work_info'},
-                    {data: 'ctime',
-                        render: function(data, type, row) {
-                            return getMyDate(data)
-                        }
-                    },
-					{data: null}
-				],
-				columnDefs: [{
-					render: function(data, type, row) {
-						var html = '';
-						html = '<span class="ui basic green button rfidDetail" data-id="' +
-							row.id + '" data-epc="' + row.epc + '" data-user="' + row.user_data + '">详情</span>';
-						return html;
-					},
-					targets: 4
-				}],
-				rowId: 'id',
-				// pagingType: "full_numbers_icon",
-				order: [1, 'desc'],
-				responsive: true
-			});
-            $('#rfid_main_table').on(
-                'draw.dt',
-                function() {
-                    $('.rfidDetail').on('click.SFP.rfidQuery.rfidDetail',
-                        $.SFP.rfidQuery.rfidDetail);
-                });
-            $('#rfid_search').on('click.SFP.rfidQuery.rfidList',
-                $.SFP.rfidQuery.rfidList);
-            $('#rfid_detail_back').on('click.SFP.rfidQuery.rfid_detail_back',
-                $.SFP.rfidQuery.rfid_detail_back);
-        },
-        rfid_detail_back: function() {
-            $('#rfid_detail_page,#rfid_list_page').toggleClass('displaynone');
-        },
-        rfidDetail: function() {
-            var id = $(this).data('id');
-            var epc = $(this).data('epc');
-            var user = $(this).data('user');
-            $("#EPC1").val(epc);
-            $("#USER").val(user);
-            var dtable = $('#rfidCheck_main_table').DataTable({
-                ajax: {
-                    url: o.basePath + '/rfid/checklist',
-                    type: 'POST',
-                    data: function(d) {
-                        d.ID = id;
-                    },
-                    dataSrc: function(json) {
-                    	$("#LENGTH").val(json.recordsTotal);
-                        if(json.code != 0) {
-                            json.list = [];
-                            var message = '获取数据失败![' + json.msg + ', ' + json.code + ']';
-                            $.SFP.tipMessage(message, false);
-                        }
-                        return json.list;
-                    }
-                },
-                processing: true,
-                serverSide: true,
-                columns: [
-                    {data: 'count'},
-                    {data: 'check_time',
-						render: function(data, type, row) {
-                        	return getMyDate(data)
-                    	}
-                    }
-                ],
-                rowId: 'id',
-                order: [1, 'desc'],
-                responsive: true,
-                destroy: true
-            });
-            $('#rfid_detail_page,#rfid_list_page').toggleClass('displaynone');
-        },
-        rfidList: function() {
-            $('#rfid_main_table').DataTable().ajax.reload();
-            return;
-        }
-    };
-
     //将时间戳格式化
     function getMyDate(time){
         if(typeof(time)=="undefined"){

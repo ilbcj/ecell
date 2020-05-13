@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>player.html</title>
+</head>
+
+<body>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+  <div class="content-wrapper-inner">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>选手信息</h1>
+      <ol class="breadcrumb">
+        <li><a href="javascript:void(0)"><i class="fa fa-home"></i> 首页</a></li>
+        <li class="active">选手管理</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Your Page Content Here -->
+      <div id="player_maintain_center_main_wapper" class="box box-primary">
+            <div class="box-header with-border">
+				<div id="player_maintain_center_query" class="row">
+					<div class="col-xs-3">
+						<input id="player_query_id" type="text" class="form-control" placeholder="请输入用户账号" 
+							data-toggle="tooltip" data-original-title="请输入用户账号" data-placement="top">
+					</div>
+					<div class="col-xs-3">
+						<input id="player_query_name" type="text" class="form-control" placeholder="请输入用户姓名" 
+							data-toggle="tooltip" data-original-title="请输入用户姓名" data-placement="top">
+					</div>
+					<div class="col-xs-offset-3 col-xs-3 text-right">
+						<button id="query_player" class="btn btn-sm btn-primary "> 搜索</button>
+						<button id="query_player_reset" class="btn btn-sm btn-primary "> 重置</button>
+					</div>
+				</div><!-- /.row --><!-- end of player_maintain_center_query -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+           	<div class="btn-group">
+							<span id="add_player" class="btn btn-sm btn-flat btn-info margin"><i class="fa fa-plus"></i> 添加</span>
+							<span id="del_players" class="btn btn-sm btn-flat btn-danger margin"><i class="fa fa-trash"></i> 删除</span>
+						</div>
+						<div class="btn-group pull-right">
+							<span id="batch_create_players" class="btn btn-sm btn-flat btn-danger margin"><i class="fa fa-pencil"></i> 批量创建用户</span>
+						</div>
+						<table id="player_main_table" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="text-center">
+										<input type="checkbox"/>
+									</th>
+									<th>账号</th>
+									<th>姓名</th>
+									<th>种族</th>
+									<th>时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+            </div>
+            <!-- /.box-body -->
+		</div>
+		<!-- /#player_maintain_center_main_wapper -->
+		
+		<!-- 模态框（Modal） -->
+		<div class="modal modal-info fade" id="add_Modal" tabindex="-1">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <h4 class="modal-title">添加用户</h4>
+		         </div>
+		         <div class="modal-body">
+					<!-- form start -->
+					<form class="form-horizontal">
+		            	<div class="form-group">
+							<label for="loginid" class="col-sm-2 control-label">账号</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="loginid" placeholder="账号">
+							</div>
+						</div>
+		                <div class="form-group">
+							<label for="pwd" class="col-sm-2 control-label">口令</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="pwd" placeholder="口令">
+							</div>
+						</div>
+		                <div class="form-group">
+							<label for="name" class="col-sm-2 control-label">姓名</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="name" placeholder="姓名">
+							</div>
+						</div>
+		                
+		                <div class="form-group">
+							<label for="race" class="col-sm-2 control-label">种族</label>
+							<div class="col-sm-10">
+								<select class="form-control" id="race">
+									<option value="">请选择种族</option>
+				                    <option value="T">人类</option>
+				                    <option value="P">星灵</option>
+				                    <option value="Z">异虫</option>
+				                </select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="telephone" class="col-sm-2 control-label">电话</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="telephone" placeholder="电话">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">邮箱</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="email" placeholder="邮箱">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="qq" class="col-sm-2 control-label">QQ</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="qq" placeholder="QQ">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="wechat" class="col-sm-2 control-label">微信</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="wechat" placeholder="微信">
+							</div>
+						</div>
+		            </form>
+		         </div>
+		         <!-- /.modal-body -->
+		         <div class="modal-footer">
+		            <button id="add_player_confirm" class="btn btn-sm btn-outline"  data-dismiss="modal">确定</button>
+		            <button class="btn btn-sm btn-outline" data-dismiss="modal">取消</button>
+		         </div>
+		      </div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<div class="modal modal-info fade" id="detail_Modal" tabindex="-1">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <h4 class="modal-title">详细信息</h4>
+		         </div>
+		         <div class="modal-body" id="detail_message"></div>
+		         <div class="modal-footer">
+		            <button type="button" id="detail_players_confirm" class="btn btn-sm btn-outline"  data-dismiss="modal">确定</button>
+		            <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">取消</button>
+		         </div>
+		      </div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<div class="modal modal-danger fade" id="test_Init_Player_Modal" tabindex="-1">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <h4 class="modal-title">提示</h4>
+		         </div>
+		         <div class="modal-body" id="test_init_player_message"></div>
+		         <div class="modal-footer">
+		            <button type="button" id="test_init_player_confirm" class="btn btn-sm btn-outline"  data-dismiss="modal">确定</button>
+		            <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">取消</button>
+		         </div>
+		      </div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<div class="modal modal-danger fade" id="del_Modal" tabindex="-1">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal">&times;</button>
+		            <h4 class="modal-title">提示</h4>
+		         </div>
+		         <div class="modal-body" id="del_message"></div>
+		         <div class="modal-footer">
+		            <button type="button" id="del_players_confirm" class="btn btn-sm btn-outline"  data-dismiss="modal">确定</button>
+		            <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">取消</button>
+		         </div>
+		      </div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper-inner -->
+  </div>
+  <!-- /.content-wrapper -->	
+</body>
+</html>
+				
+
+
