@@ -84,96 +84,68 @@
 									<div class="ui segments">
 										<div class="ui segment">
 											<h3 class="ui header">
-												选手个人详细信息
-											</h3>
+                   						               选手个人信息
+                   					        </h3>
 										</div>
 										<div class="ui form segment">
-											<h4 class="ui header">
-												组基础属性
-											</h4>
-											<div class="two fields">
-												<div class="field">
-													<div class="ui input">
-													    <span class="group_span"> <label
-														    class="labelFontdef">名称</label>
-													    </span> <input id="group_name" type="text">
-												    </div>
-												</div>
-												<!--<div class="inline field">
-													<label>名称</label>
-													<input id="group_name" type="text">
-												</div>-->
-												<div class="field">
-													<div class="ui input">
-													    <span class="group_span"> <label
-														    class="labelFontdef">备注</label>
-													    </span> <input id="group_remark" type="text">
-												    </div>
-												</div>
-												<!--<div class="inline field">
-													<label>备注</label>
-													<input id="group_remark" type="text">
-												</div>-->
-											</div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>ID</label>
+                   					        		<input id="player_content_nick" type="text" placeholder="ID">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>种族</label>
+                   					        		<input id="player_content_race" type="text" placeholder="种族">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>姓名</label>
+                   					        		<input id="player_content_name" type="text" placeholder="姓名">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>性别</label>
+                   					        		<input id="player_content_gender" type="text" placeholder="性别">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>国籍</label>
+                   					        		<input id="player_content_country" type="text" placeholder="国籍">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>生日</label>
+                                                    <input id="player_content_birth" type="text" placeholder="生日">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>战队</label>
+                   					        		<input id="player_content_team" type="text" placeholder="战队">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>电话</label>
+                                                    <input id="player_content_tel" type="text" placeholder="电话">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="two fields">
+                   					        	<div class="field">
+                   					        		<label>QQ</label>
+                   					        		<input id="player_content_qq" type="text" placeholder="QQ">
+                   					        	</div>
+                   					        	<div class="field">
+                   					        		<label>微信</label>
+                                                    <input id="player_content_wechat" type="text" placeholder="微信">
+                   					        	</div>
+                   					        </div>
+                   					        <div class="field">
+               					        		<label>状态</label>
+               					        		<input id="player_content_status" type="text" placeholder="状态">
+               					        	</div>
 										</div>
-										<div class="ui form padded segment">
-											<h4 class="ui header">
-												成员属性
-											</h4>
-											<div class="fields">
-												<div class="two wide field">
-													<div class="ui input">
-													    <span class="group_span"> <label
-														    class="labelFontdef">应用ID</label>
-													    </span>
-												    </div>
-													<!--<span class="group_span">
-														<label class="labelFontdef" for="wd">应用ID</label>
-													</span>-->
-												</div>
-												<div class="twelve wide field">
-													<div class="ui fluid input">
-														<input id="appid_list_input" type="text" placeholder="请点击选择来选择应用ID" readonly = "readonly">
-													</div>
-												</div>
-												<div class="two wide field">
-													<button id="add_appId_List" class="ui button">
-                                                                                                                 选择
-                                                    </button>
-												</div>
-											</div>
-										</div>
-										<div class="ui segment">
-											<h4 class="ui header">
-												角色关系
-											</h4>
-											<div class="ui grid">
-												<div class="two wide column">
-												</div>
-												<div class="twelve wide column">
-													<div id="rolename_dropdown" class="ui fluid action dropdown selection" tabindex="0">
-														<i class="dropdown icon"></i>
-														<div class="default text">默认角色</div>
-														<div id="role_list_name" class="menu" tabindex="-1">
-
-														</div>
-													</div>
-												</div>
-												<div class="two wide column">
-												</div>
-											</div>
-										</div>
-										<div class="ui segment">
-											<div class="field">
-												<div class="ui buttons save_span" id="savegroupDiv">
-											        <button id="player_content_save" class="ui button">
-                                                        <i class="save icon"></i>保存
-                                                    </button>
-                                                    <button id="player_content_return" class="ui button">
-                                                        <i class="reply icon"></i>返回
-                                                    </button>
-										        </div>
-											</div>
+										<div class="ui segment right aligned">
+											<button id="player_content_save" class="ui primary button saving">保存</button>
+											<button id="player_content_return" class="ui button">返回</button>
 										</div>
 									</div>
 								</div>
