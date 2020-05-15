@@ -1,6 +1,7 @@
 package com.ilbcj.ecell.service.impl;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -22,11 +23,19 @@ public class SeasonServiceImpl implements SeasonService {
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
-		//String name = (String) params.get("name");
+		Optional<String> nameO = Optional.ofNullable( (String)params.get("name") );
+		String name = nameO.orElse("").isEmpty() ? null : nameO.get();
+		Optional<String> beginO = Optional.ofNullable( (String)params.get("begin") );
+		String begin = beginO.orElse("").isEmpty() ? null : beginO.get();
+		Optional<String> endO = Optional.ofNullable( (String)params.get("end") );
+		String end = endO.orElse("").isEmpty() ? null : endO.get();
 		
 		Page<Season> seasonIPage = seasonMapper.selectPage(new Query<Season>(params).getPage(),
 				Wrappers.<Season>lambdaQuery()
-					//.like(Season::getName, name)
+					.like(Season::getName, name)
+					.ge(Season::getStartTime, begin)
+					.le(Season::getStartTime, end)
+					.orderByDesc(Season::getId)
 				);
 		return new PageUtils(seasonIPage);
 	}

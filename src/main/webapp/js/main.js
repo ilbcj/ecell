@@ -777,7 +777,7 @@ function _initECELL(o) {
 						render: function ( data, type, row ) {
 							var html = '';
 								html = '<div class="btn-group">';
-								html += '<div class="ui green horizontal label player_update disabled" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
+								html += '<div class="ui green horizontal label player_update" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
 								html += '<a class="ui red horizontal label player_delete" data-id="' + row.id + '"><i class="large trash outline icon"></i>删除</a>';
 								html += '</div>';
 							return html;							
@@ -937,18 +937,18 @@ function _initECELL(o) {
 					url: o.basePath + '/season/list',
 					type: 'POST',
 					data: function ( d ) {
-				        d.nick = $('#player_search_nick').val();
-				        d.name = $('#player_search_name').val();
+				        d.name = $('#season_search_name').val();
+				        d.begin = $('#season_search_start').val();
+				        d.end = $('#season_search_end').val();
 					},
 					dataSrc: $.ECELL.ParseDataTableResult
 				},
 				processing: true,
 				serverSide: true,
 				columns: [
-					{ data: 'nick' },
 					{ data: 'name' },
-					{ data: 'race' },
-					{ data: 'teamName' },
+					{ data: 'startTime' },
+					{ data: 'status' },
 					{ data: null }
 				],
 				rowId: 'id',
@@ -956,17 +956,14 @@ function _initECELL(o) {
 		        	{
 						render: function ( data, type, row ) {
 							var html = '';
-							if( data == 'T' ) {
-								html = '<span class="ui basic black button">人族</span>';
+							if( data == '0' ) {
+								html = '<span class="ui basic black button">新建</span>';
 							}
-							else if( data == 'P' ) {
-								html = '<span class="ui basic black button">神族</span>';
+							else if( data == '1' ) {
+								html = '<span class="ui basic black button">活动</span>';
 							}
-							else if( data == 'Z' ) {
-								html = '<span class="ui basic black button">虫族</span>';
-							}
-							else if( data == 'R' ) {
-								html = '<span class="ui basic black button">随机</span>';
+							else if( data == '2' ) {
+								html = '<span class="ui basic black button">结束</span>';
 							}
 							return html;
 						},
@@ -976,12 +973,13 @@ function _initECELL(o) {
 						render: function ( data, type, row ) {
 							var html = '';
 								html = '<div class="btn-group">';
-								html += '<div class="ui green horizontal label player_update disabled" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
-								html += '<a class="ui red horizontal label player_delete" data-id="' + row.id + '"><i class="large trash outline icon"></i>删除</a>';
+								html += '<div class="ui yellow horizontal label season_schedule" data-id="' + row.id + '"><i class="large edit icon"></i>赛程</div>';
+								html += '<div class="ui green horizontal label season_update" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
+								html += '<a class="ui red horizontal label season_delete" data-id="' + row.id + '"><i class="large trash outline icon"></i>删除</a>';
 								html += '</div>';
 							return html;							
 						},
-						targets: 4
+						targets: 3
 					}
 				],
 		        //order: [1, 'desc'],
@@ -989,15 +987,20 @@ function _initECELL(o) {
 		    });
 			
 			// listen page items' event
-			$('#player_search').on('click.ECELL.player.query', $.ECELL.player.query);
-			$('#player_main_table').on( 'draw.dt', function () {
-				$('.player_update').on('click.ECELL.player.update', $.ECELL.player.contentToggle);
-				$('.player_delete').on('click.ECELL.player.delete', $.ECELL.player.delConfirm);
+			$('#season_search').on('click.ECELL.season.query', $.ECELL.season.query);
+			$('#season_main_table').on( 'draw.dt', function () {
+				$('.season_schedule').on('click.ECELL.season.update', $.ECELL.season.schedule);
+				$('.season_update').on('click.ECELL.season.update', $.ECELL.season.contentToggle);
+				$('.season_delete').on('click.ECELL.season.delete', $.ECELL.season.delConfirm);
 			});
-            $('#add_player').on('click.ECELL.player.content', $.ECELL.player.contentToggle);
-            $('#player_content_save').on('click.ECELL.player.save', $.ECELL.player.regist);
-            $('#player_content_return').on('click.ECELL.player.return', $.ECELL.player.contentToggle);
-            $('#del_player_yes').on('click.ECELL.player.del.yes', $.ECELL.player.delConfirmYes);
+            $('#add_season').on('click.ECELL.season.content', $.ECELL.season.contentToggle);
+            $('#season_content_save').on('click.ECELL.season.save', $.ECELL.season.regist);
+            $('#season_content_return').on('click.ECELL.season.return', $.ECELL.season.contentToggle);
+            $('#del_season_yes').on('click.ECELL.season.del.yes', $.ECELL.season.delConfirmYes);
+		},
+		query: function () {
+			$('#season_main_table').DataTable().ajax.reload();
+			return;
 		},
 		emptyVal: function() {
 			$('#appId').val('');
