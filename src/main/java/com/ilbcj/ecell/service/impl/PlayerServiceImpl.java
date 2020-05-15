@@ -42,8 +42,8 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		Optional<String> name = Optional.ofNullable( (String)parm.get("name") );
 		player.setName(name.orElse(""));
 		
-		Optional<Integer> gender = Optional.ofNullable( (Integer)parm.get("gender") );
-		player.setGender(gender.orElse(Player.GENDER_UNSET));
+		Optional<String> gender = Optional.ofNullable( (String)parm.get("gender") );
+		player.setGender( Integer.parseInt( gender.orElse( Player.GENDER_UNSET.toString() ) ) );
 		
 		Optional<String> race = Optional.ofNullable( (String)parm.get("race") );
 		player.setRace(race.orElse(""));
@@ -84,14 +84,18 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		String name = (String) params.get("name");
 		
 		Page<Player> nickIPage = playerMapper.selectPage(new Query<Player>(params).getPage(),
-				Wrappers.<Player>lambdaQuery().like(Player::getNick, nick).like(Player::getName, name));
+				Wrappers.<Player>lambdaQuery()
+					.like(Player::getNick, nick)
+					.like(Player::getName, name)
+					.eq(Player::getStatus, Player.STATUS_INUSE)
+				);
 		return new PageUtils(nickIPage);
 	}
 
 	@Override
 	public boolean updatePlayerStatus(Map<String, Object> params) {
 		Map<String, Object> upStatus = new HashMap<String, Object>();
-		upStatus.put("nick", params.get("nick"));
+		upStatus.put("id", params.get("id"));
 		upStatus.put("status", params.get("status"));
 		return updatePlayer(upStatus);
 	}
@@ -105,14 +109,22 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 	@Transactional
 	@Override
 	public boolean updatePlayer(Map<String, Object> params) {
-		String nick = params.get("nick").toString();
-		
 		Player player = new Player();
+		Optional<Integer> id = Optional.ofNullable( (Integer)params.get("id") );
+		if(id.orElse(0) == 0) {
+			logger.info("选手更新时id数据不能为空" + player.toString());
+			return false;
+		}
+		player.setId( id.get() );
+		
+		Optional<String> nick = Optional.ofNullable( (String)params.get("nick") );
+		player.setNick(nick.orElse(null));
+		
 		Optional<String> name = Optional.ofNullable( (String)params.get("name") );
 		player.setName(name.orElse(null));
 		
-		Optional<Integer> gender = Optional.ofNullable( (Integer)params.get("gender") );
-		player.setGender(gender.orElse(null));
+		Optional<String> gender = Optional.ofNullable( (String)params.get("gender") );
+		player.setGender( Integer.parseInt( gender.orElse( Player.GENDER_UNSET.toString() ) ) );
 		
 		Optional<String> race = Optional.ofNullable( (String)params.get("race") );
 		player.setRace(race.orElse(null));
@@ -126,7 +138,7 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		Optional<String> picture = Optional.ofNullable( (String)params.get("picture") );
 		player.setPicture(picture.orElse(null));
 		
-		Optional<String> teamName = Optional.ofNullable( (String)params.get("teanName") );
+		Optional<String> teamName = Optional.ofNullable( (String)params.get("teamName") );
 		player.setTeamName(teamName.orElse(null));
 		
 		Optional<String> qq = Optional.ofNullable( (String)params.get("qq") );
@@ -138,11 +150,12 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		Optional<String> tel = Optional.ofNullable( (String)params.get("tel") );
 		player.setTel(tel.orElse(null));
 		
-		Optional<Integer> status = Optional.ofNullable( (Integer)params.get("status") );
-		player.setStatus(status.orElse(null));
+		Optional<String> status = Optional.ofNullable( (String)params.get("status") );
+		player.setStatus( Integer.parseInt( status.orElse( Player.STATUS_INIT.toString() ) ) );
+		
 		int ret = playerMapper.update(
 				player,
-                Wrappers.<Player>lambdaUpdate().eq(Player::getNick, nick)
+                Wrappers.<Player>lambdaUpdate().eq(Player::getId, player.getId())
         );
 		if( ret == 0 ) {
 			logger.info("没有匹配的记录被修改");
@@ -160,6 +173,12 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		}
 		return true;
 	}
-	
 
+	@Override
+	public boolean deletePlayer(Map<String, Object> params) {
+		Map<String, Object> upStatus = new HashMap<String, Object>();
+		upStatus.put("id", params.get("id"));
+		upStatus.put("status", Player.STATUS_DELETE.toString());
+		return updatePlayer(upStatus);
+	}
 }

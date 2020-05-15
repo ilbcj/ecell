@@ -42,4 +42,10 @@ public interface PlayerService {
 	 * @return
 	 */
 	boolean isExistPlayer(Map<String, Object> params);
+	/**
+	 * 删除选手信息--逻辑删除
+	 * @param params
+	 * @return
+	 */
+	boolean deletePlayer(Map<String, Object> parm);
 }

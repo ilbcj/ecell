@@ -2,7 +2,7 @@
 <html lang="en">
 
 	<head>
-		<title>player.html</title>
+		<title>season.html</title>
 		<link rel="icon" href="img/favicon.ico" />
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,36 +15,40 @@
 				<!--maincontent-->
 				<div class="mainWrap navslide">
 					<div class="mainWrapInner">
-						<div id="player_list" class="ui equal width left aligned padded grid stackable">
+						<div id="season_list" class="ui equal width left aligned padded grid stackable">
 							<div class="row">
 								<div class="sixteen wide column">
 			                        <div class="ui segments">
 			                            <div class="ui segment">
 			                                <h5 class="ui header">
-												选手信息
+												赛季信息
 			                                </h5>
 			                            </div>
 			                            
 			                            <div class="ui form segment">
-											<div class="three fields">
-												<!--<div class="inline field">
-													<label>ID</label>
-													<input id="player_search_nick" type="text">
-												</div>-->
+											<div class="four fields">
 												<div class="field">
 													<div class="ui input">
 													    <span class="group_span"> 
-													    	<label class="labelFontdef">ID</label>
+													    	<label class="labelFontdef">名称</label>
 													    </span> 
-													    <input id="player_search_nick" type="text">
+													    <input id="season_search_name" type="text"  placeholder="名称">
 												    </div>
 												</div>
 												<div class="field">
 													<div class="ui input">
 													    <span class="group_span"> 
-													    	<label class="labelFontdef">姓名</label>
+													    	<label class="labelFontdef">开始时间</label>
 													    </span> 
-													    <input id="player_search_name" type="text">
+													    <input class="dateinput dateicon" id="season_search_start" type="text" placeholder="赛季开始时间晚于此值" readonly>
+												    </div>
+												</div>
+												<div class="field">
+													<div class="ui input">
+													    <span class="group_span"> 
+													    	<label class="labelFontdef">结束时间</label>
+													    </span> 
+													    <input class="dateinput dateicon" id="season_search_end" type="text" placeholder="赛季结束时间早于此值" readonly>
 												    </div>
 												</div>
 												<div class="field">
@@ -57,9 +61,9 @@
 										
 										<div class="ui segment">
 											<div class="ui buttons">
-												<button id="add_player" class="ui grey basic button"><i class="plus icon"></i>新建</button>
+												<button id="add_season" class="ui grey basic button"><i class="plus icon"></i>新建</button>
 											</div>
-											<table id="player_main_table" class="ui celled striped table">
+											<table id="season_main_table" class="ui celled striped table">
 												<thead>
 													<tr>
 														<th width="20%">ID</th>
@@ -141,7 +145,7 @@
                    					        	</div>
                    					        	<div class="field">
                    					        		<label>生日</label>
-                                                    <input id="player_content_birth" type="text" placeholder="生日" readonly>
+                                                    <input id="player_content_birth" type="text" placeholder="生日">
                    					        	</div>
                    					        </div>
                    					        <div class="two fields">

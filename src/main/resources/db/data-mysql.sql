@@ -15,4 +15,4 @@ INSERT INTO tb_menu (menu_id, parent_id, name, url, type, icon, order_num, perms
 (200, 2, '赛季信息', 'pages/season/season.html', 1, '', 1, '', 1),
 (201, 2, '赛程信息', 'pages/season/schedule.html', 1, '', 2, '', 1),
 (300, 3, '选手信息', 'pages/player/player.html', 1, '', 1, '', 1),
-(400, 4, '比赛信息', 'pages/player/match.html', 1, '', 1, '', 1);
+(400, 4, '比赛信息', 'pages/match/match.html', 1, '', 1, '', 1);

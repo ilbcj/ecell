@@ -29,9 +29,9 @@ public class PlayerController {
 	 * @return
 	 */
 	@RequestMapping(value="/regist", method = RequestMethod.POST)
-	public R registAdmin(@RequestBody Map<String,Object> parm) {
-		boolean isExistAdmmin=playerService.isExistPlayer(parm);
-		if(isExistAdmmin) {
+	public R registPlayer(@RequestBody Map<String,Object> parm) {
+		boolean isExist=playerService.isExistPlayer(parm);
+		if(isExist) {
 			return R.error("选手注册失败，该账号已经存在！");
 		}
 		boolean result=playerService.insertPlayer(parm);
@@ -42,8 +42,19 @@ public class PlayerController {
 		return R.error("选手添加失败，请联系系统管理员！");
 				
 	}
+	
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public R deletePlayer(@RequestBody Map<String,Object> parm) {
+		boolean result=playerService.deletePlayer(parm);
+		if(result) {
+			return R.ok();
+		}
+		return R.error("选手状态更改失败！");
+				
+	}
+	
 	@RequestMapping(value="/status", method = RequestMethod.POST)
-	public R updateAdminStatus(@RequestBody Map<String,Object> parm) {
+	public R updatePlayerStatus(@RequestBody Map<String,Object> parm) {
 		boolean result=playerService.updatePlayerStatus(parm);
 		if(result) {
 			return R.ok();
@@ -52,7 +63,7 @@ public class PlayerController {
 				
 	}
 	@RequestMapping(value="/detail", method = RequestMethod.POST)
-	public R adminDetail(@RequestBody Map<String,Object> parm) {
+	public R playerDetail(@RequestBody Map<String,Object> parm) {
 		Player player = playerService.detailPlayer(parm);
 		if(player != null) {
 			return R.ok().put("player", player);
@@ -60,7 +71,7 @@ public class PlayerController {
 		return R.error("选手信息加载失败！");
 	}
 	@RequestMapping(value="/modfiy", method = RequestMethod.POST)
-	public R updateAdmin(@RequestBody Map<String,Object> parm) {
+	public R updatePlayer(@RequestBody Map<String,Object> parm) {
 		boolean result=playerService.updatePlayer(parm);
 		if(result) {
 			return R.ok();

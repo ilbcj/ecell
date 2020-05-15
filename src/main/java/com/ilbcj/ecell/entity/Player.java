@@ -19,9 +19,10 @@ public class Player implements Serializable, Comparable<Player>{
 	public static final String RACE_T = "T";
 	public static final String RACE_P = "P";
 	public static final String RACE_Z = "Z";
-	public static final int STATUS_INIT = 0;
-	public static final int STATUS_INUSE = 1;
-	public static final int STATUS_DELETE = 2;
+	public static final String RACE_R = "R";
+	public static final Integer STATUS_INIT = 0;
+	public static final Integer STATUS_INUSE = 1;
+	public static final Integer STATUS_DELETE = 2;
 	
 	
 	@TableId(type = IdType.AUTO)
