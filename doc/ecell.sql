@@ -33,7 +33,7 @@ CREATE TABLE `tb_admin` (
   `name` varchar(30) NOT NULL COMMENT '姓名',
   `status` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '状态',
   `token` varchar(30) NOT NULL COMMENT 'token',
-  `session_id` varchar(30) NOT NULL COMMENT 'sessionId',
+  `session_id` varchar(64) NOT NULL COMMENT 'sessionId',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -43,7 +43,7 @@ CREATE TABLE `tb_admin` (
 
 /*!40000 ALTER TABLE `tb_admin` DISABLE KEYS */;
 INSERT INTO `tb_admin` (`id`,`login_id`,`pwd`,`name`,`status`,`token`,`session_id`) VALUES 
- (1,'admin','123456','aa',0,'',''),
+ (1,'admin','1','aa',0,'1589526938007','BBF4E4296F1D8768EEC9D575F9588BDE'),
  (2,'super','11111111','administrator',0,'','');
 /*!40000 ALTER TABLE `tb_admin` ENABLE KEYS */;
 
@@ -100,6 +100,43 @@ CREATE TABLE `tb_match_detail` (
 
 
 --
+-- Definition of table `tb_menu`
+--
+
+DROP TABLE IF EXISTS `tb_menu`;
+CREATE TABLE `tb_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `menu_id` int(10) unsigned NOT NULL COMMENT '菜单项ID',
+  `parent_id` int(10) unsigned NOT NULL COMMENT '父菜单项ID',
+  `name` varchar(45) NOT NULL COMMENT '菜单名称',
+  `url` varchar(45) DEFAULT NULL COMMENT '访问URL',
+  `type` int(10) unsigned NOT NULL COMMENT '菜单类型',
+  `icon` varchar(45) DEFAULT NULL COMMENT '图标',
+  `order_num` int(10) unsigned DEFAULT NULL COMMENT '顺序',
+  `perms` varchar(256) DEFAULT NULL COMMENT '权限',
+  `is_use` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tb_menu`
+--
+
+/*!40000 ALTER TABLE `tb_menu` DISABLE KEYS */;
+INSERT INTO `tb_menu` (`id`,`menu_id`,`parent_id`,`name`,`url`,`type`,`icon`,`order_num`,`perms`,`is_use`) VALUES 
+ (1,1,0,'系统管理','',0,'fa fa-cog',0,'',0),
+ (2,2,0,'赛季管理','',0,'fa fa-user-secret',0,'',1),
+ (3,3,0,'选手管理','',0,'fa fa-user-secret',0,'',1),
+ (4,4,0,'比赛管理','',0,'fa fa-user-secret',0,'',1),
+ (5,100,1,'管理员信息','pages/system/admin.html',1,'',1,'',1),
+ (6,200,2,'赛季信息','pages/season/season.html',1,'',1,'',1),
+ (7,201,2,'赛程信息','pages/season/schedule.html',1,'',2,'',1),
+ (8,300,3,'选手信息','pages/player/player.html',1,'',1,'',1),
+ (9,400,4,'比赛信息','pages/match/match.html',1,'',1,'',1);
+/*!40000 ALTER TABLE `tb_menu` ENABLE KEYS */;
+
+
+--
 -- Definition of table `tb_player`
 --
 
@@ -119,7 +156,7 @@ CREATE TABLE `tb_player` (
   `tel` varchar(45) DEFAULT NULL COMMENT '电话',
   `status` int(10) unsigned NOT NULL COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_player`
@@ -127,8 +164,10 @@ CREATE TABLE `tb_player` (
 
 /*!40000 ALTER TABLE `tb_player` DISABLE KEYS */;
 INSERT INTO `tb_player` (`id`,`name`,`gender`,`nick`,`race`,`country`,`birth`,`picture`,`team_name`,`qq`,`wechat`,`tel`,`status`) VALUES 
- (1,'super','1','PPPPP','P','CN','2000-01-01','abc.jpg','','510650','一线大场','13812345678',14),
- (2,'张三','1','66666','T','CN','2000-03-01','xxx.jpg','','310650','二线大厂','13800000001',1);
+ (1,'super','1','PPPPP','P','KR','2000-01-11','abc.jpg','For','510650','一线大场','13812345678',1),
+ (2,'张三','1','66666','T','KR','2000-03-01','xxx.jpg','SVS','310650','二线大厂','13800000001',1),
+ (3,'李四','0','cloud','T','KR','','xxx.jpg','','510650','二线大厂','',2),
+ (4,'abcxx','0','xxxxyy','P','CN','2010-01-01','','sc.R)','31065011','二线大厂11','13812345678',2);
 /*!40000 ALTER TABLE `tb_player` ENABLE KEYS */;
 
 
