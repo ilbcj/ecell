@@ -11,4 +11,8 @@ public interface SeasonService {
 	 * @return
 	 */
 	PageUtils queryPage(Map<String, Object> params);
+
+	boolean insertSeason(Map<String, Object> parm);
+
+	boolean updateSeason(Map<String, Object> parm);
 }

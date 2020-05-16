@@ -931,6 +931,11 @@ function _initECELL(o) {
 		        onClose: false,
 		        format: "YYYY-MM-DD"
 		    });
+		    jeDate("#season_content_start",{
+		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+		        onClose: false,
+		        format: "YYYY-MM-DD"
+		    });
 			
 			var dtable = $('#season_main_table').DataTable({
 				ajax:{
@@ -999,59 +1004,299 @@ function _initECELL(o) {
             $('#del_season_yes').on('click.ECELL.season.del.yes', $.ECELL.season.delConfirmYes);
 		},
 		query: function () {
+			var star = $('#season_search_start').val();
+			var end = $('#season_search_end').val();
+			if(end != '' && star > end) {
+				$.ECELL.tipMessage('开始时间不能大于结束时间', false);
+				return false;
+			}
 			$('#season_main_table').DataTable().ajax.reload();
 			return;
 		},
 		emptyVal: function() {
-			$('#appId').val('');
-			$('#appName').val('');
-			$('#appType').val('');
+			$('#season_content_name').val('');
+			$('#season_content_start').val('');
+			$("#season_content_status").dropdown('clear');
 		},
-		app_regist_empty: function() {
-			$.ECELL.appRegist.emptyVal();
+		contentToggle: function() {
+			$.ECELL.season.emptyVal();
+			$('#season_list,#season_content').toggleClass('displaynone');
+			
+			var seasonId = $(this).data('id');
+			if( undefined != seasonId ) {
+				$.ECELL.season.fillDetailData(seasonId);
+			}
+			else{
+				$('#season_content_status').dropdown('set selected', '0');
+				seasonId = 0;
+			}
+			$('#season_content').data('season_id', seasonId);
 		},
-		app_regist: function() {
-			var appName = $('#appName').val().trim();
-			if(appName == "") {
-			}
-			var appId = $('#appId').val().trim();
-			if(appId == "") {
-				appId = 'null';
-			}
-			var appType = $('#appType').val().trim();
-			if(appType == "") {
-				appType = '';
-				
-			}
+		fillDetailData: function(seasonId) {
+			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
+			$('#season_content_name').val(rowData.name);
+			$("#season_content_start").val(rowData.startTime);
+			$('#season_content_status').dropdown('set selected', rowData.status.toString());
+		},
+		regist: function() {
 			var postData = {};
-			postData.appName = appName;
-			postData.appId = appId;
-			postData.appType = appType;
-			var urlTarget = o.basePath + '/app/regist';
-			$.postjson(urlTarget + '?rand=' + Math.random(), JSON
-				.stringify(postData),
+			postData.id = $('#season_content').data('season_id');
+			postData.name = $('#season_content_name').val();
+			postData.startTime = $("#season_content_start").val();
+			postData.status = $('#season_content_status').dropdown('get value');
+			
+			var urlTarget = o.basePath + '/season/';;
+			if( postData.id == 0 ) {
+				urlTarget += 'regist';
+			}
+			else {
+				urlTarget += 'modfiy';
+			}
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					$.ECELL.season.contentToggle();
+					
+					$('#season_main_table').DataTable().ajax.reload();
+					var message = '保存选手信息成功!';
+					$.ECELL.tipMessage(message);
+				} else {
+					var message = '保存选手信息失败![' + data.msg + ', ' + data.code + ']';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
+		},
+		schedule: function() {
+			$.ECELL.tipMessage("coming soon...", false);
+			return false;
+		},
+		delConfirm: function() {
+			var seasonId = $(this).data('id');
+			$('#season_delconfirm_modal').data('del_season_id', seasonId);
+			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
+			var message = '是否删除 <span class="ui red label huge">' + rowData.name + '</span> 赛季？';
+			$('#season_confirm_modal_message').html(message);
+			$("#season_delconfirm_modal").modal({
+				closable: false
+			}).modal('show');
+		},
+		delConfirmYes: function() {
+			$.ECELL.tipMessage("系统瓦特了。。。", false);
+			return false;
+			var postData = {};
+			postData.id = $('#season_delconfirm_modal').data('del_season_id');
+			var urlTarget = o.basePath + '/season/delete';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData),
 				function(data, textStatus, jqXHR) {
 					if(data.code == 0) {
-						var msg='应用ID：'+data.app.appId+"<br>"+'应用名称：'+data.app.appName+
-						'<br>'+'应用类别：'+data.app.appType;
-						//swal('应用注册成功',msg,'success');
-						 swal({
-					            type: 'success',
-					            title: '应用注册成功',
-					            html: msg,
-					           allowOutsideClick: false
-					        })
-						$.ECELL.appRegist.emptyVal();
+						$.ECELL.tipMessageSuccess("赛季删除成功。");
+						$('#season_main_table').DataTable().ajax.reload();
+						$("#season_delconfirm_modal").modal({
+							closable: false
+						}).modal('hide');
 					} else {
-
 						var msg = data.msg;
 						$.ECELL.tipMessage(msg, false);
 					}
 				}, 'json');
-
 		}
-
 	}; // season管理结束
+	
+	$.ECELL.schedule = {
+		activate: function() {
+			$(".ui.dropdown").dropdown({
+				allowCategorySelection: true,
+				transition: "fade up"
+			});
+			
+			/*jeDate("#season_search_start",{
+		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+		        onClose: false,
+		        format: "YYYY-MM-DD"
+		    });
+		    jeDate("#season_search_end",{
+		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+		        onClose: false,
+		        format: "YYYY-MM-DD"
+		    });
+		    jeDate("#season_content_start",{
+		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+		        onClose: false,
+		        format: "YYYY-MM-DD"
+		    });*/
+			
+			var dtable = $('#schedule_main_table').DataTable({
+				ajax:{
+					url: o.basePath + '/schedule/list',
+					type: 'POST',
+					data: function ( d ) {
+				        d.name = $('#schedule_search_season').val();
+					},
+					dataSrc: $.ECELL.ParseDataTableResult
+				},
+				processing: true,
+				serverSide: true,
+				columns: [
+					{ data: 'season' },
+					{ data: 'round' },
+					{ data: 'sets' },
+					{ data: 'type' },
+					{ data: 'status' },
+					{ data: null }
+				],
+				rowId: 'id',
+		        columnDefs: [
+		        	{
+						render: function ( data, type, row ) {
+							var html = '';
+							if( data == '0' ) {
+								html = '<span class="ui basic black button">选拔赛</span>';
+							}
+							else if( data == '1' ) {
+								html = '<span class="ui basic black button">常规赛</span>';
+							}
+							else if( data == '2' ) {
+								html = '<span class="ui basic black button">季后赛</span>';
+							}
+							return html;
+						},
+						targets: 3
+					},
+		        	{
+						render: function ( data, type, row ) {
+							var html = '';
+							if( data == '0' ) {
+								html = '<span class="ui basic black button">新建</span>';
+							}
+							else if( data == '1' ) {
+								html = '<span class="ui basic black button">活动</span>';
+							}
+							else if( data == '2' ) {
+								html = '<span class="ui basic black button">结束</span>';
+							}
+							return html;
+						},
+						targets: 4
+					},
+					{
+						render: function ( data, type, row ) {
+							var html = '';
+								html = '<div class="btn-group">';
+								html += '<div class="ui yellow horizontal label schedule_record" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
+								html += '</div>';
+							return html;							
+						},
+						targets: 5
+					}
+				],
+		        //order: [1, 'desc'],
+				responsive: true
+		    });
+			
+			// listen page items' event
+			$('#schedule_search').on('click.ECELL.schedule.query', $.ECELL.schedule.query);
+			$('#schedule_main_table').on( 'draw.dt', function () {
+				$('.schedule_record').on('click.ECELL.schedule.update', $.ECELL.schedule.contentToggle);
+			});
+            $('#schedule_record_content_save').on('click.ECELL.season.save', $.ECELL.season.regist);
+            $('#schedule_record_content_return').on('click.ECELL.season.return', $.ECELL.season.contentToggle);
+		},
+		query: function () {
+			var star = $('#season_search_start').val();
+			var end = $('#season_search_end').val();
+			if(end != '' && star > end) {
+				$.ECELL.tipMessage('开始时间不能大于结束时间', false);
+				return false;
+			}
+			$('#season_main_table').DataTable().ajax.reload();
+			return;
+		},
+		emptyVal: function() {
+			$('#season_content_name').val('');
+			$('#season_content_start').val('');
+			$("#season_content_status").dropdown('clear');
+		},
+		contentToggle: function() {
+			$.ECELL.season.emptyVal();
+			$('#season_list,#season_content').toggleClass('displaynone');
+			
+			var seasonId = $(this).data('id');
+			if( undefined != seasonId ) {
+				$.ECELL.season.fillDetailData(seasonId);
+			}
+			else{
+				$('#season_content_status').dropdown('set selected', '0');
+				seasonId = 0;
+			}
+			$('#season_content').data('season_id', seasonId);
+		},
+		fillDetailData: function(seasonId) {
+			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
+			$('#season_content_name').val(rowData.name);
+			$("#season_content_start").val(rowData.startTime);
+			$('#season_content_status').dropdown('set selected', rowData.status.toString());
+		},
+		regist: function() {
+			var postData = {};
+			postData.id = $('#season_content').data('season_id');
+			postData.name = $('#season_content_name').val();
+			postData.startTime = $("#season_content_start").val();
+			postData.status = $('#season_content_status').dropdown('get value');
+			
+			var urlTarget = o.basePath + '/season/';;
+			if( postData.id == 0 ) {
+				urlTarget += 'regist';
+			}
+			else {
+				urlTarget += 'modfiy';
+			}
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					$.ECELL.season.contentToggle();
+					
+					$('#season_main_table').DataTable().ajax.reload();
+					var message = '保存选手信息成功!';
+					$.ECELL.tipMessage(message);
+				} else {
+					var message = '保存选手信息失败![' + data.msg + ', ' + data.code + ']';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
+		},
+		schedule: function() {
+			$.ECELL.tipMessage("coming soon...", false);
+			return false;
+		},
+		delConfirm: function() {
+			var seasonId = $(this).data('id');
+			$('#season_delconfirm_modal').data('del_season_id', seasonId);
+			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
+			var message = '是否删除 <span class="ui red label huge">' + rowData.name + '</span> 赛季？';
+			$('#season_confirm_modal_message').html(message);
+			$("#season_delconfirm_modal").modal({
+				closable: false
+			}).modal('show');
+		},
+		delConfirmYes: function() {
+			$.ECELL.tipMessage("系统瓦特了。。。", false);
+			return false;
+			var postData = {};
+			postData.id = $('#season_delconfirm_modal').data('del_season_id');
+			var urlTarget = o.basePath + '/season/delete';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData),
+				function(data, textStatus, jqXHR) {
+					if(data.code == 0) {
+						$.ECELL.tipMessageSuccess("赛季删除成功。");
+						$('#season_main_table').DataTable().ajax.reload();
+						$("#season_delconfirm_modal").modal({
+							closable: false
+						}).modal('hide');
+					} else {
+						var msg = data.msg;
+						$.ECELL.tipMessage(msg, false);
+					}
+				}, 'json');
+		}
+	}; // schedule管理结束
 
 	/*
 	 * TipMessage(message) ========== Showing the info or warn message.
@@ -1138,6 +1383,9 @@ function _initECELL(o) {
 		}
 		else if( url == 'pages/season/season.html' ) {
 			$.ECELL.season.activate();
+		}
+		else if( url == 'pages/season/schedule.html' ) {
+			$.ECELL.schedule.activate();
 		}
 		else if( url == 'pages/match/match.html' ) {
 			$.ECELL.match.activate();

@@ -35,6 +35,7 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		String nick=parm.get("nick").toString();
 		Player pe = playerMapper.selectOne(new QueryWrapper<Player>().lambda().eq(Player::getNick, nick));
 		if(pe != null) {
+			logger.info("存在相同ID的选手。ID:" + nick);
 			return false;
 		}
 		player.setNick(nick);

@@ -15,9 +15,9 @@ public class Season implements Serializable, Comparable<Season>{
 	 */
 	private static final long serialVersionUID = 309581702729210312L;
 	
-	public static final int STATUS_INIT = 0;
-	public static final int STATUS_ACTIVE = 1;
-	public static final int STATUS_ARCHIVE = 2;
+	public static final Integer STATUS_INIT = 0;
+	public static final Integer STATUS_ACTIVE = 1;
+	public static final Integer STATUS_ARCHIVE = 2;
 	
 	@TableId(type = IdType.AUTO)
 	private Integer id;
