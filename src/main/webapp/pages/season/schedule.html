@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>schedule.html</title>
+		<link rel="icon" href="img/favicon.ico" />
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name=viewport content="width=device-width, initial-scale=1" />
+	</head>
+
+	<body>
+		<div id="contextWrap">
+			<div class="pusher">
+				<!--maincontent-->
+				<div class="mainWrap navslide">
+					<div class="mainWrapInner">
+						<div id="schedule_list" class="ui equal width left aligned padded grid stackable">
+							<div class="row">
+								<div class="sixteen wide column">
+			                        <div class="ui segments">
+			                            <div class="ui segment">
+			                                <h5 class="ui header">
+												赛程信息
+			                                </h5>
+			                            </div>
+			                            
+			                            <div class="ui form segment">
+											<div class="four fields">
+												<div class="field">
+													<div class="ui input">
+													    <span class="group_span"> 
+													    	<label class="labelFontdef">赛季</label>
+													    </span> 
+													    <input id="schedule_search_season" type="text"  placeholder="赛季名称">
+												    </div>
+												</div>
+												<div class="field">
+													<button id="schedule_search" class="ui floated button">
+                                                        <i class="search icon"></i>查询
+                                                    </button>
+												</div>
+											</div>
+										</div>
+										
+										<div class="ui segment">
+											<table id="schedule_main_table" class="ui celled striped table">
+												<thead>
+													<tr>
+														<th width="18%">赛季</th>
+														<th width="18%">场次</th>
+														<th width="18%">对局盘数</th>
+														<th width="18%">类型</th>
+														<th width="18%">状态</th>
+														<th width="10%">操作</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+			                        </div>
+			                    </div>
+			               </div>
+						</div><!-- /#player_list -->
+						
+						<div id="schedule_content" class="ui equal width left aligned padded grid stackable displaynone">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segments">
+										<div class="ui segment">
+											<h3 class="ui header">
+												<span id="schedule_content_title">赛程信息</span>
+                   					        </h3>
+										</div>
+										<div class="ui form segment">
+											<div class="ui segment">
+				                                <div class="ui pointing secondary menu stackable">
+				                                    <a id="schedule_content_set_0" class="schedule item active" data-tab="one">第一场</a>
+				                                  	<a id="schedule_content_set_1" class="schedule item" data-tab="two">第二场</a>
+				                                    <a id="schedule_content_set_2" class="schedule item" data-tab="three">第三场</a>
+				                                    <a id="schedule_content_set_3" class="schedule item" data-tab="four">第四场</a>
+				                                    <a id="schedule_content_set_4" class="schedule item" data-tab="five">第五场</a>
+				                                </div>
+				                                <div class="ui tab segment active" data-tab="one">
+				                                    <div class="row">
+									                    <div class="sixteen wide column">
+									                    	<div class="ui black segment">
+									                    		<div class="three fields">
+									                    			<div class="field">
+					                   					        		<label>选手1</label>
+					                   					        		<select id="schedule_content_set1_player1" class="ui search selection dropdown cleanDrop"></select>
+					                   					        	</div>
+						                   					        <div class="field">
+						               					        		<label>选手2</label>
+						               					        		<select id="schedule_content_set1_player2" class="ui search selection dropdown cleanDrop"></select>
+						               					        	</div>
+						               					        	<div class="field">
+					                   					        		<label>日期</label>
+					                                                    <input id="schedule_content_set1_date" class="cleanVal" type="text" placeholder="比赛日期" readonly />
+					                   					        	</div>
+						               					        </div>
+									                    	</div>
+									                    	
+									                        <div id="schedule_content_set1_game1" class="ui red segment">
+									                        	<a class="ui red ribbon label">第一局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game1_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game1_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game1_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game1_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game1_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game1_win_p1" class="ecellwin" data-match="schedule_content_set1_game1" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game1_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game1_win_p2" class="ecellwin" data-match="schedule_content_set1_game1" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game1_win_refresh" class="ui  basic grey label ecellwin" data-match="schedule_content_set1_game1" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game1_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game1_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game1_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game2" class="ui orange segment">
+									                        	<a class="ui orange ribbon label">第二局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game2_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game2_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game2_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game2_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game2_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game2_win_p1" class="ecellwin" data-match="schedule_content_set1_game2" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game2_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game2_win_p2" class="ecellwin" data-match="schedule_content_set1_game2" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game2_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game2" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game2_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game2_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game2_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>	
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game3" class="ui yellow segment">
+									                        	<a class="ui yellow ribbon label">第三局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game3_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game3_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game3_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game3_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game3_win_p1_flag" class="checkmark icon displaynone "></i></div>
+								                                            <input id="schedule_content_set1_game3_win_p1" class="ecellwin" data-match="schedule_content_set1_game3" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game3_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game3_win_p2" class="ecellwin" data-match="schedule_content_set1_game3" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game3_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game3" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game3_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game3_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game3_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game4" class="ui olive segment">
+									                        	<a class="ui olive ribbon label">第四局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game4_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game4_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game4_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game4_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game4_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game4_win_p1" class="ecellwin" data-match="schedule_content_set1_game4" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game4_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game4_win_p2" class="ecellwin" data-match="schedule_content_set1_game4" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game4_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game4" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game4_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game4_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game4_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game5" class="ui green segment">
+									                        	<a class="ui green ribbon label">第五局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game5_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game5_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game5_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game5_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game5_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game5_win_p1" class="ecellwin" data-match="schedule_content_set1_game5" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game5_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game5_win_p2" class="ecellwin" data-match="schedule_content_set1_game5" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game5_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game5" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game5_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game5_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game5_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game6" class="ui teal segment">
+									                        	<a class="ui teal ribbon label">第六局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game6_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game6_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game6_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game6_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game6_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game6_win_p1" class="ecellwin" data-match="schedule_content_set1_game6" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game6_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game6_win_p2" class="ecellwin" data-match="schedule_content_set1_game6" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game6_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game6" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game6_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game6_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game6_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game7" class="ui blue segment">
+									                        	<a class="ui blue ribbon label">第七局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game7_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game7_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game7_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game7_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game7_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game7_win_p1" class="ecellwin" data-match="schedule_content_set1_game7" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game7_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game7_win_p2" class="ecellwin" data-match="schedule_content_set1_game7" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game7_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game7" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game7_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game7_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game7_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game8" class="ui violet segment">
+									                        	<a class="ui violet ribbon label">第八局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game8_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game8_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game8_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game8_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game8_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game8_win_p1" type="button" class="ecellwin" data-match="schedule_content_set1_game8" data-player="p1" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game8_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game8_win_p2" class="ecellwin" data-match="schedule_content_set1_game8" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game8_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game8" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game8_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game8_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game8_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set1_game9" class="ui purple segment">
+									                        	<a class="ui purple ribbon label">第九局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set1_game9_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set1_game9_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game9_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set1_game9_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set1_game9_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game9_win_p1" class="ecellwin" data-match="schedule_content_set1_game9" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set1_game9_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set1_game9_win_p2" class="ecellwin" data-match="schedule_content_set1_game9" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set1_game9_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set1_game9" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player1" class="cleanVal" type="text" placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game9_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player1_apm" class="cleanVal" type="text" placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player1_oil" class="cleanVal" type="text" placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player1_crystal" class="cleanVal" type="text" placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player2" class="cleanVal" type="text" placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set1_game9_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player2_apm" class="cleanVal" type="text" placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player2_oil" class="cleanVal" type="text" placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set1_game9_player2_crystal" class="cleanVal" type="text" placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                    </div>
+									                </div>
+				                                </div>
+												<!-- /data-tab="one" -->
+				                                <div class="ui tab segment" data-tab="two">
+				                                    <div class="row">
+									                    <div class="sixteen wide column">
+									                    	<div class="ui black segment">
+									                    		<div class="three fields">
+									                    			<div class="field">
+					                   					        		<label>选手1</label>
+					                   					        		<select id="schedule_content_set2_player1" class="ui search selection dropdown cleanDrop"></select>
+					                   					        	</div>
+						                   					        <div class="field">
+						               					        		<label>选手2</label>
+						               					        		<select id="schedule_content_set2_player2" class="ui search selection dropdown cleanDrop"></select>
+						               					        	</div>
+						               					        	<div class="field">
+					                   					        		<label>日期</label>
+					                                                    <input id="schedule_content_set2_date" class="cleanVal" type="text" placeholder="比赛日期" readonly />
+					                   					        	</div>
+						               					        </div>
+									                    	</div>
+									                    	
+									                        <div id="schedule_content_set2_game1" class="ui red segment">
+									                        	<a class="ui red ribbon label">第一局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set2_game1_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set2_game1_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game1_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game1_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set2_game1_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set2_game1_win_p1" class="ecellwin" data-match="schedule_content_set2_game1" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set2_game1_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set2_game1_win_p2" class="ecellwin" data-match="schedule_content_set2_game1" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set2_game1_win_refresh" class="ui  basic grey label ecellwin" data-match="schedule_content_set2_game1" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game1_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game1_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game1_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set2_game2" class="ui orange segment">
+									                        	<a class="ui orange ribbon label">第二局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set2_game2_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set2_game2_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game2_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game2_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set2_game2_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set2_game2_win_p1" class="ecellwin" data-match="schedule_content_set2_game2" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set2_game2_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set2_game2_win_p2" class="ecellwin" data-match="schedule_content_set2_game2" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set2_game2_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set2_game2" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game2_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game2_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game2_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>	
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set2_game3" class="ui yellow segment">
+									                        	<a class="ui yellow ribbon label">第三局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set2_game3_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set2_game3_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game3_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set2_game3_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set2_game3_win_p1_flag" class="checkmark icon displaynone "></i></div>
+								                                            <input id="schedule_content_set2_game3_win_p1" class="ecellwin" data-match="schedule_content_set2_game3" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set2_game3_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set2_game3_win_p2" class="ecellwin" data-match="schedule_content_set2_game3" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set2_game3_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set2_game3" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game3_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set2_game3_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set2_game3_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                       </div>
+									                    </div>
+									                </div>
+				                                </div>
+												<!-- /data-tab="two" -->
+												<div class="ui tab segment" data-tab="three">
+				                                    <div class="row">
+									                    <div class="sixteen wide column">
+									                    	<div class="ui black segment">
+									                    		<div class="three fields">
+									                    			<div class="field">
+					                   					        		<label>选手1</label>
+					                   					        		<select id="schedule_content_set3_player1" class="ui search selection dropdown cleanDrop"></select>
+					                   					        	</div>
+						                   					        <div class="field">
+						               					        		<label>选手2</label>
+						               					        		<select id="schedule_content_set3_player2" class="ui search selection dropdown cleanDrop"></select>
+						               					        	</div>
+						               					        	<div class="field">
+					                   					        		<label>日期</label>
+					                                                    <input id="schedule_content_set3_date" class="cleanVal" type="text" placeholder="比赛日期" readonly />
+					                   					        	</div>
+						               					        </div>
+									                    	</div>
+									                    	
+									                        <div id="schedule_content_set3_game1" class="ui red segment">
+									                        	<a class="ui red ribbon label">第一局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set3_game1_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set3_game1_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game1_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game1_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set3_game1_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set3_game1_win_p1" class="ecellwin" data-match="schedule_content_set3_game1" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set3_game1_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set3_game1_win_p2" class="ecellwin" data-match="schedule_content_set3_game1" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set3_game1_win_refresh" class="ui  basic grey label ecellwin" data-match="schedule_content_set3_game1" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game1_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game1_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game1_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set3_game2" class="ui orange segment">
+									                        	<a class="ui orange ribbon label">第二局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set3_game2_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set3_game2_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game2_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game2_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set3_game2_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set3_game2_win_p1" class="ecellwin" data-match="schedule_content_set3_game2" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set3_game2_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set3_game2_win_p2" class="ecellwin" data-match="schedule_content_set3_game2" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set3_game2_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set3_game2" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game2_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game2_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game2_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>	
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set3_game3" class="ui yellow segment">
+									                        	<a class="ui yellow ribbon label">第三局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set3_game3_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set3_game3_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game3_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set3_game3_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set3_game3_win_p1_flag" class="checkmark icon displaynone "></i></div>
+								                                            <input id="schedule_content_set3_game3_win_p1" class="ecellwin" data-match="schedule_content_set3_game3" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set3_game3_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set3_game3_win_p2" class="ecellwin" data-match="schedule_content_set3_game3" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set3_game3_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set3_game3" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game3_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set3_game3_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set3_game3_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                       </div>
+									                    </div>
+									                </div>
+				                                </div>
+												<!-- /data-tab="three" -->
+				                                <div class="ui tab segment" data-tab="four">
+				                                    <div class="row">
+									                    <div class="sixteen wide column">
+									                    	<div class="ui black segment">
+									                    		<div class="three fields">
+									                    			<div class="field">
+					                   					        		<label>选手1</label>
+					                   					        		<select id="schedule_content_set4_player1" class="ui search selection dropdown cleanDrop"></select>
+					                   					        	</div>
+						                   					        <div class="field">
+						               					        		<label>选手2</label>
+						               					        		<select id="schedule_content_set4_player2" class="ui search selection dropdown cleanDrop"></select>
+						               					        	</div>
+						               					        	<div class="field">
+					                   					        		<label>日期</label>
+					                                                    <input id="schedule_content_set4_date" class="cleanVal" type="text" placeholder="比赛日期" readonly />
+					                   					        	</div>
+						               					        </div>
+									                    	</div>
+									                    	
+									                        <div id="schedule_content_set4_game1" class="ui red segment">
+									                        	<a class="ui red ribbon label">第一局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set4_game1_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set4_game1_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game1_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game1_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set4_game1_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set4_game1_win_p1" class="ecellwin" data-match="schedule_content_set4_game1" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set4_game1_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set4_game1_win_p2" class="ecellwin" data-match="schedule_content_set4_game1" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set4_game1_win_refresh" class="ui  basic grey label ecellwin" data-match="schedule_content_set4_game1" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game1_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game1_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game1_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set4_game2" class="ui orange segment">
+									                        	<a class="ui orange ribbon label">第二局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set4_game2_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set4_game2_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game2_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game2_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set4_game2_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set4_game2_win_p1" class="ecellwin" data-match="schedule_content_set4_game2" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set4_game2_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set4_game2_win_p2" class="ecellwin" data-match="schedule_content_set4_game2" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set4_game2_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set4_game2" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game2_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game2_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game2_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>	
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set4_game3" class="ui yellow segment">
+									                        	<a class="ui yellow ribbon label">第三局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set4_game3_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set4_game3_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game3_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set4_game3_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set4_game3_win_p1_flag" class="checkmark icon displaynone "></i></div>
+								                                            <input id="schedule_content_set4_game3_win_p1" class="ecellwin" data-match="schedule_content_set4_game3" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set4_game3_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set4_game3_win_p2" class="ecellwin" data-match="schedule_content_set4_game3" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set4_game3_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set4_game3" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game3_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set4_game3_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set4_game3_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                       </div>
+									                    </div>
+									                </div>
+				                                </div>
+				                                <!-- /data-tab="four" -->
+				                                <div class="ui tab segment" data-tab="five">
+				                                    <div class="row">
+									                    <div class="sixteen wide column">
+									                    	<div class="ui black segment">
+									                    		<div class="three fields">
+									                    			<div class="field">
+					                   					        		<label>选手1</label>
+					                   					        		<select id="schedule_content_set5_player1" class="ui search selection dropdown cleanDrop"></select>
+					                   					        	</div>
+						                   					        <div class="field">
+						               					        		<label>选手2</label>
+						               					        		<select id="schedule_content_set5_player2" class="ui search selection dropdown cleanDrop"></select>
+						               					        	</div>
+						               					        	<div class="field">
+					                   					        		<label>日期</label>
+					                                                    <input id="schedule_content_set5_date" class="cleanVal" type="text" placeholder="比赛日期" readonly />
+					                   					        	</div>
+						               					        </div>
+									                    	</div>
+									                    	
+									                        <div id="schedule_content_set5_game1" class="ui red segment">
+									                        	<a class="ui red ribbon label">第一局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set5_game1_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set5_game1_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game1_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game1_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set5_game1_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set5_game1_win_p1" class="ecellwin" data-match="schedule_content_set5_game1" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set5_game1_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set5_game1_win_p2" class="ecellwin" data-match="schedule_content_set5_game1" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set5_game1_win_refresh" class="ui  basic grey label ecellwin" data-match="schedule_content_set5_game1" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game1_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game1_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game1_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set5_game2" class="ui orange segment">
+									                        	<a class="ui orange ribbon label">第二局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set5_game2_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set5_game2_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game2_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game2_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set5_game2_win_p1_flag" class="checkmark icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set5_game2_win_p1" class="ecellwin" data-match="schedule_content_set5_game2" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set5_game2_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set5_game2_win_p2" class="ecellwin" data-match="schedule_content_set5_game2" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set5_game2_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set5_game2" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game2_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game2_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game2_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>	
+									                        </div>
+									                        
+									                        
+									                        
+									                        <div id="schedule_content_set5_game3" class="ui yellow segment">
+									                        	<a class="ui yellow ribbon label">第三局</a>
+																<div class="three fields">
+																	<div class="field">
+																		<div class="ui left labeled input schedule hotfix">
+																			<div class="ui basic label">
+																		    	本局地图
+								                                            </div>
+						                   					        		<select id="schedule_content_set5_game3_map" class="ui search selection dropdown fluid cleanDrop"></select>
+						                   					        	</div>
+						                   					        </div>
+																	<div class="field">
+																	    <div class="ui left labeled fluid input">
+																	    	<div class="ui basic label">
+																	    		比赛时间
+							                                            	</div>
+																		    <input id="schedule_content_set5_game3_hour" class="cleanVal" type="text" placeholder="时" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game3_minute" class="cleanVal" type="text" placeholder="分" />
+								                                            <div class="ui label">-</div>
+								                                            <input id="schedule_content_set5_game3_second" class="cleanVal" type="text" placeholder="秒" />
+                                										</div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	胜方
+																		    </div>
+																		    <div class="ui label"><i id="schedule_content_set5_game3_win_p1_flag" class="checkmark icon displaynone "></i></div>
+								                                            <input id="schedule_content_set5_game3_win_p1" class="ecellwin" data-match="schedule_content_set5_game3" data-player="p1" type="button" value="选手1胜利点我" />
+								                                            <div class="ui label"><i id="schedule_content_set5_game3_win_p2_flag" class="remove icon displaynone cleanDisplay"></i></div>
+								                                            <input id="schedule_content_set5_game3_win_p2" class="ecellwin" data-match="schedule_content_set5_game3" data-player="p2" type="button" value="选手2胜利点我" />
+								                                            <div id="schedule_content_set5_game3_win_refresh" class="ui basic grey label ecellwin" data-match="schedule_content_set5_game3" data-player="refresh"><i class="refresh icon"></i></div>
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手1
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player1" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game3_player1_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player1_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player1_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player1_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+																
+																<div class="five fields">
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	选手2
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player2" class="cleanVal" type="text"  placeholder="选手ID" readonly />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input schedule hotfix">
+																		    <div class="ui basic label">
+																		    	种族
+																		    </div>
+																		    <select id="schedule_content_set5_game3_player2_race" class="ui selection dropdown fluid cleanDrop">
+																		    	<option value='T'>人族</option>
+																		    	<option value='P'>神族</option>
+																		    	<option value='Z'>虫族</option>
+																		    	<option value='R'>随机</option>
+																		    </select>
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	apm
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player2_apm" class="cleanVal" type="text"  placeholder="选手apm" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	油矿
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player2_oil" class="cleanVal" type="text"  placeholder="本局油矿" />
+																	    </div>
+																	</div>
+																	<div class="field">
+																		<div class="ui left labeled fluid input">
+																		    <div class="ui basic label">
+																		    	水晶
+																		    </div>
+																		    <input id="schedule_content_set5_game3_player2_crystal" class="cleanVal" type="text"  placeholder="本局水晶" />
+																	    </div>
+																	</div>
+																</div>
+									                       </div>
+									                    </div>
+									                </div>
+				                                </div>
+				                                <!-- /data-tab="five" -->
+				                           </div>
+				                           <!-- /tabs -->
+										</div>
+										<div class="ui segment right aligned">
+											<button id="schedule_record_content_save" class="ui primary button saving">保存</button>
+											<button id="schedule_record_content_return" class="ui button">返回</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /#season_content -->
+						
+						<div id="schedule_delconfirm_modal" class="ui basic modal">                                                                                  
+				            <div class="header">
+								删除赛程
+				            </div>
+				            <div class="image content">
+				                <div class="image">
+				                    <i class="archive icon"></i>
+				                </div>
+				                <div class="description">
+				                    <p id="schedule_confirm_modal_message"></p>
+				                </div>
+				            </div>
+				            <div class="actions">
+				                <div class="two fluid ui inverted buttons">
+				            	    <div id="del_schedule_yes" class="ui green basic inverted button">
+				                        <i class="checkmark icon"></i>
+										确认删除
+				                    </div>
+				                    <div class="ui red basic inverted deny button">
+				                        <i class="remove icon"></i>
+										取消
+				                    </div>
+				                </div>
+				            </div>
+				    	</div>
+					</div>
+					<!-- /.mainWrapInner end -->
+				</div>
+				<!--maincontent-->
+			</div>
+		</div>
+	</body>
+
+</html>
