@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ilbcj.ecell.dto.ScheduleDTO;
 import com.ilbcj.ecell.entity.Schedule;
 import com.ilbcj.ecell.service.ScheduleService;
 import com.ilbcj.ecell.util.PageUtils;
@@ -50,10 +51,21 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping(value="/list/season", method = RequestMethod.POST)
-	public R updateAdminStatus(@RequestBody Map<String,Object> parm) {
+	public R updateScheduleStatus(@RequestBody Map<String,Object> parm) {
 		Integer seasonId = (Integer) parm.get("seasonId");
 		List<Schedule> list = scheduleService.queryBySeason(seasonId);
 		Collections.sort(list);
 		return R.ok().put("list", list);
+	}
+	
+	@RequestMapping(value="/save/matches", method = RequestMethod.POST)
+	//public R saveScheduleMatches(@RequestBody Map<String,Object> parm) {
+	public R saveScheduleMatches(@RequestBody ScheduleDTO parm ) {
+		//Integer seasonId = (Integer) parm.get("seasonId");
+		//List<Schedule> list = scheduleService.queryBySeason(seasonId);
+		//Collections.sort(list);
+		//return R.ok().put("list", list);
+		System.out.println(parm);
+		return R.ok();
 	}
 }

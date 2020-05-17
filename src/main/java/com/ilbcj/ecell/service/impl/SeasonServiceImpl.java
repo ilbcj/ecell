@@ -145,7 +145,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_R_1);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_REGULAR);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -157,7 +157,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_R_2);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_REGULAR);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -169,7 +169,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_R_3);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_REGULAR);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -181,7 +181,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_R_4);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_REGULAR);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -290,7 +290,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_P_1);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_PLAYOFF);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -302,7 +302,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_P_2);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_PLAYOFF);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -314,7 +314,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_P_3);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_PLAYOFF);
 		schedule.setStatus(Schedule.STATUS_INIT);
@@ -326,7 +326,7 @@ public class SeasonServiceImpl implements SeasonService {
 		schedule = new Schedule();
 		schedule.setSeasonId(season.getId());
 		schedule.setRound(Schedule.ROUND_P_4);
-		schedule.setSets(4);
+		schedule.setSets(5);
 		schedule.setFormat(Schedule.FORMAT_BO3);
 		schedule.setType(Schedule.TYPE_PLAYOFF);
 		schedule.setStatus(Schedule.STATUS_INIT);

@@ -43,7 +43,7 @@ CREATE TABLE `tb_admin` (
 
 /*!40000 ALTER TABLE `tb_admin` DISABLE KEYS */;
 INSERT INTO `tb_admin` (`id`,`login_id`,`pwd`,`name`,`status`,`token`,`session_id`) VALUES 
- (1,'admin','1','aa',0,'1589526938007','BBF4E4296F1D8768EEC9D575F9588BDE'),
+ (1,'admin','1','aa',0,'1589717039029','DCA02C6B27D9D538226E5EF7FA2292C8'),
  (2,'super','11111111','administrator',0,'','');
 /*!40000 ALTER TABLE `tb_admin` ENABLE KEYS */;
 
@@ -56,13 +56,15 @@ DROP TABLE IF EXISTS `tb_match`;
 CREATE TABLE `tb_match` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `season_id` int(10) unsigned NOT NULL COMMENT '赛季ID',
-  `round_id` int(10) unsigned NOT NULL COMMENT '场次ID',
-  `set` int(10) unsigned NOT NULL COMMENT '对局盘数',
-  `pa_id` int(10) unsigned NOT NULL COMMENT 'A选手ID',
-  `pb_id` int(10) unsigned NOT NULL COMMENT 'B选手ID',
-  `pa_race` varchar(45) NOT NULL COMMENT 'A选手种族',
-  `pb_race` varchar(45) NOT NULL COMMENT 'B选手种族',
-  `winner` int(10) unsigned NOT NULL COMMENT '胜利方',
+  `schedule_id` int(10) unsigned NOT NULL COMMENT '赛程ID',
+  `set_id` int(10) unsigned NOT NULL COMMENT '场次ID',
+  `map_id` int(10) unsigned DEFAULT NULL COMMENT '地图ID',
+  `pa_id` int(10) unsigned DEFAULT NULL COMMENT 'A选手ID',
+  `pb_id` int(10) unsigned DEFAULT NULL COMMENT 'B选手ID',
+  `pa_race` varchar(45) DEFAULT NULL COMMENT 'A选手种族',
+  `pb_race` varchar(45) DEFAULT NULL COMMENT 'B选手种族',
+  `duration` varchar(45) DEFAULT NULL COMMENT '比赛时长',
+  `winner` int(10) unsigned DEFAULT NULL COMMENT '胜利方',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -127,7 +129,7 @@ INSERT INTO `tb_menu` (`id`,`menu_id`,`parent_id`,`name`,`url`,`type`,`icon`,`or
  (1,1,0,'系统管理','',0,'fa fa-cog',0,'',0),
  (2,2,0,'赛季管理','',0,'fa fa-user-secret',0,'',1),
  (3,3,0,'选手管理','',0,'fa fa-user-secret',0,'',1),
- (4,4,0,'比赛管理','',0,'fa fa-user-secret',0,'',1),
+ (4,4,0,'比赛管理','',0,'fa fa-user-secret',0,'',0),
  (5,100,1,'管理员信息','pages/system/admin.html',1,'',1,'',1),
  (6,200,2,'赛季信息','pages/season/season.html',1,'',1,'',1),
  (7,201,2,'赛程信息','pages/season/schedule.html',1,'',2,'',1),
@@ -164,10 +166,10 @@ CREATE TABLE `tb_player` (
 
 /*!40000 ALTER TABLE `tb_player` DISABLE KEYS */;
 INSERT INTO `tb_player` (`id`,`name`,`gender`,`nick`,`race`,`country`,`birth`,`picture`,`team_name`,`qq`,`wechat`,`tel`,`status`) VALUES 
- (1,'super','1','PPPPP','P','KR','2000-01-11','abc.jpg','For','510650','一线大场','13812345678',1),
- (2,'张三','1','66666','T','KR','2000-03-01','xxx.jpg','SVS','310650','二线大厂','13800000001',1),
- (3,'李四','0','cloud','T','KR','','xxx.jpg','','510650','二线大厂','',2),
- (4,'abcxx','0','xxxxyy','P','CN','2010-01-01','','sc.R)','31065011','二线大厂11','13812345678',2);
+ (1,'super','1','中华','P','KR','2000-01-11','abc.jpg','For','510650','一线大场','13812345678',1),
+ (2,'张三','1','欧盟','T','KR','2000-03-01','xxx.jpg','SVS','310650','二线大厂','13800000001',1),
+ (3,'李四','0','亚太','T','KR','','xxx.jpg','','510650','二线大厂','',1),
+ (4,'abcxx','0','地球','P','CN','2010-01-01','','sc.R)','31065011','二线大厂11','13812345678',1);
 /*!40000 ALTER TABLE `tb_player` ENABLE KEYS */;
 
 
@@ -265,20 +267,43 @@ CREATE TABLE `tb_schedule` (
   `season_id` int(10) unsigned NOT NULL COMMENT '赛季ID',
   `round` varchar(45) NOT NULL COMMENT '场次',
   `sets` int(10) unsigned NOT NULL COMMENT '对局盘数',
-  `race_day` varchar(45) NOT NULL COMMENT '比赛日期',
+  `format` int(10) unsigned NOT NULL COMMENT '赛制',
+  `race_day` varchar(45) DEFAULT '' COMMENT '比赛日期',
   `type` int(10) unsigned NOT NULL COMMENT '类型',
   `status` int(10) unsigned NOT NULL COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_schedule`
 --
 
 /*!40000 ALTER TABLE `tb_schedule` DISABLE KEYS */;
-INSERT INTO `tb_schedule` (`id`,`season_id`,`round`,`sets`,`race_day`,`type`,`status`) VALUES 
- (1,1,'第一场',5,'2020-05-18',1,1),
- (2,1,'第二场',5,'2020-05-18',1,1);
+INSERT INTO `tb_schedule` (`id`,`season_id`,`round`,`sets`,`format`,`race_day`,`type`,`status`) VALUES 
+ (1,8,'常规赛16进8_1',5,3,'',1,0),
+ (2,8,'常规赛16进8_2',5,3,'',1,0),
+ (3,8,'常规赛16进8_3',5,3,'',1,0),
+ (4,8,'常规赛16进8_4',5,3,'',1,0),
+ (5,8,'常规赛8进4_1',1,7,'',1,0),
+ (6,8,'常规赛8进4_2',1,7,'',1,0),
+ (7,8,'常规赛8进4_3',1,7,'',1,0),
+ (8,8,'常规赛8进4_4',1,7,'',1,0),
+ (9,8,'常规赛4进2_1',1,7,'',1,0),
+ (10,8,'常规赛4进2_2',1,7,'',1,0),
+ (11,8,'常规赛34名',1,9,'',1,0),
+ (12,8,'常规赛12名',1,9,'',1,0),
+ (13,8,'季后赛16进8_1',5,3,'',2,0),
+ (14,8,'季后赛16进8_2',5,3,'',2,0),
+ (15,8,'季后赛16进8_3',5,3,'',2,0),
+ (16,8,'季后赛16进8_4',5,3,'',2,0),
+ (17,8,'季后赛8进4_1',1,7,'',2,0),
+ (18,8,'季后赛8进4_2',1,7,'',2,0),
+ (19,8,'季后赛8进4_3',1,7,'',2,0),
+ (20,8,'季后赛8进4_4',1,7,'',2,0),
+ (21,8,'季后赛4进2_1',1,7,'',2,0),
+ (22,8,'季后赛4进2_2',1,7,'',2,0),
+ (23,8,'季后赛34名',1,9,'',2,0),
+ (24,8,'季后赛12名',1,9,'',2,0);
 /*!40000 ALTER TABLE `tb_schedule` ENABLE KEYS */;
 
 
@@ -294,7 +319,7 @@ CREATE TABLE `tb_season` (
   `start_time` varchar(45) NOT NULL COMMENT '起始时间',
   `status` int(10) unsigned NOT NULL COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_season`
@@ -302,7 +327,13 @@ CREATE TABLE `tb_season` (
 
 /*!40000 ALTER TABLE `tb_season` DISABLE KEYS */;
 INSERT INTO `tb_season` (`id`,`name`,`start_ts`,`start_time`,`status`) VALUES 
- (1,'第一季','11111111111111','2020-05-01',1);
+ (1,'第一季','11111111111111','2020-05-01',1),
+ (2,'第二季','1589731200000','2020-05-18',0),
+ (3,'第三季','1590854400000','2020-05-31',0),
+ (4,'4444','1589731200000','2020-05-18',0),
+ (5,'555','1589731200000','2020-05-18',0),
+ (7,'666','1589731200000','2020-05-18',0),
+ (8,'创世纪','1589731200000','2020-05-18',1);
 /*!40000 ALTER TABLE `tb_season` ENABLE KEYS */;
 
 
