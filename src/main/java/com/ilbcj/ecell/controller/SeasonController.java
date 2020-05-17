@@ -25,9 +25,8 @@ public class SeasonController {
 	@Autowired
 	private SeasonService seasonService;
 
-
 	@RequestMapping(value="/regist", method = RequestMethod.POST)
-	public R registAdmin(@RequestBody Map<String,Object> parm) {
+	public R registSeason(@RequestBody Map<String,Object> parm) {
 		boolean result=seasonService.insertSeason(parm);
 		
 		if(result) {
@@ -36,6 +35,7 @@ public class SeasonController {
 		return R.error("管理员添加失败，请联系系统管理员！");
 				
 	}
+
 	/**
 	 * 赛季列表
 	 */
@@ -61,11 +61,20 @@ public class SeasonController {
 	}
 	
 	@RequestMapping(value="/modfiy", method = RequestMethod.POST)
-	public R updateAdmin(@RequestBody Map<String,Object> parm) {
+	public R updateSeason(@RequestBody Map<String,Object> parm) {
 		boolean result=seasonService.updateSeason(parm);
 		if(result) {
 			return R.ok();
 		}
 		return R.error("管理员更改失败！");
+	}
+	
+	@RequestMapping(value="/detail", method = RequestMethod.POST)
+	public R adminDetail(@RequestBody Map<String,Object> parm) {
+		Season season = seasonService.detail(parm);
+		if(season!=null) {
+			return R.ok().put("season", season);
+		}
+		return R.error("赛季信息加载失败！");
 	}
 }

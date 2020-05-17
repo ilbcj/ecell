@@ -16,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ilbcj.ecell.entity.Schedule;
 import com.ilbcj.ecell.entity.Season;
+import com.ilbcj.ecell.mapper.ScheduleMapper;
 import com.ilbcj.ecell.mapper.SeasonMapper;
 import com.ilbcj.ecell.service.SeasonService;
 import com.ilbcj.ecell.util.PageUtils;
@@ -29,6 +31,9 @@ public class SeasonServiceImpl implements SeasonService {
 	
 	@Resource
     private SeasonMapper seasonMapper;
+	
+	@Resource
+    private ScheduleMapper scheduleMapper;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -48,6 +53,7 @@ public class SeasonServiceImpl implements SeasonService {
 		return new PageUtils(seasonIPage);
 	}
 
+	@Transactional
 	@Override
 	public boolean insertSeason(Map<String, Object> parm) {
 		Season season = new Season();
@@ -62,26 +68,29 @@ public class SeasonServiceImpl implements SeasonService {
 		Optional<String> startTime = Optional.ofNullable( (String)parm.get("startTime") );
 		season.setStartTime(startTime.orElse(""));
 		
-		if( !season.getStartTime().isEmpty() ) {
-			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Long ts = null;
-			try {
-				
-				Date date = sdf.parse( season.getStartTime() );
-				ts = date.getTime();
-			} catch (ParseException e) {
-				logger.info("保存赛季信息时转换时间数据出错， 时间数据：" + season.getStartTime());
-				return false;
-			}
-			season.setStartTs(ts.toString());
+		if( season.getStartTime().isEmpty() ) {
+			season.setStartTime("2020-05-18");
 		}
 		
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Long ts = null;
+		try {
+			
+			Date date = sdf.parse( season.getStartTime() );
+			ts = date.getTime();
+		} catch (ParseException e) {
+			logger.info("保存赛季信息时转换时间数据出错， 时间数据：" + season.getStartTime());
+			return false;
+		}
+		season.setStartTs(ts.toString());
+			
 		season.setStatus(Season.STATUS_INIT);
 		int ret =  seasonMapper.insert(season);
-		if( ret > 0 ) {
-			return true;
+		if( ret == 0 ) {
+			return false;
 		}
- 		return false;
+		
+		return generateSchedule(season);
 	}
 
 	@Transactional
@@ -127,6 +136,308 @@ public class SeasonServiceImpl implements SeasonService {
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean generateSchedule(Season season) {
+		int ret = 0;
+		Schedule schedule = null;
+		// generate 4 bo3, 4 bo7, 2bo7, 1bo9, 1bo9
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_1);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_2);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_3);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_4);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_5);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_6);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_7);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_8);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_9);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_10);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_11);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO9);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_R_12);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO9);
+		schedule.setType(Schedule.TYPE_REGULAR);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		// generate 4 bo3, 4 bo7, 2bo7, 1bo9, 1bo9
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_1);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_2);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_3);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_4);
+		schedule.setSets(4);
+		schedule.setFormat(Schedule.FORMAT_BO3);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_5);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_6);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_7);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_8);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_9);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_10);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO7);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_11);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO9);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		
+		schedule = new Schedule();
+		schedule.setSeasonId(season.getId());
+		schedule.setRound(Schedule.ROUND_P_12);
+		schedule.setSets(1);
+		schedule.setFormat(Schedule.FORMAT_BO9);
+		schedule.setType(Schedule.TYPE_PLAYOFF);
+		schedule.setStatus(Schedule.STATUS_INIT);
+		ret = scheduleMapper.insert(schedule);
+		if( ret == 0 ) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Season detail(Map<String, Object> parm) {
+		Integer seasonId = (Integer)parm.get("id");
+		Season se = seasonMapper.selectById(seasonId);
+		return se;
 	}
 
 }

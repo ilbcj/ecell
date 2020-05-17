@@ -64,6 +64,10 @@ $.ECELL.options = {
 $(function () {
 	'use strict';
 	
+	//document.getElementById('contextWrap').addEventListener('touchmove',  function (e) { e.preventDefault(); }, { passive: false });
+
+
+	
 	// , headers: { 'x-requested-with': 'XMLHttpRequest' }
     $.ajaxSetup({crossDomain: true, xhrFields: {withCredentials: true}});
     
@@ -864,7 +868,7 @@ function _initECELL(o) {
 			postData.wechat = $('#player_content_wechat').val();
 			postData.status = $('#player_content_status').dropdown('get value');
 			
-			var urlTarget = o.basePath + '/player/';;
+			var urlTarget = o.basePath + '/player/';
 			if( postData.id == 0 ) {
 				urlTarget += 'regist';
 			}
@@ -1045,7 +1049,7 @@ function _initECELL(o) {
 			postData.startTime = $("#season_content_start").val();
 			postData.status = $('#season_content_status').dropdown('get value');
 			
-			var urlTarget = o.basePath + '/season/';;
+			var urlTarget = o.basePath + '/season/';
 			if( postData.id == 0 ) {
 				urlTarget += 'regist';
 			}
@@ -1108,23 +1112,15 @@ function _initECELL(o) {
 				transition: "fade up"
 			});
 			
-			/*jeDate("#season_search_start",{
-		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-		        onClose: false,
-		        format: "YYYY-MM-DD"
-		    });
-		    jeDate("#season_search_end",{
-		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-		        onClose: false,
-		        format: "YYYY-MM-DD"
-		    });
-		    jeDate("#season_content_start",{
-		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-		        onClose: false,
-		        format: "YYYY-MM-DD"
-		    });*/
+			$(".menu .item").tab();
 			
-			var dtable = $('#schedule_main_table').DataTable({
+			jeDate("#schedule_content_set1_date",{
+		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+		        onClose: false,
+		        format: "YYYY-MM-DD"
+		    });
+		    
+		    var dtable = $('#schedule_main_table').DataTable({
 				ajax:{
 					url: o.basePath + '/schedule/list',
 					type: 'POST',
@@ -1136,7 +1132,7 @@ function _initECELL(o) {
 				processing: true,
 				serverSide: true,
 				columns: [
-					{ data: 'season' },
+					{ data: 'seasonName' },
 					{ data: 'round' },
 					{ data: 'sets' },
 					{ data: 'type' },
@@ -1146,6 +1142,13 @@ function _initECELL(o) {
 				rowId: 'id',
 		        columnDefs: [
 		        	{
+						render: function ( data, type, row ) {
+							var html = '' + row.sets + '场bo' + row.format;
+							return html;
+						},
+						targets: 2
+					},
+					{
 						render: function ( data, type, row ) {
 							var html = '';
 							if( data == '0' ) {
@@ -1181,7 +1184,7 @@ function _initECELL(o) {
 						render: function ( data, type, row ) {
 							var html = '';
 								html = '<div class="btn-group">';
-								html += '<div class="ui yellow horizontal label schedule_record" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
+								html += '<div class="ui olive horizontal label schedule_edit" data-id="' + row.id + '"><i class="large edit icon"></i>编辑</div>';
 								html += '</div>';
 							return html;							
 						},
@@ -1195,54 +1198,335 @@ function _initECELL(o) {
 			// listen page items' event
 			$('#schedule_search').on('click.ECELL.schedule.query', $.ECELL.schedule.query);
 			$('#schedule_main_table').on( 'draw.dt', function () {
-				$('.schedule_record').on('click.ECELL.schedule.update', $.ECELL.schedule.contentToggle);
+				$('.schedule_edit').on('click.ECELL.schedule.edit', $.ECELL.schedule.openDetail);
 			});
-            $('#schedule_record_content_save').on('click.ECELL.season.save', $.ECELL.season.regist);
-            $('#schedule_record_content_return').on('click.ECELL.season.return', $.ECELL.season.contentToggle);
+            $('#schedule_record_content_save').on('click.ECELL.schedule.save', $.ECELL.schedule.saveMatch);
+            $('#schedule_record_content_return').on('click.ECELL.schedule.return', $.ECELL.schedule.contentToggle);
+            
+            //get playlist and fill player dropdown
+            var urlTarget = o.basePath + '/player/basic/list';
+            $.postjson(urlTarget + '?rand=' + Math.random(), {}, function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var playersBasic = data.list;
+					$('#schedule_content').data('players_basic', playersBasic);
+					
+					$('#schedule_content_set1_player1, #schedule_content_set1_player2').append('<option value="' + 0 + '"></option>');
+					playersBasic.forEach(function(player){
+						$('#schedule_content_set1_player1, #schedule_content_set1_player2').append('<option value="' + player.id + '">' + player.nick + '</option>');
+					});
+				} else {
+					var message = '获取选手列表信息失败![' + data.msg + ', ' + data.code + ']，请联系管理员！';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
+			
+			$('#schedule_content_set1_player1').change(function(){
+			    //$.ECELL.tipMessage($(this).dropdown('get value') + ":" + $(this).dropdown('get text'));
+				$('#schedule_content_set1_game1_player1, #schedule_content_set1_game2_player1,'
+					+ '#schedule_content_set1_game3_player1, #schedule_content_set1_game4_player1,'
+					+ '#schedule_content_set1_game5_player1, #schedule_content_set1_game6_player1,'
+					+ '#schedule_content_set1_game7_player1, #schedule_content_set1_game8_player1,' 
+					+ '#schedule_content_set1_game9_player1').val($(this).dropdown('get text'));
+				
+				var id = $(this).dropdown('get value');
+				var playersBasic = $('#schedule_content').data('players_basic');
+				playersBasic.forEach(function(player){
+					if(player.id == id) {
+						$('#schedule_content_set1_game1_player1_race,#schedule_content_set1_game2_player1_race,'
+							+ '#schedule_content_set1_game3_player1_race,#schedule_content_set1_game4_player1_race,'
+							+ '#schedule_content_set1_game5_player1_race,#schedule_content_set1_game6_player1_race,'
+							+ '#schedule_content_set1_game7_player1_race,#schedule_content_set1_game8_player1_race,'
+							+ '#schedule_content_set1_game9_player1_race').dropdown('set selected', player.race);
+					}
+				});
+  			});
+  			$('#schedule_content_set1_player2').change(function(){
+			    //$.ECELL.tipMessage($(this).dropdown('get value') + ":" + $(this).dropdown('get text'));
+				$('#schedule_content_set1_game1_player2, #schedule_content_set1_game2_player2,'
+					+ '#schedule_content_set1_game3_player2, #schedule_content_set1_game4_player2,'
+					+ '#schedule_content_set1_game5_player2, #schedule_content_set1_game6_player2,'
+					+ '#schedule_content_set1_game7_player2, #schedule_content_set1_game8_player2,'
+					+ '#schedule_content_set1_game9_player2').val($(this).dropdown('get text'));
+				
+				var id = $(this).dropdown('get value');
+				var playersBasic = $('#schedule_content').data('players_basic');
+				playersBasic.forEach(function(player){
+					if(player.id == id) {
+						$('#schedule_content_set1_game1_player2_race,#schedule_content_set1_game2_player2_race,'
+							+ '#schedule_content_set1_game3_player2_race,#schedule_content_set1_game4_player2_race,'
+							+ '#schedule_content_set1_game5_player2_race,#schedule_content_set1_game6_player2_race,'
+							+ '#schedule_content_set1_game7_player2_race,#schedule_content_set1_game8_player2_race,'
+							+ '#schedule_content_set1_game9_player2_race').dropdown('set selected', player.race);
+					}
+				});
+  			});
+  			
+  			//get map list and file map dropdown
+  			var maps = $.ECELL.staticMap();
+		    maps.forEach(function(map){
+				$('#schedule_content_set1_game1_map,#schedule_content_set1_game2_map,#schedule_content_set1_game3_map,'
+					+ '#schedule_content_set1_game4_map,#schedule_content_set1_game5_map,#schedule_content_set1_game6_map,'
+					+ '#schedule_content_set1_game7_map,#schedule_content_set1_game8_map,#schedule_content_set1_game9_map'
+				).append('<option value="' + map.value + '">' + map.name + '</option>');
+			});
+			//hotfix dropdown css for click event
+			$('.schedule.hotfix input.search').css('width', '100%');
+			
+			//reg choose win player button function
+			$('.ecellwin').on('click.ECELL.schedule.selectwin', $.ECELL.schedule.selectWinner);
+            
 		},
-		query: function () {
-			var star = $('#season_search_start').val();
-			var end = $('#season_search_end').val();
-			if(end != '' && star > end) {
-				$.ECELL.tipMessage('开始时间不能大于结束时间', false);
-				return false;
+		selectWinner: function() {
+			var match = $(this).data('match');
+			var player = $(this).data('player');
+			if(player == 'p1') {
+				$('#' + match + '_win_p1_flag').removeClass('displaynone checkmark remove').addClass('checkmark');
+				$('#' + match + '_win_p2_flag').removeClass('displaynone checkmark remove').addClass('remove');
 			}
-			$('#season_main_table').DataTable().ajax.reload();
+			else if(player == 'p2') {
+				$('#' + match + '_win_p1_flag').removeClass('displaynone checkmark remove').addClass('remove');
+				$('#' + match + '_win_p2_flag').removeClass('displaynone checkmark remove').addClass('checkmark');
+			}
+			else if(player == 'refresh') {
+				$('#' + match + '_win_p1_flag, #' + match + '_win_p2_flag').removeClass('checkmark remove').addClass('displaynone');
+			}
+			else {
+				$.ECELL.tipMessage('脚本错误，请联系维护人员！', false);
+			}
+		},
+		query: function() {
+			$('#schedule_main_table').DataTable().ajax.reload();
 			return;
 		},
 		emptyVal: function() {
-			$('#season_content_name').val('');
-			$('#season_content_start').val('');
-			$("#season_content_status").dropdown('clear');
+			$('#schedule_content_set1_player1').dropdown('clear');
+			$('#schedule_content_set1_player2').dropdown('clear');
+			$('#schedule_content_set1_date').val('');
+			
+			$('#schedule_content_set1_game1_map').dropdown('clear');
+			$('#schedule_content_set1_game1_hour').val('');
+			$('#schedule_content_set1_game1_minute').val('');
+			$('#schedule_content_set1_game1_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game1_second').val('');
+			$('#schedule_content_set1_game1_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game1_player1').val('');
+			$('#schedule_content_set1_game1_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game1_player1_apm').val('');
+			$('#schedule_content_set1_game1_player1_oil').val('');
+			$('#schedule_content_set1_game1_player1_crystal').val('');
+			$('#schedule_content_set1_game1_player2').val('');
+			$('#schedule_content_set1_game1_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game1_player2_apm').val('');
+			$('#schedule_content_set1_game1_player2_oil').val('');
+			$('#schedule_content_set1_game1_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game2_map').dropdown('clear');
+			$('#schedule_content_set1_game2_hour').val('');
+			$('#schedule_content_set1_game2_minute').val('');
+			$('#schedule_content_set1_game2_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game2_second').val('');
+			$('#schedule_content_set1_game2_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game2_player1').val('');
+			$('#schedule_content_set1_game2_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game2_player1_apm').val('');
+			$('#schedule_content_set1_game2_player1_oil').val('');
+			$('#schedule_content_set1_game2_player1_crystal').val('');
+			$('#schedule_content_set1_game2_player2').val('');
+			$('#schedule_content_set1_game2_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game2_player2_apm').val('');
+			$('#schedule_content_set1_game2_player2_oil').val('');
+			$('#schedule_content_set1_game2_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game3_map').dropdown('clear');
+			$('#schedule_content_set1_game3_hour').val('');
+			$('#schedule_content_set1_game3_minute').val('');
+			$('#schedule_content_set1_game3_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game3_second').val('');
+			$('#schedule_content_set1_game3_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game3_player1').val('');
+			$('#schedule_content_set1_game3_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game3_player1_apm').val('');
+			$('#schedule_content_set1_game3_player1_oil').val('');
+			$('#schedule_content_set1_game3_player1_crystal').val('');
+			$('#schedule_content_set1_game3_player2').val('');
+			$('#schedule_content_set1_game3_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game3_player2_apm').val('');
+			$('#schedule_content_set1_game3_player2_oil').val('');
+			$('#schedule_content_set1_game3_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game4_map').dropdown('clear');
+			$('#schedule_content_set1_game4_hour').val('');
+			$('#schedule_content_set1_game4_minute').val('');
+			$('#schedule_content_set1_game4_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game4_second').val('');
+			$('#schedule_content_set1_game4_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game4_player1').val('');
+			$('#schedule_content_set1_game4_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game4_player1_apm').val('');
+			$('#schedule_content_set1_game4_player1_oil').val('');
+			$('#schedule_content_set1_game4_player1_crystal').val('');
+			$('#schedule_content_set1_game4_player2').val('');
+			$('#schedule_content_set1_game4_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game4_player2_apm').val('');
+			$('#schedule_content_set1_game4_player2_oil').val('');
+			$('#schedule_content_set1_game4_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game5_map').dropdown('clear');
+			$('#schedule_content_set1_game5_hour').val('');
+			$('#schedule_content_set1_game5_minute').val('');
+			$('#schedule_content_set1_game5_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game5_second').val('');
+			$('#schedule_content_set1_game5_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game5_player1').val('');
+			$('#schedule_content_set1_game5_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game5_player1_apm').val('');
+			$('#schedule_content_set1_game5_player1_oil').val('');
+			$('#schedule_content_set1_game5_player1_crystal').val('');
+			$('#schedule_content_set1_game5_player2').val('');
+			$('#schedule_content_set1_game5_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game5_player2_apm').val('');
+			$('#schedule_content_set1_game5_player2_oil').val('');
+			$('#schedule_content_set1_game5_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game6_map').dropdown('clear');
+			$('#schedule_content_set1_game6_hour').val('');
+			$('#schedule_content_set1_game6_minute').val('');
+			$('#schedule_content_set1_game6_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game6_second').val('');
+			$('#schedule_content_set1_game6_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game6_player1').val('');
+			$('#schedule_content_set1_game6_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game6_player1_apm').val('');
+			$('#schedule_content_set1_game6_player1_oil').val('');
+			$('#schedule_content_set1_game6_player1_crystal').val('');
+			$('#schedule_content_set1_game6_player2').val('');
+			$('#schedule_content_set1_game6_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game6_player2_apm').val('');
+			$('#schedule_content_set1_game6_player2_oil').val('');
+			$('#schedule_content_set1_game6_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game7_map').dropdown('clear');
+			$('#schedule_content_set1_game7_hour').val('');
+			$('#schedule_content_set1_game7_minute').val('');
+			$('#schedule_content_set1_game7_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game7_second').val('');
+			$('#schedule_content_set1_game7_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game7_player1').val('');
+			$('#schedule_content_set1_game7_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game7_player1_apm').val('');
+			$('#schedule_content_set1_game7_player1_oil').val('');
+			$('#schedule_content_set1_game7_player1_crystal').val('');
+			$('#schedule_content_set1_game7_player2').val('');
+			$('#schedule_content_set1_game7_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game7_player2_apm').val('');
+			$('#schedule_content_set1_game7_player2_oil').val('');
+			$('#schedule_content_set1_game7_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game8_map').dropdown('clear');
+			$('#schedule_content_set1_game8_hour').val('');
+			$('#schedule_content_set1_game8_minute').val('');
+			$('#schedule_content_set1_game8_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game8_second').val('');
+			$('#schedule_content_set1_game8_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game8_player1').val('');
+			$('#schedule_content_set1_game8_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game8_player1_apm').val('');
+			$('#schedule_content_set1_game8_player1_oil').val('');
+			$('#schedule_content_set1_game8_player1_crystal').val('');
+			$('#schedule_content_set1_game8_player2').val('');
+			$('#schedule_content_set1_game8_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game8_player2_apm').val('');
+			$('#schedule_content_set1_game8_player2_oil').val('');
+			$('#schedule_content_set1_game8_player2_crystal').val('');
+			
+			$('#schedule_content_set1_game9_map').dropdown('clear');
+			$('#schedule_content_set1_game9_hour').val('');
+			$('#schedule_content_set1_game9_minute').val('');
+			$('#schedule_content_set1_game9_win_p1_flag').addClass('displaynone');
+			$('#schedule_content_set1_game9_second').val('');
+			$('#schedule_content_set1_game9_win_p2_flag').addClass('displaynone');
+			$('#schedule_content_set1_game9_player1').val('');
+			$('#schedule_content_set1_game9_player1_race').dropdown('clear');
+			$('#schedule_content_set1_game9_player1_apm').val('');
+			$('#schedule_content_set1_game9_player1_oil').val('');
+			$('#schedule_content_set1_game9_player1_crystal').val('');
+			$('#schedule_content_set1_game9_player2').val('');
+			$('#schedule_content_set1_game9_player2_race').dropdown('clear');
+			$('#schedule_content_set1_game9_player2_apm').val('');
+			$('#schedule_content_set1_game9_player2_oil').val('');
+			$('#schedule_content_set1_game9_player2_crystal').val('');
+			
+			document.body.scrollTop = 0;
+		},
+		openDetail: function() {
+			var scheduleId = $(this).data('id');
+			$('#schedule_content').data('schedule_id', scheduleId);
+			var rowData = $('#schedule_main_table').DataTable().row( '#' + scheduleId ).data();
+			
+			// deal how many detail element need to be displayed 
+			$('#schedule_content_set1_game1,#schedule_content_set1_game2,#schedule_content_set1_game3,'
+				+ '#schedule_content_set1_game4,#schedule_content_set1_game5,#schedule_content_set1_game6,'
+				+ '#schedule_content_set1_game7,#schedule_content_set1_game8,#schedule_content_set1_game9').addClass('displaynone');
+			
+			var gameIds = '#schedule_content_set1_game1';
+			for( var i = 1; i < rowData.format; i++ ) {
+				gameIds += ', #schedule_content_set1_game' + (Number(i) + 1);
+			}
+			$(gameIds).removeClass('displaynone');
+			
+			var postData = {};
+			postData.id = rowData.seasonId;
+			
+			var urlTarget = o.basePath + '/season/detail';
+			
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var season = data.season;
+					if(season.status != 1) {//active season
+						var message = '当前赛季不在活动状态，不能修改对应比赛信息!';
+						$.ECELL.tipMessage(message);
+						return false;	
+					}
+					
+					$.ECELL.schedule.contentToggle();
+					var scheduleId = $('#schedule_content').data('schedule_id');
+					$.ECELL.schedule.fillDetailData(scheduleId);
+					
+				} else {
+					var message = '查看赛季信息失败![' + data.msg + ', ' + data.code + ']，请联系管理员！';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
 		},
 		contentToggle: function() {
-			$.ECELL.season.emptyVal();
-			$('#season_list,#season_content').toggleClass('displaynone');
+			$.ECELL.schedule.emptyVal();
+			$('#schedule_list,#schedule_content').toggleClass('displaynone');
+			window.scrollTo(0,0);
+		},
+		fillDetailData: function(scheduleId) {
+			var rowData = $('#schedule_main_table').DataTable().row( '#' + scheduleId ).data();
+			var htmlData = rowData.seasonName + ' - ' + rowData.round;
+			$('#schedule_content_title').html(htmlData);
 			
-			var seasonId = $(this).data('id');
-			if( undefined != seasonId ) {
-				$.ECELL.season.fillDetailData(seasonId);
+			$('.ui.menu .schedule.item').addClass('displaynone');
+			for (var i=0;i<rowData.sets;i++) { 
+			    $('#schedule_content_set_'+i).removeClass('displaynone');
 			}
-			else{
-				$('#season_content_status').dropdown('set selected', '0');
-				seasonId = 0;
-			}
-			$('#season_content').data('season_id', seasonId);
+			
+			
+  			
+			$('#schedule_content_name').val(rowData.name);
+			$("#schedule_content_start").val(rowData.startTime);
+			$('#schedule_content_status').dropdown('set selected', rowData.status.toString());
 		},
-		fillDetailData: function(seasonId) {
-			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
-			$('#season_content_name').val(rowData.name);
-			$("#season_content_start").val(rowData.startTime);
-			$('#season_content_status').dropdown('set selected', rowData.status.toString());
-		},
-		regist: function() {
+		saveMatch: function() {
 			var postData = {};
 			postData.id = $('#season_content').data('season_id');
 			postData.name = $('#season_content_name').val();
 			postData.startTime = $("#season_content_start").val();
 			postData.status = $('#season_content_status').dropdown('get value');
 			
-			var urlTarget = o.basePath + '/season/';;
+			var urlTarget = o.basePath + '/season/';
 			if( postData.id == 0 ) {
 				urlTarget += 'regist';
 			}
@@ -1251,7 +1535,7 @@ function _initECELL(o) {
 			}
 			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
-					$.ECELL.season.contentToggle();
+					$.ECELL.schedule.contentToggle();
 					
 					$('#season_main_table').DataTable().ajax.reload();
 					var message = '保存选手信息成功!';
@@ -1261,40 +1545,6 @@ function _initECELL(o) {
 					$.ECELL.tipMessage(message, false);
 				}
 			}, 'json');
-		},
-		schedule: function() {
-			$.ECELL.tipMessage("coming soon...", false);
-			return false;
-		},
-		delConfirm: function() {
-			var seasonId = $(this).data('id');
-			$('#season_delconfirm_modal').data('del_season_id', seasonId);
-			var rowData = $('#season_main_table').DataTable().row( '#' + seasonId ).data();
-			var message = '是否删除 <span class="ui red label huge">' + rowData.name + '</span> 赛季？';
-			$('#season_confirm_modal_message').html(message);
-			$("#season_delconfirm_modal").modal({
-				closable: false
-			}).modal('show');
-		},
-		delConfirmYes: function() {
-			$.ECELL.tipMessage("系统瓦特了。。。", false);
-			return false;
-			var postData = {};
-			postData.id = $('#season_delconfirm_modal').data('del_season_id');
-			var urlTarget = o.basePath + '/season/delete';
-			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData),
-				function(data, textStatus, jqXHR) {
-					if(data.code == 0) {
-						$.ECELL.tipMessageSuccess("赛季删除成功。");
-						$('#season_main_table').DataTable().ajax.reload();
-						$("#season_delconfirm_modal").modal({
-							closable: false
-						}).modal('hide');
-					} else {
-						var msg = data.msg;
-						$.ECELL.tipMessage(msg, false);
-					}
-				}, 'json');
 		}
 	}; // schedule管理结束
 
@@ -1406,5 +1656,81 @@ function _initECELL(o) {
 		}
 		return json.list;
 	}// end of $.ECELL.ParseDataTableResult
+	
+	$.ECELL.fullScreenFix = function(elem) {
+		if (elem.requestFullScreen) {
+            elem.requestFullScreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullScreen) {
+            elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+		
+		if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+	}
+	
+	$.ECELL.staticMap = function() {
+		var maps = [
+			{
+				name: '',
+				value: '0'	
+			},
+			{
+				name: '小仙女',
+				value: '1'
+			},
+			{
+				name: '云梯',
+				value: '2'
+			},
+			{
+				name: '血岭',
+				value: '3'
+			},
+			{
+				name: '角斗士',
+				value: '4'
+			},
+			{
+				name: '守望先锋',
+				value: '5'
+			},
+			{
+				name: '斗魂',
+				value: '6'
+			},
+			{
+				name: '断路器',
+				value: '7'
+			},
+			{
+				name: '赛点',
+				value: '8'
+			},
+			{
+				name: '拉曼查',
+				value: '9'
+			}
+		];
+		return maps;
+	}
 }
+
+
+
+
+
+
+
+
 

@@ -23,10 +23,12 @@ public class Match implements Serializable, Comparable<Match>{
 	private Integer id;
 	@TableId(value = "season_id")
 	private Integer seasonId;
-	@TableId(value = "round_id")
-	private Integer roundId;
+	@TableId(value = "schedule_id")
+	private Integer scheduleId;
 	@TableId(value = "set_id")
 	private Integer setId;
+	@TableId(value = "map_id")
+	private Integer mapId;
 	@TableId(value = "pa_id")
 	private Integer paId;
 	@TableId(value = "pb_id")
@@ -35,8 +37,25 @@ public class Match implements Serializable, Comparable<Match>{
 	private String paRace;
 	@TableId(value = "pb_race")
 	private String pbRace;
+	private String duration;
 	private Integer winner;
 	
+	public Integer getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(Integer mapId) {
+		this.mapId = mapId;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -53,12 +72,12 @@ public class Match implements Serializable, Comparable<Match>{
 		this.seasonId = seasonId;
 	}
 
-	public Integer getRoundId() {
-		return roundId;
+	public Integer getScheduleId() {
+		return scheduleId;
 	}
 
-	public void setRoundId(Integer roundId) {
-		this.roundId = roundId;
+	public void setScheduleId(Integer scheduleId) {
+		this.scheduleId = scheduleId;
 	}
 
 	public Integer getSetId() {

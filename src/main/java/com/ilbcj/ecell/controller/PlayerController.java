@@ -79,7 +79,7 @@ public class PlayerController {
 		return R.error("选手更改失败！");
 	}
 	/**
-	 * 管理员列表
+	 * 选手列表
 	 */
 	@RequestMapping(value="/list", method = RequestMethod.POST)
 	@ResponseBody
@@ -100,5 +100,18 @@ public class PlayerController {
 					.put("recordsFiltered", page.getRecordsFiltered()).put("start", page.getStart())
 					.put("length", page.getLength()).put("draw", draw).put("list", list);
 		}
+	}
+	
+	/**
+	 * 选手基础信息列表
+	 */
+	@RequestMapping(value="/basic/list", method = RequestMethod.POST)
+	@ResponseBody
+	public R listBasic(@RequestParam Map<String, Object> params) {
+		
+			List<Player> list = playerService.queryBasic(params);
+			
+			return R.ok().put("list", list);
+		
 	}
 }

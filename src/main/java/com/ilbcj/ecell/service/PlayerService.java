@@ -1,4 +1,5 @@
 package com.ilbcj.ecell.service;
+import java.util.List;
 import java.util.Map;
 
 import com.ilbcj.ecell.entity.Player;
@@ -48,4 +49,5 @@ public interface PlayerService {
 	 * @return
 	 */
 	boolean deletePlayer(Map<String, Object> parm);
+	List<Player> queryBasic(Map<String, Object> params);
 }

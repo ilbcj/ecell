@@ -1,6 +1,7 @@
 package com.ilbcj.ecell.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -181,5 +182,14 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		upStatus.put("id", params.get("id"));
 		upStatus.put("status", Player.STATUS_DELETE.toString());
 		return updatePlayer(upStatus);
+	}
+
+	@Override
+	public List<Player> queryBasic(Map<String, Object> params) {		
+		List<Player> playersBasic = playerMapper.selectList(
+				Wrappers.<Player>lambdaQuery().select(Player::getId, Player::getNick, Player::getRace)
+					.eq(Player::getStatus, Player.STATUS_INUSE)
+				);
+		return playersBasic;
 	}
 }
