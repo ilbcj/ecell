@@ -1532,19 +1532,45 @@ function _initECELL(o) {
 			
 			return;
 		},
+		getMatchValue: function(setId, gameId) {
+			var match = {};
+			match.setId = setId;
+			match.matchId = gameId;
+			match.player1Id = $('#schedule_content_set' + setId + '_player1').dropdown('get value');
+			match.player2Id = $('#schedule_content_set' + setId + '_player2').dropdown('get value');
+			match.raceDay = $('#schedule_content_set' + setId + '_date').val();
+			match.mapId = $('#schedule_content_set' + setId + '_game' + gameId + '_map').dropdown('get value');
+			match.duration = $('#schedule_content_set' + setId + '_game' + gameId + '_hour').val() + ':' 
+				+ $('#schedule_content_set' + setId + '_game' + gameId + '_minute').val() + ':' + $('#schedule_content_set' + setId + '_game' + gameId + '_second').val();
+			match.winner = 0;
+			if( $('#schedule_content_set' + setId + '_game' + gameId + '_win_p1_flag').hasClass('checkmark') ) {
+				match.winner = 1;
+			}
+			else if( $('#schedule_content_set' + setId + '_game' + gameId + '_win_p2_flag').hasClass('checkmark') ) {
+				match.winner = 2;
+			}
+			match.player1Race = $('#schedule_content_set' + setId + '_game' + gameId + '_player1_race').dropdown('get value');
+			match.player2Race = $('#schedule_content_set' + setId + '_game' + gameId + '_player2_race').dropdown('get value');
+			match.player1Apm = $('#schedule_content_set' + setId + '_game' + gameId + '_player1_apm').val();
+			match.player2Apm = $('#schedule_content_set' + setId + '_game' + gameId + '_player2_apm').val();
+			match.player1Oil = $('#schedule_content_set' + setId + '_game' + gameId + '_player1_oil').val();
+			match.player2Oil = $('#schedule_content_set' + setId + '_game' + gameId + '_player2_oil').val();
+			match.player1Crystal = $('#schedule_content_set' + setId + '_game' + gameId + '_player1_crystal').val();
+			match.player2Crystal = $('#schedule_content_set' + setId + '_game' + gameId + '_player2_crystal').val();
+			return match;
+		},
 		saveMatch: function() {
 			var scheduleId = $('#schedule_content').data('schedule_id');
 			var rowData = $('#schedule_main_table').DataTable().row( '#' + scheduleId ).data();
 			var postData = {};
 			postData.scheduleName = rowData.round;
 			postData.seasonId = rowData.seasonId;
-			postData.scheduleId = rowData.scheduleId;
+			postData.scheduleId = scheduleId;
 			postData.sets = rowData.sets;
 			postData.format = rowData.format;
 			
 			//set1
-			var set1 = [];
-			var match11 = {};
+			/*var set1 = [];
 			match11.setId = 1;
 			match11.matchId = 1;
 			match11.player1Id = $('#schedule_content_set1_player1').dropdown('get value');
@@ -1566,10 +1592,16 @@ function _initECELL(o) {
 			match11.player1Oil = $('#schedule_content_set1_game1_player1_oil').val();
 			match11.player2Oil = $('#schedule_content_set1_game1_player2_oil').val();
 			match11.player1Crystal = $('#schedule_content_set1_game1_player1_crystal').val();
-			match11.player2Crystal = $('#schedule_content_set1_game1_player2_crystal').val();
-			
-			set1.push(match11);
-			postData.set1 = set1;
+			match11.player2Crystal = $('#schedule_content_set1_game1_player2_crystal').val();*/
+			postData.set = [];
+			for(var i=1; i<=postData.sets; i++) {
+				var seti = [];
+				for(var j=1; j<=postData.format; j++) {
+					var matchij = $.ECELL.schedule.getMatchValue(i, j);
+					seti.push(matchij);
+				}
+				postData.set.push(seti); 
+			}
 			
 			var urlTarget = o.basePath + '/schedule/save/matches';
 			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {

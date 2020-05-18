@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ilbcj.ecell.dto.ScheduleDTO;
 import com.ilbcj.ecell.entity.Schedule;
 import com.ilbcj.ecell.entity.Season;
+import com.ilbcj.ecell.mapper.MatchDetailMapper;
+import com.ilbcj.ecell.mapper.MatchMapper;
 import com.ilbcj.ecell.mapper.ScheduleMapper;
 import com.ilbcj.ecell.mapper.SeasonMapper;
 import com.ilbcj.ecell.service.ScheduleService;
@@ -27,6 +30,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Resource
     private SeasonMapper seasonMapper;
+	
+	@Resource 
+	private MatchMapper matchMapper;
+	
+	@Resource MatchDetailMapper matchDetailMapper;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -61,6 +69,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 				Wrappers.<Schedule>lambdaQuery()
 					.eq(Schedule::getSeasonId, seasonId)
 				);
+	}
+
+	@Override
+	public boolean saveMatches(ScheduleDTO params) {
+		//check match record
+		for(int i = 0; i < params.getSets(); i++) {
+			for(int j = 0; j < params.getFormat(); j++) {
+				Match match = matchMapper.selectOne(new QueryWrapper<Admin>().lambda().eq(Admin::getLoginId, loginId));
+			}
+		}
+		return false;
 	}
 	
 	

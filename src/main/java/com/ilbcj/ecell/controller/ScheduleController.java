@@ -60,12 +60,11 @@ public class ScheduleController {
 	
 	@RequestMapping(value="/save/matches", method = RequestMethod.POST)
 	//public R saveScheduleMatches(@RequestBody Map<String,Object> parm) {
-	public R saveScheduleMatches(@RequestBody ScheduleDTO parm ) {
-		//Integer seasonId = (Integer) parm.get("seasonId");
-		//List<Schedule> list = scheduleService.queryBySeason(seasonId);
+	public R saveScheduleMatches(@RequestBody ScheduleDTO param ) {
+		boolean ret = scheduleService.saveMatches(param);
 		//Collections.sort(list);
 		//return R.ok().put("list", list);
-		System.out.println(parm);
+		System.out.println(param);
 		return R.ok();
 	}
 }
