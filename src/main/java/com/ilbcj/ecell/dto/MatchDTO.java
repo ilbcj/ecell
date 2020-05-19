@@ -2,7 +2,7 @@ package com.ilbcj.ecell.dto;
 
 public class MatchDTO {
 	private Integer setId;
-	private Integer matchId;
+	private Integer gameId;
 	private Integer player1Id;
 	private Integer player2Id;
 	private String raceDay;
@@ -30,11 +30,11 @@ public class MatchDTO {
 	public void setPlayer2Id(Integer player2Id) {
 		this.player2Id = player2Id;
 	}
-	public Integer getMatchId() {
-		return matchId;
+	public Integer getGameId() {
+		return gameId;
 	}
-	public void setMatchId(Integer matchId) {
-		this.matchId = matchId;
+	public void setGameId(Integer gameId) {
+		this.gameId = gameId;
 	}
 	public Integer getSetId() {
 		return setId;

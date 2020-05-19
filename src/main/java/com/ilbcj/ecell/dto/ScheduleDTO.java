@@ -9,7 +9,7 @@ public class ScheduleDTO {
 	private Integer scheduleId;
 	private Integer sets;
 	private Integer format;
-	private List<List<MatchDTO>> set;
+	private List<List<MatchDTO>> setList;
 //	private List<MatchDTO> set1;
 //	private List<MatchDTO> set2;
 //	private List<MatchDTO> set3;
@@ -19,11 +19,11 @@ public class ScheduleDTO {
 	public String getScheduleName() {
 		return scheduleName;
 	}
-	public List<List<MatchDTO>> getSet() {
-		return set;
+	public List<List<MatchDTO>> getSetList() {
+		return setList;
 	}
-	public void setSet(List<List<MatchDTO>> set) {
-		this.set = set;
+	public void setSetList(List<List<MatchDTO>> setList) {
+		this.setList = setList;
 	}
 	public void setScheduleName(String scheduleName) {
 		this.scheduleName = scheduleName;

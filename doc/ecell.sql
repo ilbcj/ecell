@@ -43,7 +43,7 @@ CREATE TABLE `tb_admin` (
 
 /*!40000 ALTER TABLE `tb_admin` DISABLE KEYS */;
 INSERT INTO `tb_admin` (`id`,`login_id`,`pwd`,`name`,`status`,`token`,`session_id`) VALUES 
- (1,'admin','1','aa',0,'1589717039029','DCA02C6B27D9D538226E5EF7FA2292C8'),
+ (1,'admin','1','aa',0,'1589880649540','B70A08740CAC13445ACFD1F58AC2F660'),
  (2,'super','11111111','administrator',0,'','');
 /*!40000 ALTER TABLE `tb_admin` ENABLE KEYS */;
 
@@ -58,6 +58,7 @@ CREATE TABLE `tb_match` (
   `season_id` int(10) unsigned NOT NULL COMMENT '赛季ID',
   `schedule_id` int(10) unsigned NOT NULL COMMENT '赛程ID',
   `set_id` int(10) unsigned NOT NULL COMMENT '场次ID',
+  `game_id` int(10) unsigned NOT NULL COMMENT '对局ID',
   `map_id` int(10) unsigned DEFAULT NULL COMMENT '地图ID',
   `pa_id` int(10) unsigned DEFAULT NULL COMMENT 'A选手ID',
   `pb_id` int(10) unsigned DEFAULT NULL COMMENT 'B选手ID',
@@ -66,13 +67,29 @@ CREATE TABLE `tb_match` (
   `duration` varchar(45) DEFAULT NULL COMMENT '比赛时长',
   `winner` int(10) unsigned DEFAULT NULL COMMENT '胜利方',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_match`
 --
 
 /*!40000 ALTER TABLE `tb_match` DISABLE KEYS */;
+INSERT INTO `tb_match` (`id`,`season_id`,`schedule_id`,`set_id`,`game_id`,`map_id`,`pa_id`,`pb_id`,`pa_race`,`pb_race`,`duration`,`winner`) VALUES 
+ (61,8,1,1,1,2,2,1,'T','P','2673',2),
+ (62,8,1,1,2,NULL,2,1,'T','P','0',2),
+ (63,8,1,1,3,NULL,2,1,'T','P','0',1),
+ (64,8,1,2,1,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (65,8,1,2,2,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (66,8,1,2,3,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (67,8,1,3,1,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (68,8,1,3,2,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (69,8,1,3,3,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (70,8,1,4,1,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (71,8,1,4,2,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (72,8,1,4,3,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (73,8,1,5,1,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (74,8,1,5,2,NULL,NULL,NULL,NULL,NULL,'0',0),
+ (75,8,1,5,3,NULL,NULL,NULL,NULL,NULL,'0',0);
 /*!40000 ALTER TABLE `tb_match` ENABLE KEYS */;
 
 
@@ -86,18 +103,29 @@ CREATE TABLE `tb_match_detail` (
   `match_id` int(10) unsigned NOT NULL COMMENT '比赛ID',
   `player_id` int(10) unsigned NOT NULL COMMENT '选手ID',
   `duration` int(10) unsigned DEFAULT NULL COMMENT '比赛时长',
+  `player_race` varchar(45) DEFAULT NULL COMMENT '选手种族',
   `apm` int(10) unsigned DEFAULT NULL COMMENT '本场apm',
   `crystal` int(10) unsigned DEFAULT NULL COMMENT '水晶数',
   `oil` int(10) unsigned DEFAULT NULL COMMENT '油矿数',
   `resource` int(10) unsigned DEFAULT NULL COMMENT '资源数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tb_match_detail`
 --
 
 /*!40000 ALTER TABLE `tb_match_detail` DISABLE KEYS */;
+INSERT INTO `tb_match_detail` (`id`,`match_id`,`player_id`,`duration`,`player_race`,`apm`,`crystal`,`oil`,`resource`) VALUES 
+ (2,61,2,2673,'T',66,88,998,1086),
+ (3,61,4,0,'P',0,0,0,0),
+ (4,62,2,0,'T',0,0,0,0),
+ (5,62,4,0,'P',0,0,0,0),
+ (6,63,2,0,'T',0,0,0,0),
+ (7,63,4,0,'P',0,0,0,0),
+ (8,61,1,2673,'P',55,99,77,176),
+ (9,62,1,0,'P',0,0,0,0),
+ (10,63,1,0,'P',0,0,0,0);
 /*!40000 ALTER TABLE `tb_match_detail` ENABLE KEYS */;
 
 

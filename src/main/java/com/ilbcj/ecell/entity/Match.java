@@ -27,6 +27,8 @@ public class Match implements Serializable, Comparable<Match>{
 	private Integer scheduleId;
 	@TableId(value = "set_id")
 	private Integer setId;
+	@TableId(value = "game_id")
+	private Integer gameId;
 	@TableId(value = "map_id")
 	private Integer mapId;
 	@TableId(value = "pa_id")
@@ -40,6 +42,14 @@ public class Match implements Serializable, Comparable<Match>{
 	private String duration;
 	private Integer winner;
 	
+	public Integer getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Integer gameId) {
+		this.gameId = gameId;
+	}
+
 	public Integer getMapId() {
 		return mapId;
 	}

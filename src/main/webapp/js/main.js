@@ -1535,7 +1535,7 @@ function _initECELL(o) {
 		getMatchValue: function(setId, gameId) {
 			var match = {};
 			match.setId = setId;
-			match.matchId = gameId;
+			match.gameId = gameId;
 			match.player1Id = $('#schedule_content_set' + setId + '_player1').dropdown('get value');
 			match.player2Id = $('#schedule_content_set' + setId + '_player2').dropdown('get value');
 			match.raceDay = $('#schedule_content_set' + setId + '_date').val();
@@ -1593,14 +1593,14 @@ function _initECELL(o) {
 			match11.player2Oil = $('#schedule_content_set1_game1_player2_oil').val();
 			match11.player1Crystal = $('#schedule_content_set1_game1_player1_crystal').val();
 			match11.player2Crystal = $('#schedule_content_set1_game1_player2_crystal').val();*/
-			postData.set = [];
+			postData.setList = [];
 			for(var i=1; i<=postData.sets; i++) {
 				var seti = [];
 				for(var j=1; j<=postData.format; j++) {
 					var matchij = $.ECELL.schedule.getMatchValue(i, j);
 					seti.push(matchij);
 				}
-				postData.set.push(seti); 
+				postData.setList.push(seti); 
 			}
 			
 			var urlTarget = o.basePath + '/schedule/save/matches';

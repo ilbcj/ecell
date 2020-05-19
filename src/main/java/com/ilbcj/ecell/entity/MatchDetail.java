@@ -22,6 +22,8 @@ public class MatchDetail implements Serializable, Comparable<MatchDetail>{
 	private Integer duration;
 	@TableId(value = "player_id")
 	private Integer playerId;
+	@TableId(value = "player_race")
+	private String playerRace;
 	private Integer apm;
 	private Integer crystal;
 	private Integer oil;
@@ -33,6 +35,14 @@ public class MatchDetail implements Serializable, Comparable<MatchDetail>{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getPlayerRace() {
+		return playerRace;
+	}
+
+	public void setPlayerRace(String playerRace) {
+		this.playerRace = playerRace;
 	}
 
 	public Integer getMatchId() {
