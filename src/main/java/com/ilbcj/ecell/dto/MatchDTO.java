@@ -114,4 +114,12 @@ public class MatchDTO {
 	public void setPlayer2Crystal(Integer player2Crystal) {
 		this.player2Crystal = player2Crystal;
 	}
+	@Override
+	public String toString() {
+		return "MatchDTO [setId=" + setId + ", gameId=" + gameId + ", player1Id=" + player1Id + ", player2Id="
+				+ player2Id + ", raceDay=" + raceDay + ", mapId=" + mapId + ", duration=" + duration + ", winner="
+				+ winner + ", player1Race=" + player1Race + ", player2Race=" + player2Race + ", player1Apm="
+				+ player1Apm + ", player2Apm=" + player2Apm + ", player1Oil=" + player1Oil + ", player2Oil="
+				+ player2Oil + ", player1Crystal=" + player1Crystal + ", player2Crystal=" + player2Crystal + "]";
+	}
 }

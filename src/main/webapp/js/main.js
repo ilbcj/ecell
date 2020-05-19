@@ -1447,6 +1447,7 @@ function _initECELL(o) {
 			return;
 		},
 		emptyVal: function() {
+			$('#schedule_content_title').html('赛程信息');
 			$('.cleanDrop').dropdown('clear');
 			$('.cleanVal').val('');
 			$('.cleanDisplay').addClass('displaynone');
@@ -1529,6 +1530,25 @@ function _initECELL(o) {
 				gameIds += ', #schedule_content_set1_game' + (Number(i) + 1);
 			}
 			$(gameIds).removeClass('displaynone');
+			
+			
+			//fill history data
+			var postData = {};
+			postData.seasonId = rowData.seasonId;
+			postData.scheduleId = scheduleId;
+			var urlTarget = o.basePath + '/schedule/detail';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var matches = data.matches;
+					
+					
+					
+					
+				} else {
+					var message = '获取比赛息失败![' + data.msg + ', ' + data.code + ']，请联系管理员！';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
 			
 			return;
 		},

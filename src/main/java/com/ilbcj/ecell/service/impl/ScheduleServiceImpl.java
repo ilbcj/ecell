@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +32,8 @@ import com.ilbcj.ecell.util.Query;
 
 @Service("scheduleService")
 public class ScheduleServiceImpl implements ScheduleService {
-	
+	private Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
+			
 	@Resource
     private ScheduleMapper scheduleMapper;
 	
@@ -80,6 +83,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Transactional
 	@Override
 	public boolean saveMatches(ScheduleDTO params) {
+		//log
+		logger.info("save match details: " + params );
+		
 		//check match record, if not exist then init match info
 		Match[][] matches = new Match[params.getSets()][params.getFormat()];
 		for(int i = 0; i < params.getSets(); i++) {
@@ -110,6 +116,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 				//gameId --> gameIndex
 				int gameIdx = game.getGameId() - 1;
 				matches[setIdx][gameIdx].setMapId(game.getMapId());
+				matches[setIdx][gameIdx].setRaceDay(game.getRaceDay());
 				matches[setIdx][gameIdx].setPaId(game.getPlayer1Id());
 				matches[setIdx][gameIdx].setPbId(game.getPlayer2Id());
 				matches[setIdx][gameIdx].setPaRace(game.getPlayer1Race());
@@ -130,6 +137,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 				matches[setIdx][gameIdx].setWinner(game.getWinner());
 				matchMapper.updateById(matches[setIdx][gameIdx]);
+				
 				
 				Integer player1Id = game.getPlayer1Id();
 				if(player1Id != null && player1Id != 0) {
@@ -184,11 +192,110 @@ public class ScheduleServiceImpl implements ScheduleService {
 					
 					matchDetailMapper.updateById(matchDetail);
 				}
+				
+				//clean old data
+				if(player1Id != null && player1Id > 0 && player2Id != null && player2Id > 0) {
+					List<Integer> playerIds = new ArrayList<Integer>();
+					playerIds.add(player1Id);
+					playerIds.add(player2Id);
+					List<MatchDetail> dirtyList = matchDetailMapper.selectList(new QueryWrapper<MatchDetail>().lambda()
+							.eq(MatchDetail::getMatchId, matches[setIdx][gameIdx].getId())
+							.notIn(MatchDetail::getPlayerId, playerIds)
+					);
+					
+					dirtyList.forEach(x->{
+						matchDetailMapper.deleteById(x.getId());
+					});
+							
+					
+				}
 			}
 		}
 		
+		return true;
+	}
+
+	@Transactional
+	@Override
+	public ScheduleDTO queryMatches(Map<String, Object> parm) {
+		ScheduleDTO matches = new ScheduleDTO();
+		Integer seasonId = (Integer) parm.get("seasonId");
+		Integer scheduleId = (Integer) parm.get("scheduleId");
+		Schedule schedule = scheduleMapper.selectOne(new QueryWrapper<Schedule>().lambda()
+				.eq(Schedule::getSeasonId, seasonId)
+				.eq(Schedule::getId, scheduleId)
+		);
+
+		if( schedule == null ) {
+			return null;
+		}
+		matches.setSeasonId(seasonId);
+		matches.setScheduleId(scheduleId);
+		matches.setScheduleName(schedule.getRound());
+		matches.setSets(schedule.getSets());
+		matches.setFormat(schedule.getFormat());
 		
-		return false;
+		List<List<MatchDTO>> setList = new ArrayList<List<MatchDTO>>();
+		for(int i = 1; i <= matches.getSets(); i++) {
+			List<MatchDTO> games = new ArrayList<MatchDTO>();
+			for(int j = 1; j <= matches.getFormat(); j++) {
+				Match match = matchMapper.selectOne(new QueryWrapper<Match>().lambda()
+					.eq(Match::getSeasonId, seasonId)
+					.eq(Match::getScheduleId, scheduleId)
+					.eq(Match::getSetId, i)
+					.eq(Match::getGameId, j)
+				);
+				
+				if( match != null ) { 
+					Integer player1Id = match.getPaId();
+					Integer player2Id = match.getPbId();
+					if( (player1Id != null && player1Id > 0) || (player2Id != null && player2Id > 0) ) {
+						MatchDTO game = new MatchDTO();
+						game.setSetId(i);
+						game.setGameId(j);
+						int duration = Integer.parseInt( match.getDuration() );
+						int hh = duration / 3600 ;
+						int mm = ( duration % 3600 ) / 60;
+						int ss =  duration % 3600 %  60;
+						String durationStr = hh + ":" + mm + ":" + ss;
+						game.setDuration( durationStr );
+						game.setRaceDay( match.getRaceDay() );
+						game.setWinner( match.getWinner() );
+						game.setMapId( match.getMapId() );
+						
+						MatchDetail detail1 = matchDetailMapper.selectOne(new QueryWrapper<MatchDetail>().lambda()
+							.eq(MatchDetail::getMatchId, match.getId())
+							.eq(MatchDetail::getPlayerId, player1Id)
+						);
+						if( detail1 != null ) {
+							game.setPlayer1Id(detail1.getPlayerId());
+							game.setPlayer1Race(detail1.getPlayerRace());
+							game.setPlayer1Apm( detail1.getApm() );
+							game.setPlayer1Oil( detail1.getOil() );
+							game.setPlayer1Crystal( detail1.getCrystal() );
+						}
+						
+						MatchDetail detail2 = matchDetailMapper.selectOne(new QueryWrapper<MatchDetail>().lambda()
+							.eq(MatchDetail::getMatchId, match.getId())
+							.eq(MatchDetail::getPlayerId, player2Id)
+						);
+						if( detail2 != null ) {
+							game.setPlayer2Id(detail2.getPlayerId());
+							game.setPlayer2Race(detail2.getPlayerRace());
+							game.setPlayer2Apm( detail2.getApm() );
+							game.setPlayer2Oil( detail2.getOil() );
+							game.setPlayer2Crystal( detail2.getCrystal() );
+						}
+						games.add( game );
+					}
+				}
+			}
+			setList.add(games);
+		}
+		matches.setSetList(setList);
+		
+		return matches;
+		
 	}
 	
 	

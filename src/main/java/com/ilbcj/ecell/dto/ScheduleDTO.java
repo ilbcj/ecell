@@ -52,4 +52,9 @@ public class ScheduleDTO {
 	public void setFormat(Integer format) {
 		this.format = format;
 	}
+	@Override
+	public String toString() {
+		return "ScheduleDTO [scheduleName=" + scheduleName + ", seasonId=" + seasonId + ", scheduleId=" + scheduleId
+				+ ", sets=" + sets + ", format=" + format + ", setList=" + setList + "]";
+	}
 }

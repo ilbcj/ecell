@@ -59,12 +59,17 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping(value="/save/matches", method = RequestMethod.POST)
-	//public R saveScheduleMatches(@RequestBody Map<String,Object> parm) {
 	public R saveScheduleMatches(@RequestBody ScheduleDTO param ) {
 		boolean ret = scheduleService.saveMatches(param);
-		//Collections.sort(list);
-		//return R.ok().put("list", list);
-		System.out.println(param);
+		if( !ret ) {
+			return R.error("保存比赛信息错误");
+		}
 		return R.ok();
+	}
+	
+	@RequestMapping(value="/detail", method = RequestMethod.POST)
+	public R saveScheduleMatches(@RequestBody Map<String,Object> parm) {
+		ScheduleDTO matches = scheduleService.queryMatches(parm);
+		return R.ok().put("matches", matches); 
 	}
 }

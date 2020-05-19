@@ -6,6 +6,10 @@ import java.util.Optional;
 public class tester {
 
 	public static void main(String[] args) {
+		
+		Integer abc = null;
+		
+		System.out.println(abc > 0);
 		// TODO Auto-generated method stub
 		String[] hhmmss = (":22:33" + " ").split(":");
 		

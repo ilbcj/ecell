@@ -114,6 +114,7 @@ CREATE TABLE `ecell`.`tb_match` (
   `set_id` INTEGER UNSIGNED NOT NULL COMMENT '场次ID',
   `game_id` INTEGER UNSIGNED NOT NULL COMMENT '对局ID',
   `map_id` INTEGER UNSIGNED COMMENT '地图ID',
+  `race_day` VARCHAR(45) COMMENT '比赛日期',
   `pa_id` INTEGER UNSIGNED COMMENT 'A选手ID',
   `pb_id` INTEGER UNSIGNED COMMENT 'B选手ID',
   `pa_race` VARCHAR(45) COMMENT 'A选手种族',

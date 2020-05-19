@@ -18,4 +18,6 @@ public interface ScheduleService {
 	List<Schedule> queryBySeason(Integer seasonId);
 
 	boolean saveMatches(ScheduleDTO params);
+
+	ScheduleDTO queryMatches(Map<String, Object> parm);
 }
