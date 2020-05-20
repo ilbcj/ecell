@@ -800,9 +800,11 @@ function _initECELL(o) {
 				$('.player_delete').on('click.ECELL.player.delete', $.ECELL.player.delConfirm);
 			});
             $('#add_player').on('click.ECELL.player.content', $.ECELL.player.contentToggle);
+            $('#player_content_upload_pic').on('click.ECELL.player.picture', $.ECELL.player.uploadPicture);
             $('#player_content_save').on('click.ECELL.player.save', $.ECELL.player.regist);
             $('#player_content_return').on('click.ECELL.player.return', $.ECELL.player.contentToggle);
             $('#del_player_yes').on('click.ECELL.player.del.yes', $.ECELL.player.delConfirmYes);
+            
 		},
 		query: function () {
 			$('#player_main_table').DataTable().ajax.reload();
@@ -820,6 +822,8 @@ function _initECELL(o) {
 			$('#player_content_qq').val('');
 			$('#player_content_wechat').val('');
 			$('#player_content_status').dropdown('clear');
+			$('#player_content_pic').data('picture', '');
+			$('#player_content_pic_input').val('');
 			return;
 		},
         contentToggle: function() {
@@ -852,6 +856,33 @@ function _initECELL(o) {
 			$('#player_content_qq').val(rowData.qq);
 			$('#player_content_wechat').val(rowData.wechat);
 			$('#player_content_status').dropdown('set selected', rowData.status);
+			$('#player_content_pic').attr('src', o.basePath + '/' + rowData.picture);
+			$('#player_content_pic').data('picture', rowData.picture);
+		},
+		uploadPicture: function() {
+			var formData = new FormData();
+            formData.append("playerPic", document.getElementById("player_content_pic_input").files[0]);
+            var urlTarget = o.basePath + '/player/picture/upload';
+            $.ajax({
+                url: urlTarget,
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.code == 0) {
+                        //$.ECELL.tipMessage(data.picName);
+                        $('#player_content_pic').attr('src', o.basePath + '/' + data.picName);
+                        $('#player_content_pic').data('picture', data.picName);
+                    }
+                    else {
+                    	$.ECELL.tipMessage('头像上传失败！', false);
+                    }
+                },
+                error: function () {
+                    $.ECELL.tipMessage('头像上传失败！', false);
+                }
+            });
 		},
 		regist: function() {
 			var postData = {};
@@ -863,6 +894,7 @@ function _initECELL(o) {
 			postData.country = $("#player_content_country").dropdown('get value');
 			postData.birth = $("#player_content_birth").val();
 			postData.teamName = $('#player_content_team').val();
+			postData.picture = $('#player_content_pic').data('picture');
 			postData.tel = $('#player_content_tel').val();
 			postData.qq = $('#player_content_qq').val();
 			postData.wechat = $('#player_content_wechat').val();
@@ -1510,6 +1542,35 @@ function _initECELL(o) {
 			$('#schedule_list,#schedule_content').toggleClass('displaynone');
 			window.scrollTo(0,0);
 		},
+		setMatchValue: function(match) {
+			var setId = match.setId;
+			var gameId = match.gameId;
+			$('#schedule_content_set' + setId + '_player1').dropdown('set selected', match.player1Id);
+			$('#schedule_content_set' + setId + '_player2').dropdown('set selected', match.player2Id);
+			$('#schedule_content_set' + setId + '_date').val(match.raceDay);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_map').dropdown('set selected', match.mapId);
+			var hhmmss = match.duration.split(':');
+			$('#schedule_content_set' + setId + '_game' + gameId + '_hour').val(hhmmss[0]); 
+			$('#schedule_content_set' + setId + '_game' + gameId + '_minute').val(hhmmss[1]);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_second').val(hhmmss[2]);
+			if( match.winner == 1 ) {
+				$('#schedule_content_set' + setId + '_game' + gameId + '_win_p1_flag').addClass('checkmark').removeClass('displaynone');
+				$('#schedule_content_set' + setId + '_game' + gameId + '_win_p2_flag').addClass('remove').removeClass('displaynone');
+			}
+			else if( match.winner == 2 ) {
+				$('#schedule_content_set' + setId + '_game' + gameId + '_win_p1_flag').addClass('remove').removeClass('displaynone');
+				$('#schedule_content_set' + setId + '_game' + gameId + '_win_p2_flag').addClass('checkmark').removeClass('displaynone');
+			}
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player1_race').dropdown('set selected', match.player1Race);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player2_race').dropdown('set selected', match.player2Race);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player1_apm').val(match.player1Apm);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player2_apm').val(match.player2Apm);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player1_oil').val(match.player1Oil);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player2_oil').val(match.player2Oil);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player1_crystal').val(match.player1Crystal);
+			$('#schedule_content_set' + setId + '_game' + gameId + '_player2_crystal').val(match.player2Crystal);
+			return;
+		},
 		fillDetailData: function(scheduleId) {
 			var rowData = $('#schedule_main_table').DataTable().row( '#' + scheduleId ).data();
 			var htmlData = rowData.seasonName + ' - ' + rowData.round;
@@ -1540,10 +1601,14 @@ function _initECELL(o) {
 			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
 	    		if( data.code == 0 ) {
 					var matches = data.matches;
-					
-					
-					
-					
+					for(var i=0; i<matches.sets; i++) {
+						for(var j=0; j<matches.format; j++) {
+							var match = matches.setList[i][j];
+							if( undefined != match ) {
+								$.ECELL.schedule.setMatchValue(match);	
+							}
+						}
+					} 
 				} else {
 					var message = '获取比赛息失败![' + data.msg + ', ' + data.code + ']，请联系管理员！';
 					$.ECELL.tipMessage(message, false);

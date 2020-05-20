@@ -126,7 +126,9 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 		player.setName(name.orElse(null));
 		
 		Optional<String> gender = Optional.ofNullable( (String)params.get("gender") );
-		player.setGender( Integer.parseInt( gender.orElse( Player.GENDER_UNSET.toString() ) ) );
+		String genderStr = gender.orElse("");
+		genderStr = genderStr.isEmpty() ? String.valueOf( Player.GENDER_UNSET ) : genderStr;
+		player.setGender( Integer.parseInt( genderStr ) );
 		
 		Optional<String> race = Optional.ofNullable( (String)params.get("race") );
 		player.setRace(race.orElse(null));

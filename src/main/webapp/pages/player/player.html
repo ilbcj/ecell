@@ -87,96 +87,130 @@
                    						               选手个人信息
                    					        </h3>
 										</div>
-										<div class="ui form segment">
-                   					        <div class="two fields">
-                   					        	<div class="field">
-                   					        		<label>ID</label>
-                   					        		<input id="player_content_nick" type="text" placeholder="ID">
-                   					        	</div>
-                   					        	<div class="field">
-                   					        		<label>种族</label>
-                   					        		<div id="player_content_race" class="ui action dropdown selection" tabindex="0">
-	                                                    <i class="dropdown icon"></i>
-	                                                    <div class="default text">种族</div>
-	                                                    <div class="menu" tabindex="-1">
-	                                                    	<div class="item" data-value="">种族</div>
-	                                                    	<div class="item" data-value="T">T</div>
-	                                                    	<div class="item" data-value="P">P</div>
-	                                                    	<div class="item" data-value="Z">Z</div>
-	                                                    	<div class="item" data-value="R">R</div>
-	                                                    </div>
-                                                   	</div>
-                   					        	</div>
-                   					        </div>
-                   					        <div class="two fields">
-                   					        	<div class="field">
-                   					        		<label>姓名</label>
-                   					        		<input id="player_content_name" type="text" placeholder="姓名">
-                   					        	</div>
-                   					        	<div class="field">
-                   					        		<label>性别</label>
-                   					        		<div id="player_content_gender" class="ui action dropdown selection" tabindex="0">
-	                                                    <i class="dropdown icon"></i>
-	                                                    <div class="default text">性别</div>
-	                                                    <div class="menu" tabindex="-1">
-	                                                    	<div class="item" data-value="">性别</div>
-	                                                    	<div class="item" data-value="1">男</div>
-	                                                    	<div class="item" data-value="2">女</div>
-	                                                    </div>
-                                                   	</div>
-                   					        	</div>
-                   					        </div>
-                   					        <div class="two fields">
-                   					        	<div class="field">
-                   					        		<label>国籍</label>
-                   					        		<div id="player_content_country" class="ui action dropdown selection" tabindex="0">
-	                                                    <i class="dropdown icon"></i>
-	                                                    <div class="default text">国籍</div>
-	                                                    <div class="menu" tabindex="-1">
-	                                                    	<div class="item" data-value="">国籍</div>
-	                                                    	<div class="item" data-value="CN">中国</div>
-	                                                    	<div class="item" data-value="KR">韩国</div>
-	                                                    </div>
-                                                   	</div>
-                   					        	</div>
-                   					        	<div class="field">
-                   					        		<label>生日</label>
-                                                    <input id="player_content_birth" type="text" placeholder="生日" readonly>
-                   					        	</div>
-                   					        </div>
-                   					        <div class="two fields">
-                   					        	<div class="field">
-                   					        		<label>战队</label>
-                   					        		<input id="player_content_team" type="text" placeholder="战队">
-                   					        	</div>
-                   					        	<div class="field">
-                   					        		<label>电话</label>
-                                                    <input id="player_content_tel" type="text" placeholder="电话">
-                   					        	</div>
-                   					        </div>
-                   					        <div class="two fields">
-                   					        	<div class="field">
-                   					        		<label>QQ</label>
-                   					        		<input id="player_content_qq" type="text" placeholder="QQ">
-                   					        	</div>
-                   					        	<div class="field">
-                   					        		<label>微信</label>
-                                                    <input id="player_content_wechat" type="text" placeholder="微信">
-                   					        	</div>
-                   					        </div>
-                   					        <div class="field">
-               					        		<label>状态</label>
-               					        		<div id="player_content_status" class="ui action dropdown selection" tabindex="0">
-                                                    <i class="dropdown icon"></i>
-                                                    <div class="default text">状态</div>
-                                                    <div class="menu" tabindex="-1">
-                                                    	<div class="item" data-value="">状态</div>
-                                                    	<div class="item" data-value="1">使用中</div>
-                                                    	<div class="item" data-value="2">删除</div>
-                                                    </div>
-			                                    </div>
-               					        	</div>
-										</div>
+										<div class="row">
+											<div class="ui grid" id="grid11">
+				                                <div class="twelve wide column">
+				                                	
+				                                	<div class="ui form segment">
+	                   					        <div class="two fields">
+	                   					        	<div class="field">
+	                   					        		<label>ID</label>
+	                   					        		<input id="player_content_nick" type="text" placeholder="ID">
+	                   					        	</div>
+	                   					        	<div class="field">
+	                   					        		<label>种族</label>
+	                   					        		<div id="player_content_race" class="ui action dropdown selection" tabindex="0">
+		                                                    <i class="dropdown icon"></i>
+		                                                    <div class="default text">种族</div>
+		                                                    <div class="menu" tabindex="-1">
+		                                                    	<div class="item" data-value="">种族</div>
+		                                                    	<div class="item" data-value="T">T</div>
+		                                                    	<div class="item" data-value="P">P</div>
+		                                                    	<div class="item" data-value="Z">Z</div>
+		                                                    	<div class="item" data-value="R">R</div>
+		                                                    </div>
+	                                                   	</div>
+	                   					        	</div>
+	                   					        </div>
+	                   					        <div class="two fields">
+	                   					        	<div class="field">
+	                   					        		<label>姓名</label>
+	                   					        		<input id="player_content_name" type="text" placeholder="姓名">
+	                   					        	</div>
+	                   					        	<div class="field">
+	                   					        		<label>性别</label>
+	                   					        		<div id="player_content_gender" class="ui action dropdown selection" tabindex="0">
+		                                                    <i class="dropdown icon"></i>
+		                                                    <div class="default text">性别</div>
+		                                                    <div class="menu" tabindex="-1">
+		                                                    	<div class="item" data-value="">性别</div>
+		                                                    	<div class="item" data-value="1">男</div>
+		                                                    	<div class="item" data-value="2">女</div>
+		                                                    </div>
+	                                                   	</div>
+	                   					        	</div>
+	                   					        </div>
+	                   					        <div class="two fields">
+	                   					        	<div class="field">
+	                   					        		<label>国籍</label>
+	                   					        		<div id="player_content_country" class="ui action dropdown selection" tabindex="0">
+		                                                    <i class="dropdown icon"></i>
+		                                                    <div class="default text">国籍</div>
+		                                                    <div class="menu" tabindex="-1">
+		                                                    	<div class="item" data-value="">国籍</div>
+		                                                    	<div class="item" data-value="CN">中国</div>
+		                                                    	<div class="item" data-value="KR">韩国</div>
+		                                                    </div>
+	                                                   	</div>
+	                   					        	</div>
+	                   					        	<div class="field">
+	                   					        		<label>生日</label>
+	                                                    <input id="player_content_birth" type="text" placeholder="生日" readonly>
+	                   					        	</div>
+	                   					        </div>
+	                   					        <div class="two fields">
+	                   					        	<div class="field">
+	                   					        		<label>战队</label>
+	                   					        		<input id="player_content_team" type="text" placeholder="战队">
+	                   					        	</div>
+	                   					        	<div class="field">
+	                   					        		<label>电话</label>
+	                                                    <input id="player_content_tel" type="text" placeholder="电话">
+	                   					        	</div>
+	                   					        </div>
+	                   					        <div class="two fields">
+	                   					        	<div class="field">
+	                   					        		<label>QQ</label>
+	                   					        		<input id="player_content_qq" type="text" placeholder="QQ">
+	                   					        	</div>
+	                   					        	<div class="field">
+	                   					        		<label>微信</label>
+	                                                    <input id="player_content_wechat" type="text" placeholder="微信">
+	                   					        	</div>
+	                   					        </div>
+	                   					        <div class="two fields">
+		                   					        <div class="field">
+		               					        		<label>状态</label>
+		               					        		<div id="player_content_status" class="ui action dropdown selection" tabindex="0">
+		                                                    <i class="dropdown icon"></i>
+		                                                    <div class="default text">状态</div>
+		                                                    <div class="menu" tabindex="-1">
+		                                                    	<div class="item" data-value="">状态</div>
+		                                                    	<div class="item" data-value="1">使用中</div>
+		                                                    	<div class="item" data-value="2">删除</div>
+		                                                    </div>
+					                                    </div>
+					                                </div>  
+					                                <div class="field">
+		               					        		<label>上传图片</label>
+		               					        		<div class="ui action input">
+				                                            <input id="player_content_pic_input" type="file" name="picture" placeholder="头像">
+				                                            <div id="player_content_upload_pic" class="ui button">上传</div>
+				                                        </div>
+					                                </div>
+	               					        	</div>
+											</div>
+				                                	
+				                                	
+				                                </div>
+				                                
+				                                
+				                                <div class="four wide column">
+				                                	
+				                                	<div class="ui form segment">
+	                   					        
+	                   					        	<div class="field">
+	                   					        		<img id="player_content_pic" class="ui image" src="img/avatar/animals/dinosaur_128px.png">
+	                   					        	</div>
+	                   					        	</div>
+				                                </div>
+				                            </div>
+			                            
+			                            </div>
+				                        
+	                                        
+				                        
+										
 										<div class="ui segment right aligned">
 											<button id="player_content_save" class="ui primary button saving">保存</button>
 											<button id="player_content_return" class="ui button">返回</button>
