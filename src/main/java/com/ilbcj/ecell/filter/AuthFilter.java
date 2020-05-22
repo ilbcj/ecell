@@ -71,8 +71,6 @@ public class AuthFilter implements Filter {
 			}
 		}
 		
-		
-		
 		filterChain.doFilter(servletRequest,servletResponse);
 	}
 	
@@ -110,6 +108,10 @@ public class AuthFilter implements Filter {
 		}
 		else if( httpRequest.isRequestedSessionIdValid() ) {
 			logger.debug("from valid");
+		}
+		
+		if( jsessionid == null || jsessionid.isEmpty() ) {
+			logger.debug("jsessionid is empty");
 		}
 		
 		return jsessionid;

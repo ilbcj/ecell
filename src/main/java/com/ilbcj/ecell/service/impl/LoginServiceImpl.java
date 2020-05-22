@@ -23,7 +23,7 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 	@Autowired
 	private AdminMapper adminMapper;
 	
-	private Long sessionValidityPeriod = 5 * 60 * 1000L;
+	private Long sessionValidityPeriod = 24 * 60 * 60 * 1000L;
 	
 	
 	@Override
