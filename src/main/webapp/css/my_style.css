@@ -345,7 +345,7 @@ h5.ui.header {
 	font-size: .92857143em;
 	font-weight: 700;
 	text-transform: none;
-	float:left
+	float:left;
 }
 
 #selectappidList{
@@ -405,4 +405,8 @@ td.details-control {
 .roleinput2{
 	width: 98%;
 	top: 6px;
+}
+
+.cleanVal, .cleanDrop, .cleanDisplay {
+	color: orangered !important;
 }
