@@ -76,7 +76,7 @@
 		<resources>
 			<resource>
 				<directory>${basedir}/src/main/webapp</directory>
-				<targetPath>META-INF/resources</targetPath>
+				<targetPath>BOOT-INF/classes/webapp</targetPath>
 				<includes>
 					<include>**/**</include>
 				</includes>

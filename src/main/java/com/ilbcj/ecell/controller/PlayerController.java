@@ -1,15 +1,21 @@
 package com.ilbcj.ecell.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ilbcj.ecell.entity.Player;
 import com.ilbcj.ecell.service.PlayerService;
@@ -20,6 +26,9 @@ import com.ilbcj.ecell.util.R;
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
+	
+	@Value("${web.upload-path}")
+	private String picPath;
 	
 	@Autowired
 	private PlayerService playerService;
@@ -108,10 +117,29 @@ public class PlayerController {
 	@RequestMapping(value="/basic/list", method = RequestMethod.POST)
 	@ResponseBody
 	public R listBasic(@RequestParam Map<String, Object> params) {
-		
 			List<Player> list = playerService.queryBasic(params);
-			
 			return R.ok().put("list", list);
-		
 	}
+	
+	@RequestMapping(value = "/picture/upload")
+    public R fileUpload(@RequestParam(value = "playerPic") MultipartFile file) {
+        if (file.isEmpty()) {
+            System.out.println("文件为空空");
+        }
+        String fileName = file.getOriginalFilename();  // 文件名
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+        //String filePath = "D://temp-rainy//"; // 上传后的路径
+        fileName = UUID.randomUUID() + suffixName; // 新文件名
+        File dest = new File(picPath + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            return R.error("保存图片失败");
+        }
+        return R.ok().put("picName", fileName);
+    }
+	
 }

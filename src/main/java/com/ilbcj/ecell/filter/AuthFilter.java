@@ -110,6 +110,10 @@ public class AuthFilter implements Filter {
 			logger.debug("from valid");
 		}
 		
+		if( jsessionid == null || jsessionid.isEmpty() ) {
+			logger.debug("jsessionid is empty");
+		}
+		
 		return jsessionid;
 	}
 	
