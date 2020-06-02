@@ -1,6 +1,7 @@
 package com.ilbcj.ecell.filter;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -75,16 +76,16 @@ public class AuthFilter implements Filter {
 	}
 	
 	private boolean pathInWhiteList( String path ) {
-		String[] stylelist = ".js;.css;.png;.ico;woff2;.ttf;.woff;.eot".split(";");
+		String[] stylelist = ".js;.css;.jpg;.png;.ico;woff2;.ttf;.woff;.eot".split(";");
 		for(String item : stylelist ) {
 			if(path.endsWith(item)) {
 				return true;
 			}
 		}
 		
-		String[] whitelists = (ctx + "/login.html;" + ctx + "/login/idpwd;" + ctx + "/login/commonLogin;*.css;*.js").split(";");
+		String[] whitelists = ("^" + ctx + "/login.html$;" + "^" + ctx + "/login/idpwd$;" + "^" + ctx + "/login/commonLogin$;.*\\.css$;.*\\.js$;" + "^" + ctx + "/public/.*\\.html$").split(";");
 		for(String item : whitelists ) {
-			if(path.equals(item)) {
+			if( Pattern.matches(item, path) ) {
 				return true;
 			}
 		}
@@ -124,5 +125,18 @@ public class AuthFilter implements Filter {
 		}
 		logger.debug("loginService : " + loginService);
 		return loginService.checkLoggedStatus(jsessionid);
+	}
+	
+	public static void main(String[] args) {
+		String path = "/cell/public/match.html";
+		String[] whitelists = ("^" + ctx + "/login.html$;" + "^" + ctx + "/login/idpwd$;" + "^" + ctx + "/login/commonLogin$;.*\\.css$;.*\\.js$;" + "^" + ctx + "/public/.*\\.html$").split(";");
+		
+		
+		for(String item : whitelists ) {
+			if( Pattern.matches(item, path) ) {
+				return;
+			}
+		}
+		return;
 	}
 }
