@@ -56,14 +56,13 @@ public class AuthFilter implements Filter {
 		httpRequest.getSession();
 		String jsessionid = getJSESSIONID( httpRequest );
 		
-		if( jsessionid == null || jsessionid.isEmpty() ) {
-			httpResponse.sendRedirect(httpRequest.getContextPath() + "/" + redirectURL);
-			return; 
-		}
-		
 		logger.debug("[authFilter]" + path);
-		
 		if( !pathInWhiteList( path ) ) {
+			
+			if( jsessionid == null || jsessionid.isEmpty() ) {
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/" + redirectURL);
+				return; 
+			}
 			
 			boolean hasLogged = checkLoggedStatus( jsessionid );
 			if( !hasLogged ) {
