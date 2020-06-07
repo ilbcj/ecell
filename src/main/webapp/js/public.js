@@ -126,7 +126,7 @@ $(function () {
 	// Active the main menu and custom menu
 	//$.ECELLPUB.menu.activate();
 	
-	//$.ECELLPUB.indexPage.activate();
+	$.ECELLPUB.indexPage.activate();
 });
 
 /*
@@ -135,288 +135,42 @@ $(function () {
  */
 function _initECELLPUB(o) {
 	'use strict';
-	/*
-	 * admin ====== admin infomation maintain page
-	 * 
-	 * @type Object @usage $.ECELLPUB.admin.activate() @usage
-	 * $.ECELLPUB.admin.queryAdmin() @usage $.ECELLPUB.admin.addAdminWindow() @usage
-	 * $.ECELLPUB.admin.adminDetailReturn() @usage $.ECELLPUB.admin.saveAdminConfirm()
-	 * @usage $.ECELLPUB.admin.delAdmin() @usage $.ECELLPUB.admin.delAdminConfirm()
-	 */
-	$.ECELLPUB.admin = {
+	
+	$.ECELLPUB.indexPage = {
 		activate: function () {
-			$(".ui.dropdown").dropdown({
-			    allowCategorySelection: true,
-			    transition: "fade up"
-			});
 			
-			var dtable = $('#admin_main_table').DataTable({
-				ajax:{
-					url: o.basePath + '/sys/user/list',
-					type: 'POST',
-					data: function ( d ) {
-				        d.username = $('#admin_search_name').val();
-				        d.status = 1;
-					},
-					dataSrc: $.ECELLPUB.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-					{ data: 'loginId' },
-					{ data: 'roleId' },
-					{ data: 'status' },
-				],
-				rowId: 'loginId',
-		        // pagingType: "full_numbers_icon",
-		        columnDefs: [
-		        	{
-						render: function ( data, type, row ) {
-							var html = '';
-							if( data == 0 ) {
-								html = '<span class="ui basic red button">禁用</span>';
-							}
-							else if( data == 1 ) {
-								html = '<span class="ui basic green button">使用中</span>';
-							}
-							else if( data == 2 ) {
-								html = '<span class="ui basic black button">已删除</span>';
-							}
-							return html;
-						},
-						targets: 2
-					},
-					{
-						render: function ( data, type, row ) {
-							var html = '';
-							if(row.status == 1) {
-								html = '<div class="btn-group">';
-								html += '<div class="ui green horizontal label admin_info" data-id="' + row.loginId + '"><i class="large edit icon"></i>修改</div>';
-								html += '<div class="ui red horizontal label admin_del" data-id="' + row.loginId + '"><i class="large trash outline icon"></i>删除</div>';
-								html += '<div class="ui green horizontal label admin_info" data-id="' + row.loginId + '"><i class="large edit icon"></i>启用</div>';
-								html += '<div class="ui red horizontal label admin_del" data-id="' + row.loginId + '"><i class="large trash outline icon"></i>停用</div>';
-								html += '</div>';
-							}
-							return html;							
-						},
-						targets: 3
-					}
-				],
-		        order: [1, 'desc'],
-				responsive: true
-		    });
-			
-			// listen page items' event
-			$('#admin_search').on('click.ECELLPUB.admin.query', $.ECELLPUB.admin.queryAdmin);
-			$('#add_admin').on('click.ECELLPUB.admin.add', $.ECELLPUB.admin.addAdminWindow);
-			$('#admin_detail_save').on('click.ECELLPUB.admin.detailsave', $.ECELLPUB.admin.saveAdminConfirm);
-			$('#admin_detail_return').on('click.ECELLPUB.admin.detailreturn', $.ECELLPUB.admin.adminDetailReturn);
-			$('#admin_main_table').on( 'draw.dt', function () {
-				$('.admin_info').on('click.ECELLPUB.admin.detail', $.ECELLPUB.admin.addAdminWindow);
-				$('.admin_del').on('click.ECELLPUB.admin.delete.single', $.ECELLPUB.admin.delAdmin);
-			});
-			$('#admin_confirm_modal_confirm').on('click.ECELLPUB.admin.delconfirm', $.ECELLPUB.admin.delAdminConfirm);
-			
-		},
-		queryAdmin: function () {
-			$('#admin_main_table').DataTable().ajax.reload();
-			return;
-		},
-		addAdminWindow: function () {
-			var adminId = $(this).data('id');
-			if( undefined == adminId ) {
-				adminId = 0;
-			}
-			
-			$.post(o.basePath + '/sys/user/info/' + adminId + '?rand=' + Math.random(), {}, function(data,textStatus, jqXHR) {
-				if( data.code == 0 ) {
-					var htmlData = '';
-					
-					if( adminId != 0 ) {
-						$('#admin_name').val(data.user.username);
-						$('#admin_email').val(data.user.email);
-						$('#admin_mobile').val(data.user.mobile);
-					}
-					
-					$('#admin_detail_save').data('admin_id', adminId);
-					$('#admin_list_page, #admin_detail_page').toggleClass('displaynone');
-					$('body').getNiceScroll().resize();
-				}
-				else {
-					var message = '获取管理员权限信息失败![' + data.msg + ', ' + data.code + ']';
-					$.ECELLPUB.tipMessage(message, false);
-				}
-			}, 'json');
-		},
-		adminDetailReturn: function () {
-			$('#admin_name').val('');
-			$('#admin_email').val('');
-			$('#admin_mobile').val('');
-			$('#admin_pwd').val('');
-			$('#admin_repwd').val('');
-			$('#admin_list_page, #admin_detail_page').toggleClass('displaynone');
-		},
-		saveAdminConfirm: function () {
-			var adminId = $('#admin_detail_save').data('admin_id');
-			var name = $('#admin_name').val();
-		    var email = $('#admin_email').val();
-		    var mobile = $('#admin_mobile').val();
-		    var pwd = $('#admin_pwd').val().trim();
-		    var repwd = $('#admin_repwd').val().trim();
-		    if( adminId == 0 && pwd.length == 0 ) {
-		    	var message = '保存管理员信息失败![添加管理员时，口令不能为空]';
-				$.ECELLPUB.tipMessage(message, false);
-				return;
-		    }
-		    if( pwd != repwd ) {
-		    	var message = '保存管理员信息失败![口令与重复口令不匹配，请重新输入!]';
-		    	$('#admin_pwd').val('');
-		    	$('#admin_repwd').val('');
-				$.ECELLPUB.tipMessage(message, false);
-				return;
-		    }
-			var postData = {};
-			postData.userId = adminId;
-			postData.username = name;
-			postData.email = email;
-			postData.mobile = mobile;
-			postData.roleIdList = [];
-			if( pwd.length > 0 ) {
-				postData.password = pwd;
-			}
-			$('#admin_role_list input:checkbox:checked').each(function(index, item, arr){
-				postData.roleIdList.push($(item).val());
-			});
-			
-			var urlTarget = o.basePath + '/sys/user/';
-			if( adminId == 0 ) {
-				urlTarget += 'save';
-			}
-			else {
-				urlTarget += 'update';
-			}
-			$.post(urlTarget + '?rand=' + Math.random(), postData, function(data, textStatus, jqXHR) {
-	    		if( data.code == 0 ) {
-					$.ECELLPUB.admin.adminDetailReturn();
-					
-					$('#admin_main_table').DataTable().ajax.reload();
-					var message = '保存管理员信息成功!';
-					$.ECELLPUB.tipMessage(message);
-				} else {
-					var message = '保存管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.ECELLPUB.tipMessage(message, false);
-				}
-			}, 'json');
-		},
-		delAdmin: function () {
-			var rowId = $(this).data('id');
-			var delIds = ''+rowId;
-			
-			var rowData = $('#admin_main_table').DataTable().row('#'+rowId).data();
-			var message = '是否要删除此管理员 [ ' + rowData.username + ' ] ？';
-			
-			$('#admin_confirm_modal_message').empty().append(message);
-			$('#admin_confirm_modal_confirm').data('delIds', delIds);
-			$("#admin_confirm_modal").modal({closable:false}).modal('show');
-		},
-		delAdminConfirm: function (postData) {
-			var delIds = $('#admin_confirm_modal_confirm').data('delIds');
-			var postData = {userIds:delIds};
-			
-			$.post(o.basePath + '/sys/user/delete', postData, function(data, textStatus, jqXHR) {
-				if( data.code == 0 ) {
-					var message = '管理员信息已删除!';
-					$.ECELLPUB.tipMessage(message);
-					$('#admin_main_table').DataTable().ajax.reload();
-				} else {
-					var message = '删除管理员信息失败![' + data.msg + ', ' + data.code + ']';
-					$.ECELLPUB.tipMessage(message, false);
-				}
-			}, 'json');
+			$('div.mainWrap').load('match.html?random=' + Math.random() + ' .mainWrapInner',
+			    				function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('match.html');});
+		}
+	};// end of $.ECELLPUB.indexPage
+	
+	
+	/*
+	 * match ====== match infomation page
+	 * 
+	 * @type 
+	 * Object
+	 * @usage 
+	 * $.ECELLPUB.match.activate()
+	 */
+	$.ECELLPUB.match = {
+		activate: function () {
+			$('.daymatchEnter').on('click.ECELLPUB.matchh.loaddaymatch', function(){
+				var schedule = $(this).data('schedule');
+				$('#contextWrap').data('scheduleId', schedule);
+				$('div.mainWrap').load('daymatch.html?random=' + Math.random() + ' .mainWrapInner',
+			    	function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('daymatch.html');});
+			})
 		}
 	};// end of $.ECELLPUB.admin
 	
-	$.ECELLPUB.player = {
+	$.ECELLPUB.daymatch = {
 		activate: function() {
-			$(".ui.dropdown").dropdown({
-				allowCategorySelection: true,
-				transition: "fade up"
-			});
-			
-			jeDate("#player_content_birth",{
-		        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-		        onClose: false,
-		        format: "YYYY-MM-DD"
-		    });
-			
-			var dtable = $('#player_main_table').DataTable({
-				ajax:{
-					url: o.basePath + '/player/list',
-					type: 'POST',
-					data: function ( d ) {
-				        d.nick = $('#player_search_nick').val();
-				        d.name = $('#player_search_name').val();
-					},
-					dataSrc: $.ECELLPUB.ParseDataTableResult
-				},
-				processing: true,
-				serverSide: true,
-				columns: [
-					{ data: 'nick' },
-					{ data: 'name' },
-					{ data: 'race' },
-					{ data: 'teamName' },
-					{ data: null }
-				],
-				rowId: 'id',
-		        columnDefs: [
-		        	{
-						render: function ( data, type, row ) {
-							var html = '';
-							if( data == 'T' ) {
-								html = '<span class="ui basic black button">人族</span>';
-							}
-							else if( data == 'P' ) {
-								html = '<span class="ui basic black button">神族</span>';
-							}
-							else if( data == 'Z' ) {
-								html = '<span class="ui basic black button">虫族</span>';
-							}
-							else if( data == 'R' ) {
-								html = '<span class="ui basic black button">随机</span>';
-							}
-							return html;
-						},
-						targets: 2
-					},
-					{
-						render: function ( data, type, row ) {
-							var html = '';
-								html = '<div class="btn-group">';
-								html += '<div class="ui green horizontal label player_update" data-id="' + row.id + '"><i class="large edit icon"></i>修改</div>';
-								html += '<a class="ui red horizontal label player_delete" data-id="' + row.id + '"><i class="large trash outline icon"></i>删除</a>';
-								html += '</div>';
-							return html;							
-						},
-						targets: 4
-					}
-				],
-		        //order: [1, 'desc'],
-				responsive: true
-		    });
-			
-			// listen page items' event
-			$('#player_search').on('click.ECELLPUB.player.query', $.ECELLPUB.player.query);
-			$('#player_main_table').on( 'draw.dt', function () {
-				$('.player_update').on('click.ECELLPUB.player.update', $.ECELLPUB.player.contentToggle);
-				$('.player_delete').on('click.ECELLPUB.player.delete', $.ECELLPUB.player.delConfirm);
-			});
-            $('#add_player').on('click.ECELLPUB.player.content', $.ECELLPUB.player.contentToggle);
-            $('#player_content_upload_pic').on('click.ECELLPUB.player.picture', $.ECELLPUB.player.uploadPicture);
-            $('#player_content_save').on('click.ECELLPUB.player.save', $.ECELLPUB.player.regist);
-            $('#player_content_return').on('click.ECELLPUB.player.return', $.ECELLPUB.player.contentToggle);
-            $('#del_player_yes').on('click.ECELLPUB.player.del.yes', $.ECELLPUB.player.delConfirmYes);
-            
+			var schedule = $('#contextWrap').data('scheduleId');
+			if(schedule < 5) {
+				o.basePath + '/player/picture/upload'
+				$('.mainWrapInner').css('background-image', 'url(' + o.basePath + '/img/public/daymatch_1.jpg)');
+			}
 		},
 		query: function () {
 			$('#player_main_table').DataTable().ajax.reload();
@@ -560,7 +314,7 @@ function _initECELLPUB(o) {
 					}
 				}, 'json');
 		}
-	}; // player管理结束
+	}; // daymatch管理结束
 	
 	$.ECELLPUB.season = {
 		activate: function() {
@@ -1393,11 +1147,11 @@ function _initECELLPUB(o) {
 	 */
 	$.ECELLPUB.PageActivate = function(url) {
 		// if( url == 'modules/sys/menu.html' ) {
-		if( url == 'pages/system/admin.html' ) {
-			$.ECELLPUB.admin.activate();
+		if( url == 'match.html' ) {
+			$.ECELLPUB.match.activate();
 		}
-		else if( url == 'pages/player/player.html' ) {
-			$.ECELLPUB.player.activate();
+		else if( url == 'daymatch.html' ) {
+			$.ECELLPUB.daymatch.activate();
 		}
 		else if( url == 'pages/season/season.html' ) {
 			$.ECELLPUB.season.activate();
@@ -1425,51 +1179,7 @@ function _initECELLPUB(o) {
 		return json.list;
 	}// end of $.ECELLPUB.ParseDataTableResult
 	
-	$.ECELLPUB.staticMap = function() {
-		var maps = [
-			{
-				name: '',
-				value: '0'	
-			},
-			{
-				name: '小仙女',
-				value: '1'
-			},
-			{
-				name: '云梯',
-				value: '2'
-			},
-			{
-				name: '血岭',
-				value: '3'
-			},
-			{
-				name: '角斗士',
-				value: '4'
-			},
-			{
-				name: '守望先锋',
-				value: '5'
-			},
-			{
-				name: '斗魂',
-				value: '6'
-			},
-			{
-				name: '断路器',
-				value: '7'
-			},
-			{
-				name: '赛点',
-				value: '8'
-			},
-			{
-				name: '拉曼查',
-				value: '9'
-			}
-		];
-		return maps;
-	}
+
 }
 
 

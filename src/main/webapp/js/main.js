@@ -1482,7 +1482,7 @@ function _initECELL(o) {
 			$('#schedule_content_title').html('赛程信息');
 			$('.cleanDrop').dropdown('clear');
 			$('.cleanVal').val('');
-			$('.cleanDisplay').addClass('displaynone');
+			$('.cleanDisplay').removeClass('checkmark remove').addClass('displaynone');
 			
 			//$('#schedule_content_set1_player1').dropdown('clear');
 			//$('#schedule_content_set1_player2').dropdown('clear');

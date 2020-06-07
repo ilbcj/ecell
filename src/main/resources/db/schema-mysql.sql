@@ -155,3 +155,11 @@ CREATE TABLE `ecell`.`tb_menu` (
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS tb_ditu;
+CREATE TABLE `ecell`.`tb_ditu` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `name` VARCHAR(64) NOT NULL COMMENT '名称',
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;

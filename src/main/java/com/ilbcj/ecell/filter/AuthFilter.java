@@ -82,7 +82,7 @@ public class AuthFilter implements Filter {
 			}
 		}
 		
-		String[] whitelists = ("^" + ctx + "/login.html$;" + "^" + ctx + "/login/idpwd$;" + "^" + ctx + "/login/commonLogin$;.*\\.css$;.*\\.js$;" + "^" + ctx + "/public/.*\\.html$").split(";");
+		String[] whitelists = ("^" + ctx + "/login.html$;" + "^" + ctx + "/login/idpwd$;" + "^" + ctx + "/login/commonLogin$;.*\\.css$;.*\\.js$;" + "^" + ctx + "/public/.*$").split(";");
 		for(String item : whitelists ) {
 			if( Pattern.matches(item, path) ) {
 				return true;

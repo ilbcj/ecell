@@ -1,0 +1,677 @@
+{
+    "version": 6,
+    "entities": [
+        {
+            "entity": {
+                "type": "Project",
+                "id": "87ee42f6-24c6-4a79-a91e-9be749a6ba6f",
+                "name": "ecell"
+            },
+            "children": [
+                {
+                    "entity": {
+                        "type": "Service",
+                        "id": "f1623d94-1f3b-4504-a741-421fd10c7caf",
+                        "name": "LoginController"
+                    },
+                    "children": [
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": [
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "username",
+                                                "value": "admin"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "password",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    },
+                                    "bodyType": "Form",
+                                    "textBody": "{\n  \"username\":\"admin\",\n  \"password\":\"123456\"\n}"
+                                },
+                                "uri": {
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/login/idpwd"
+                                },
+                                "id": "c2da34a5-2674-469f-8e0f-113b3408e081",
+                                "name": "idpwd",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/x-www-form-urlencoded"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/sys/menu/nav"
+                                },
+                                "id": "bdca5e76-7a74-4c09-8ad8-f8d89953fc39",
+                                "name": "queryMenu",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "entity": {
+                        "type": "Service",
+                        "id": "e547d309-9191-4df7-a986-cb456ecb9072",
+                        "name": "PlayerController"
+                    },
+                    "children": [
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": [
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "draw",
+                                                "value": "1"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "start",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "length",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "nick",
+                                                "value": ""
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "name",
+                                                "value": ""
+                                            }
+                                        ]
+                                    },
+                                    "bodyType": "Form",
+                                    "textBody": ""
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "192.168.1.199:8080",
+                                    "path": "/cell/player/list"
+                                },
+                                "id": "127578a2-7aab-42e4-b9c8-a3c12d5e6d84",
+                                "name": "queryPlayer",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/x-www-form-urlencoded"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"name\": \"李四\",\n  \"gender\": \"1\",\n  \"nick\": \"cloud\",\n  \"race\": \"T\",\n  \"country\": \"CN\",\n  \"birth\": \"2000-02-29\",\n  \"picture\": \"xxx.jpg\",\n  \"teamName\": \"For\",\n  \"qq\": \"510650\",\n  \"wechat\": \"二线大厂\",\n  \"tel\": \"13800000002\"\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/player/regist/cell/player/regist"
+                                },
+                                "id": "c1aeda00-cc85-470b-9799-a0e48b283b65",
+                                "name": "registPlayer",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"nick\":\"ppppp\",\n  \"name\":\"super\"\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "192.168.1.199:8080",
+                                    "path": "/cell/player/modfiy"
+                                },
+                                "id": "45168e9c-df2c-470f-a102-4f7f916964c9",
+                                "name": "updatePlayer",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"nick\":\"ppppppppp\",\n  \"name\":\"super11111111111111\",\n  \"pwed\":\"123333333333\",\n  \"status\": 14\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "192.168.1.199:8080",
+                                    "path": "/cell/player/status"
+                                },
+                                "id": "07fb52dc-d393-4e38-ab68-78fbcfe0eb2b",
+                                "name": "updatePlayerStatus",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "entity": {
+                        "type": "Service",
+                        "description": "",
+                        "id": "e46cf813-1b2c-4c07-b9ae-af520091f277",
+                        "name": "ScheduleController"
+                    },
+                    "children": [
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"seasonId\" : 1\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "192.168.1.199:8080",
+                                    "path": "/cell/schedule/list/season"
+                                },
+                                "id": "bd392b7c-bb88-415d-9522-a4426f857fe7",
+                                "name": "queryScheduleBySeason",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "entity": {
+                        "type": "Service",
+                        "id": "e261ed92-6e29-4174-918f-93ee88e9ef4b",
+                        "name": "SeasonController"
+                    },
+                    "children": [
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": [
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "draw",
+                                                "value": "1"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "start",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "length",
+                                                "value": "10"
+                                            }
+                                        ]
+                                    },
+                                    "bodyType": "Form"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "192.168.1.199:8080",
+                                    "path": "/cell/season/list"
+                                },
+                                "id": "23a6a00b-7dc9-4a09-b8e2-b108788a137a",
+                                "name": "querySeason",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/x-www-form-urlencoded"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "entity": {
+                        "type": "Scenario",
+                        "id": "720f2224-6595-47b7-a8a8-f2f3a6995d0e",
+                        "name": "AdminController"
+                    },
+                    "children": [
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"loginId\": \"super\",\n  \"pwd\": \"11111111\"\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/admin/regist"
+                                },
+                                "id": "63b95e62-5740-4829-8ad7-334846b81915",
+                                "name": "registAdmin",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": [
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "draw",
+                                                "value": "1"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "start",
+                                                "value": "0"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "length",
+                                                "value": "10"
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "loginId",
+                                                "value": ""
+                                            },
+                                            {
+                                                "enabled": true,
+                                                "type": "Text",
+                                                "name": "name",
+                                                "value": ""
+                                            }
+                                        ]
+                                    },
+                                    "bodyType": "Form",
+                                    "textBody": ""
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/admin/list"
+                                },
+                                "id": "4294e7cf-936c-4499-a2dc-050ad683aa91",
+                                "name": "queryAdmin",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/x-www-form-urlencoded"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"loginId\":\"admin\",\n  \"name\":\"super\",\n  \"pwed\":\"\",\n  \"status\": 3\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/admin/modfiy"
+                                },
+                                "id": "d2e41a32-4e2a-4a31-8550-7450817d46da",
+                                "name": "updateAdmin",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "entity": {
+                                "type": "Request",
+                                "method": {
+                                    "requestBody": true,
+                                    "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                                    "name": "POST"
+                                },
+                                "body": {
+                                    "formBody": {
+                                        "overrideContentType": true,
+                                        "encoding": "application/x-www-form-urlencoded",
+                                        "items": []
+                                    },
+                                    "bodyType": "Text",
+                                    "textBody": "{\n  \"loginId\":\"admin\",\n  \"name\":\"super11111111111111\",\n  \"pwed\":\"123333333333\",\n  \"status\": 14\n}"
+                                },
+                                "uri": {
+                                    "query": {
+                                        "delimiter": "&",
+                                        "items": []
+                                    },
+                                    "scheme": {
+                                        "name": "http",
+                                        "version": "V11"
+                                    },
+                                    "host": "127.0.0.1:8080",
+                                    "path": "/cell/admin/status"
+                                },
+                                "id": "0f6eb5d7-25ad-4f65-be29-c8cf00aec603",
+                                "name": "updateAdminStatus",
+                                "headers": [
+                                    {
+                                        "enabled": true,
+                                        "name": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "entity": {
+                "type": "Project",
+                "id": "ff312af9-e53e-4ff2-9138-96f6537bbe3c",
+                "name": "公有云iotds"
+            },
+            "children": [
+                {
+                    "entity": {
+                        "type": "Request",
+                        "method": {
+                            "requestBody": true,
+                            "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                            "name": "POST"
+                        },
+                        "body": {
+                            "formBody": {
+                                "overrideContentType": true,
+                                "encoding": "application/x-www-form-urlencoded",
+                                "items": []
+                            },
+                            "bodyType": "Text",
+                            "textBody": "{\n  \"devid\":\"test1_0000001\",\n  \"appid\":\"58054830423f4c679ad2613b63736418\",\n  \"plaindata\":\"123456abc\"\n}"
+                        },
+                        "uri": {
+                            "query": {
+                                "delimiter": "&",
+                                "items": []
+                            },
+                            "scheme": {
+                                "name": "http",
+                                "version": "V11"
+                            },
+                            "host": "222.175.223.74:9101",
+                            "path": "/IotdsGatewayService/iotds/openapi"
+                        },
+                        "id": "fede8bbd-b33b-4151-a23a-7b028922adc0",
+                        "name": "sdk通讯解密",
+                        "headers": [
+                            {
+                                "enabled": true,
+                                "name": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

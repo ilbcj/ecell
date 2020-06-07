@@ -43,7 +43,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Resource 
 	private MatchMapper matchMapper;
 	
-	@Resource MatchDetailMapper matchDetailMapper;
+	@Resource 
+	MatchDetailMapper matchDetailMapper;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {

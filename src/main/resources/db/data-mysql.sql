@@ -16,3 +16,15 @@ INSERT INTO tb_menu (menu_id, parent_id, name, url, type, icon, order_num, perms
 (201, 2, '赛程信息', 'pages/season/schedule.html', 1, '', 2, '', 1),
 (300, 3, '选手信息', 'pages/player/player.html', 1, '', 1, '', 1),
 (400, 4, '比赛信息', 'pages/match/match.html', 1, '', 1, '', 1);
+
+DELETE FROM tb_ditu;
+INSERT INTO tb_ditu (id, name) VALUES
+(1, '小仙女'),
+(2, '云梯'),
+(3, '血岭'),
+(4, '角斗士'),
+(5, '守望先锋'),
+(6, '斗魂'),
+(7, '断路器'),
+(8, '赛点'),
+(9, '拉曼查');
