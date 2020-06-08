@@ -7,10 +7,9 @@ public class tester {
 
 	public static void main(String[] args) {
 		
-		Integer abc = null;
+		//Integer abc = null;
 		
-		System.out.println(abc > 0);
-		// TODO Auto-generated method stub
+		//System.out.println(abc > 0);
 		String[] hhmmss = (":22:33" + " ").split(":");
 		
 		Arrays.asList(hhmmss).forEach(x -> {
