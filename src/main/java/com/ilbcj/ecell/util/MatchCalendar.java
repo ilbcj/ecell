@@ -2,7 +2,6 @@ package com.ilbcj.ecell.util;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class MatchCalendar {
 	
     public static void main(String[] args) {
     	
-    	MatchCalendarDTO calendar = queryCalendar("202002");
+    	MatchCalendarDTO calendar = queryCalendar("2019-12");
     	calendar.getDays().forEach(x->{
     		System.out.println(x.getDayOfMonth());
     	});
@@ -58,8 +57,9 @@ public class MatchCalendar {
     	//int year = date.getYear();
         //int month = date.getMonthValue();
     	DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-                .appendValue(ChronoField.MONTH_OF_YEAR, 2)
+    			.appendValue(ChronoField.YEAR)
+    			.appendLiteral('-')
+    			.appendValue(ChronoField.MONTH_OF_YEAR)
                 .toFormatter();
     	
     	TemporalAccessor accessor = formatter.parse(dateStr);
@@ -93,4 +93,5 @@ public class MatchCalendar {
     	calendar.setDays(days);
     	return calendar;
     }
+
 }

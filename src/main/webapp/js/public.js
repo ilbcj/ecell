@@ -152,17 +152,77 @@ function _initECELLPUB(o) {
 	 * Object
 	 * @usage 
 	 * $.ECELLPUB.match.activate()
+	 * $.ECELLPUB.match.loadCalendar(month), month:月份
 	 */
 	$.ECELLPUB.match = {
 		activate: function () {
-			$('.daymatchEnter').on('click.ECELLPUB.matchh.loaddaymatch', function(){
-				var schedule = $(this).data('schedule');
-				$('#contextWrap').data('scheduleId', schedule);
-				$('div.mainWrap').load('daymatch.html?random=' + Math.random() + ' .mainWrapInner',
-			    	function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('daymatch.html');});
-			})
+			
+			var now = new Date();
+			var year = now.getFullYear();    //获取完整的年份(4位,1970-????)
+			var month = now.getMonth()+1;       //获取当前月份(0-11,0代表1月)
+			$.ECELLPUB.match.loadCalendar(year + '-' + month);
+			
+			$('#matchCalendarLeft').on('click.ECELLPUB.matchh.loadCalendar', function(){
+				var d = new Date($('#matchCalendar0').html());
+				if( typeof d.getMonth() === 'number' && !window.isNaN(d.getMonth()) ) {
+					d.setMonth(d.getMonth() - 1);
+					var year = d.getFullYear();
+					var month = d.getMonth()+1;
+					$.ECELLPUB.match.loadCalendar(year + '-' + month);
+				}
+				
+			});
+			$('#matchCalendarRight').on('click.ECELLPUB.matchh.loadCalendar', function(){
+				var d = new Date($('#matchCalendar0').html());
+				if( typeof d.getMonth() === 'number' && !window.isNaN(d.getMonth()) ) {
+					d.setMonth(d.getMonth() + 1);
+					var year = d.getFullYear();
+					var month = d.getMonth()+1;
+					$.ECELLPUB.match.loadCalendar(year + '-' + month);
+				}
+			});
+		},
+		loadCalendar: function(month) {
+			var postData = {};
+			postData.month = month;
+			var urlTarget = o.basePath + '/public/calendar';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var calendar = data.calendar;
+					$('.matchCalendar').removeData();
+					$('.matchCalendar').html('');
+					$('.matchCalendar').removeClass('daymatchEnter');
+					$('.matchCalendar').css('color', 'white');
+					$('#matchCalendar0').html(calendar.year + '-' + calendar.month);
+					for(var i=0; i<calendar.days.length; i++) {
+						if( calendar.days[i].dayOfMonth > 0) {
+							$('#matchCalendar' + (i+1)).html(calendar.days[i].dayOfMonth);
+							$('#matchCalendar' + (i+1)).data('days', calendar.days[i]);
+							if(calendar.days[i].type == 1) {
+								$('#matchCalendar' + (i+1)).css('color', '#fff558');	
+							}
+							else if(calendar.days[i].type == 1) {
+								$('#matchCalendar' + (i+1)).css('color', '#ff9914');	
+							}
+							if(calendar.days[i].sets > 0) {
+								$('#matchCalendar' + (i+1)).addClass('daymatchEnter');	
+							}
+						}
+					}
+					
+					$('.daymatchEnter').on('click.ECELLPUB.matchh.loaddaymatch', function(){
+						var schedule = $(this).data('schedule');
+						$('#contextWrap').data('scheduleId', schedule);
+						$('div.mainWrap').load('daymatch.html?random=' + Math.random() + ' .mainWrapInner',
+					    	function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('daymatch.html');});
+					});
+				} else {
+					var message = '获取赛程日历信息失败![' + data.msg + ', ' + data.code + ']';
+					$.ECELLPUB.tipMessage(message, false);
+				}
+			}, 'json');
 		}
-	};// end of $.ECELLPUB.admin
+	};// end of $.ECELLPUB.match
 	
 	$.ECELLPUB.daymatch = {
 		activate: function() {

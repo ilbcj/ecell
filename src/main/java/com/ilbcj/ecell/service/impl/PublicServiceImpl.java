@@ -17,17 +17,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ilbcj.ecell.dto.CalendarDayDTO;
 import com.ilbcj.ecell.dto.MatchBriefDTO;
+import com.ilbcj.ecell.dto.MatchCalendarDTO;
 import com.ilbcj.ecell.dto.PlayerProfileDTO;
 import com.ilbcj.ecell.entity.Ditu;
 import com.ilbcj.ecell.entity.Match;
 import com.ilbcj.ecell.entity.MatchDetail;
 import com.ilbcj.ecell.entity.Player;
+import com.ilbcj.ecell.entity.Schedule;
 import com.ilbcj.ecell.mapper.DituMapper;
 import com.ilbcj.ecell.mapper.MatchDetailMapper;
 import com.ilbcj.ecell.mapper.MatchMapper;
 import com.ilbcj.ecell.mapper.PlayerMapper;
 import com.ilbcj.ecell.service.PublicService;
+import com.ilbcj.ecell.util.MatchCalendar;
 
 @Service("publicService")
 public class PublicServiceImpl implements PublicService {
@@ -268,6 +272,45 @@ public class PublicServiceImpl implements PublicService {
 		}
 		
 		return String.valueOf(nowYear - birthYear + 1);
+	}
+	
+	@Override
+	public MatchCalendarDTO queryMatchCalendar(String dateStr) {
+		MatchCalendarDTO calendar = MatchCalendar.queryCalendar(dateStr);
+		fillCalendarDayDTOInfo(calendar);
+		return calendar;
+	}
+	
+	private void fillCalendarDayDTOInfo(MatchCalendarDTO calendar) {
+		String month = String.format( "%4d-%02d-", calendar.getYear(), calendar.getMonth() );
+		calendar.getDays().forEach(day -> {
+			if( day.getDayOfMonth() == 0 ) {
+				return;
+			}
+			String raceDay = month + String.format("%02d", day.getDayOfMonth());
+			List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
+					.eq(Match::getRaceDay, raceDay )
+					);
+			
+			if( matches != null && matches.size() > 0 ) {
+				Match match = matches.get(0);
+				day.setSeason(match.getSeasonId());
+				day.setSchedule(match.getScheduleId());
+				if ( (match.getScheduleId() >=1 && match.getScheduleId() <=4) || (match.getScheduleId() >=13 && match.getScheduleId() <=16) ) {
+					day.setSets(CalendarDayDTO.SETS_5);
+				}
+				else {
+					day.setSets(CalendarDayDTO.SETS_1);
+				}
+				
+				if ( (match.getScheduleId() >=1 && match.getScheduleId() <=12) || (match.getScheduleId() >=13 && match.getScheduleId() <=24) ) {
+					day.setType(Schedule.TYPE_REGULAR);
+				}
+				else {
+					day.setType(Schedule.TYPE_PLAYOFF);
+				}
+			}
+		});
 	}
 
 }

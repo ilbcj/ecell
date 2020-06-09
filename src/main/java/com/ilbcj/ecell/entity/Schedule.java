@@ -18,7 +18,7 @@ public class Schedule implements Serializable, Comparable<Schedule>{
 	
 	public static final Integer TYPE_TRIALS = 0;
 	public static final Integer TYPE_REGULAR = 1;
-	public static final Integer TYPE_PLAYOFF  = 2;
+	public static final Integer TYPE_PLAYOFF = 2;
 	
 	public static final String ROUND_R_1 = "常规赛16进8_A组";
 	public static final String ROUND_R_2 = "常规赛16进8_B组";
