@@ -184,13 +184,16 @@ function _initECELLPUB(o) {
 			
 			$('.playerProfile').on('click.ECELLPUB.player.profile', function(){
 				var nick = $(this).html();
-				$('#player_profile_modal_message').html(nick);
-				$("#player_profile_modal").modal({
-					closable: false
-				}).modal('show');
+				$.ECELLPUB.match.loadPlayerProfile(nick);
 			});
 		},
-		loadCalendar: function(month) {
+		loadPlayerProfile: function( nick ) {
+			$('#player_profile_modal_message').html(nick);
+				$("#player_profile_modal").modal({
+					closable: true
+				}).modal('show');
+		}
+		loadCalendar: function( month ) {
 			var postData = {};
 			postData.month = month;
 			var urlTarget = o.basePath + '/public/calendar';

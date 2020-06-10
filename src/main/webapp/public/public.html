@@ -109,6 +109,12 @@
 			margin-right: 15px;
 		}
 		
+		.ui.veryLarge.modal {
+			width: 1980px;
+			margin: 0 0 0 -990px;
+			height: 2160px;
+		}
+		
 	</style>
 </head>
 <body>
@@ -118,28 +124,11 @@
 			
         </div>
         <!--maincontent-->
-        <div id="player_profile_modal" class="ui basic modal">                                                                                  
-            <div class="header">
-			选手信息
-            </div>
-            <div class="image content">
-                <div class="image">
-                    <i class="archive icon"></i>
-                </div>
-                <div class="description">
-                    <p id="player_profile_modal_message"></p>
-                </div>
-            </div>
-            <div class="actions">
-                <div class="two fluid ui inverted buttons">
-            	    <div class="ui green basic inverted button">
-                        <i class="checkmark icon"></i>
-							返回
-                    </div>
-                    <div class="ui red basic inverted deny button">
-                        <i class="remove icon"></i>
-					       取消
-                    </div>
+        <div id="player_profile_modal" class="ui basic modal veryLarge">                                                                                  
+            
+            <div class="image content" style="height:1860px;background-image: url(../img/public/player_profile.jpg);">
+                <div class="description" style="margin-top: 100px;margin-left: 120px;">
+                    <p id="player_profile_modal_message" ></p>
                 </div>
             </div>
     	</div>
