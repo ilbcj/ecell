@@ -2,6 +2,13 @@ package com.ilbcj.ecell.dto;
 
 import java.util.List;
 
+/**
+ *	管理台-赛程信息
+ *	@author ilbcj
+ *
+ */
+
+
 public class ScheduleDTO {
 	
 	private String scheduleName;

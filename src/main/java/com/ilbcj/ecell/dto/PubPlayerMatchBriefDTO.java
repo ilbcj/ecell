@@ -1,6 +1,11 @@
 package com.ilbcj.ecell.dto;
 
-public class MatchBriefDTO {
+/**
+ *	展示-选手页-选手信息-最近十场比赛信息
+ *	@author ilbcj
+ *
+ */
+public class PubPlayerMatchBriefDTO {
 	public static final String TYPE_REGULAR = "常规赛";
 	public static final String TYPE_PLAYOFF  = "季后赛";
 	private String type;

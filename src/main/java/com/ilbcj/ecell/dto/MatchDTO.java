@@ -1,5 +1,10 @@
 package com.ilbcj.ecell.dto;
 
+/**
+ *	管理台-赛程信息-单局信息
+ *	@author ilbcj
+ *
+ */
 public class MatchDTO {
 	private Integer setId;
 	private Integer gameId;

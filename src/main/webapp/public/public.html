@@ -93,6 +93,22 @@
 			color: #021332;
 		}
 		
+		.daymatch .schedulePlayers {
+			font-family: "microsoft yahei";
+			font-size: 25px;
+			font-weight:bold;
+		}
+		.daymatch .schedulePlayers.win {
+			font-family: "microsoft yahei";
+			font-size: 17px;
+			font-weight:bold;
+			color: red;
+		}
+		
+		#daymath_top_players span {
+			margin-right: 15px;
+		}
+		
 	</style>
 </head>
 <body>
@@ -102,6 +118,31 @@
 			
         </div>
         <!--maincontent-->
+        <div id="player_profile_modal" class="ui basic modal">                                                                                  
+            <div class="header">
+			选手信息
+            </div>
+            <div class="image content">
+                <div class="image">
+                    <i class="archive icon"></i>
+                </div>
+                <div class="description">
+                    <p id="player_profile_modal_message"></p>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="two fluid ui inverted buttons">
+            	    <div class="ui green basic inverted button">
+                        <i class="checkmark icon"></i>
+							返回
+                    </div>
+                    <div class="ui red basic inverted deny button">
+                        <i class="remove icon"></i>
+					       取消
+                    </div>
+                </div>
+            </div>
+    	</div>
     </div>
     </div>
     <!--jquery-->

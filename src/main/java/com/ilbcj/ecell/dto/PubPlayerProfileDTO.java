@@ -2,7 +2,12 @@ package com.ilbcj.ecell.dto;
 
 import java.util.List;
 
-public class PlayerProfileDTO {
+/**
+ *	展示-选手页-选手信息
+ *	@author ilbcj
+ *
+ */
+public class PubPlayerProfileDTO {
 	private int playerId;
 	private String nick;
 	private String name;
@@ -17,7 +22,7 @@ public class PlayerProfileDTO {
 	private String duration;
 	private String resource;
 	private String difference;
-	private List<MatchBriefDTO> last10;
+	private List<PubPlayerMatchBriefDTO> last10;
 	
 	public int getPlayerId() {
 		return playerId;
@@ -103,10 +108,10 @@ public class PlayerProfileDTO {
 	public void setDifference(String difference) {
 		this.difference = difference;
 	}
-	public List<MatchBriefDTO> getLast10() {
+	public List<PubPlayerMatchBriefDTO> getLast10() {
 		return last10;
 	}
-	public void setLast10(List<MatchBriefDTO> last10) {
+	public void setLast10(List<PubPlayerMatchBriefDTO> last10) {
 		this.last10 = last10;
 	}
 }

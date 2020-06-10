@@ -2,10 +2,15 @@ package com.ilbcj.ecell.dto;
 
 import java.util.List;
 
-public class MatchCalendarDTO {
+/**
+ *	展示-首页-日历
+ *	@author ilbcj
+ *
+ */
+public class PubMatchCalendarDTO {
 	private int year;
 	private int month;
-	private List<CalendarDayDTO> days;
+	private List<PubCalendarDayDTO> days;
 	public int getYear() {
 		return year;
 	}
@@ -18,10 +23,10 @@ public class MatchCalendarDTO {
 	public void setMonth(int month) {
 		this.month = month;
 	}
-	public List<CalendarDayDTO> getDays() {
+	public List<PubCalendarDayDTO> getDays() {
 		return days;
 	}
-	public void setDays(List<CalendarDayDTO> days) {
+	public void setDays(List<PubCalendarDayDTO> days) {
 		this.days = days;
 	}
 }

@@ -181,6 +181,14 @@ function _initECELLPUB(o) {
 					$.ECELLPUB.match.loadCalendar(year + '-' + month);
 				}
 			});
+			
+			$('.playerProfile').on('click.ECELLPUB.player.profile', function(){
+				var nick = $(this).html();
+				$('#player_profile_modal_message').html(nick);
+				$("#player_profile_modal").modal({
+					closable: false
+				}).modal('show');
+			});
 		},
 		loadCalendar: function(month) {
 			var postData = {};
@@ -197,7 +205,7 @@ function _initECELLPUB(o) {
 					for(var i=0; i<calendar.days.length; i++) {
 						if( calendar.days[i].dayOfMonth > 0) {
 							$('#matchCalendar' + (i+1)).html(calendar.days[i].dayOfMonth);
-							$('#matchCalendar' + (i+1)).data('days', calendar.days[i]);
+							$('#matchCalendar' + (i+1)).data('day', calendar.days[i]);
 							if(calendar.days[i].type == 1) {
 								$('#matchCalendar' + (i+1)).css('color', '#fff558');	
 							}
@@ -211,8 +219,8 @@ function _initECELLPUB(o) {
 					}
 					
 					$('.daymatchEnter').on('click.ECELLPUB.matchh.loaddaymatch', function(){
-						var schedule = $(this).data('schedule');
-						$('#contextWrap').data('scheduleId', schedule);
+						var calendarDayInfo = $(this).data('day');
+						$('#contextWrap').data('calendarDay', calendarDayInfo);
 						$('div.mainWrap').load('daymatch.html?random=' + Math.random() + ' .mainWrapInner',
 					    	function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('daymatch.html');});
 					});
@@ -226,49 +234,55 @@ function _initECELLPUB(o) {
 	
 	$.ECELLPUB.daymatch = {
 		activate: function() {
-			var schedule = $('#contextWrap').data('scheduleId');
-			if(schedule < 5) {
+			var calendarDayInfo = $('#contextWrap').data('calendarDay');
+			//if(calendarDayInfo.schedule < 5) {
+			if( (calendarDayInfo.schedule > 0 && calendarDayInfo.schedule < 5) ||
+					(calendarDayInfo.schedule > 12 && calendarDayInfo.schedule < 17) ) {
 				o.basePath + '/player/picture/upload'
 				$('.mainWrapInner').css('background-image', 'url(' + o.basePath + '/img/public/daymatch_1.jpg)');
 			}
-		},
-		query: function () {
-			$('#player_main_table').DataTable().ajax.reload();
-			return;
-		},
-		emptyVal: function() {
-			$('#player_content_nick').val('');
-			$('#player_content_race').dropdown('clear');
-			$('#player_content_name').val('');
-			$("#player_content_gender").dropdown('clear');
-			$("#player_content_country").dropdown('clear');
-			$("#player_content_birth").val('');
-			$('#player_content_team').val('');
-			$('#player_content_tel').val('');
-			$('#player_content_qq').val('');
-			$('#player_content_wechat').val('');
-			$('#player_content_status').dropdown('clear');
-			$('#player_content_pic').data('picture', '');
-			$('#player_content_pic_input').val('');
-			return;
-		},
-        contentToggle: function() {
-			$.ECELLPUB.player.emptyVal();
-			$('#player_list,#player_content').toggleClass('displaynone');
+			else {
+				$('.mainWrapInner').css('background-image', 'url(' + o.basePath + '/img/public/daymatch_2.jpg)');
+			}
+			var postData = {};
+			postData.day = calendarDayInfo.raceDay;
+			var urlTarget = o.basePath + '/public/daymatch';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var daymatches = data.daymatches;
+					var daymatch = daymatches[0];
+					
+					$('#daymath_top_date').html(daymatch.day);
+					$('#daymath_top_title').html(daymatch.title);
+					var playersHtml = '';
+					daymatch.players.forEach(function(player){
+						playersHtml += '<span>' + player + '</span>';
+					});
+					$('#daymath_top_players').html(playersHtml);
+					
+					$('#daymath_set1_vs, #daymath_set1_p1_win, #daymath_set1_p2_win, ' 
+						+ '#daymath_set2_vs, #daymath_set2_p1_win, #daymath_set2_p2_win, '
+						+ '#daymath_set3_vs, #daymath_set3_p1_win, #daymath_set3_p2_win, '
+						+ '#daymath_set4_vs, #daymath_set4_p1_win, #daymath_set4_p2_win, '
+						+ '#daymath_set5_vs, #daymath_set5_p1_win, #daymath_set5_p2_win').addClass('displaynone');
+					daymatch.sets.forEach(function(set){
+						$('#daymath_set' + set.setId).html(set.title);
+						$('#daymath_set' + set.setId + '_p1_race').attr('src', '../img/public/daymatch_race_' + set.p1Race.toLowerCase() + '.png');
+						$('#daymath_set' + set.setId + '_p1_name').html(set.p1Nick);
+						$('#daymath_set' + set.setId + '_p1_country').attr('src', '../img/public/daymatch_country_' + set.p1Country.toLowerCase() + '.png');
+						$('#daymath_set' + set.setId + '_p2_race').attr('src', '../img/public/daymatch_race_' + set.p2Race.toLowerCase() + '.png');
+						$('#daymath_set' + set.setId + '_p2_name').html(set.p2Nick);
+						$('#daymath_set' + set.setId + '_p2_country').attr('src', '../img/public/daymatch_country_' + set.p2Country.toLowerCase() + '.png');
+						$('#daymath_set' + set.setId + '_vs').removeClass('displaynone');
+						$('#daymath_set' + set.setId + '_p' + set.winner + '_win').removeClass('displaynone');
+					});
+				} else {
+					var message = '获取比赛日信息失败![' + data.msg + ', ' + data.code + ']';
+					$.ECELLPUB.tipMessage(message, false);
+				}
+			}, 'json');
 			
-			var playerId = $(this).data('id');
-			if( undefined != playerId ) {
-				$.ECELLPUB.player.fillDetailData(playerId);
-			}
-			else{
-				$('#player_content_race').dropdown('set selected', '');
-				$("#player_content_gender").dropdown('set selected', '1');
-				$("#player_content_country").dropdown('set selected', 'CN');
-				$('#player_content_status').dropdown('set selected', '1');
-				playerId = 0;
-			}
-			$('#player_content').data('player_id', playerId);
-		},
+		},        
 		fillDetailData: function(playerId) {
 			var rowData = $('#player_main_table').DataTable().row( '#' + playerId ).data();
 			$('#player_content_nick').val(rowData.nick);

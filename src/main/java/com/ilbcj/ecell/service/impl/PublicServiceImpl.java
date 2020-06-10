@@ -3,12 +3,19 @@ package com.ilbcj.ecell.service.impl;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -17,10 +24,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ilbcj.ecell.dto.CalendarDayDTO;
-import com.ilbcj.ecell.dto.MatchBriefDTO;
-import com.ilbcj.ecell.dto.MatchCalendarDTO;
-import com.ilbcj.ecell.dto.PlayerProfileDTO;
+import com.ilbcj.ecell.dto.PubCalendarDayDTO;
+import com.ilbcj.ecell.dto.PubDaymatchDTO;
+import com.ilbcj.ecell.dto.PubDaymatchSetDTO;
+import com.ilbcj.ecell.dto.PubPlayerMatchBriefDTO;
+import com.ilbcj.ecell.dto.PubMatchCalendarDTO;
+import com.ilbcj.ecell.dto.PubPlayerProfileDTO;
 import com.ilbcj.ecell.entity.Ditu;
 import com.ilbcj.ecell.entity.Match;
 import com.ilbcj.ecell.entity.MatchDetail;
@@ -30,6 +39,7 @@ import com.ilbcj.ecell.mapper.DituMapper;
 import com.ilbcj.ecell.mapper.MatchDetailMapper;
 import com.ilbcj.ecell.mapper.MatchMapper;
 import com.ilbcj.ecell.mapper.PlayerMapper;
+import com.ilbcj.ecell.mapper.ScheduleMapper;
 import com.ilbcj.ecell.service.PublicService;
 import com.ilbcj.ecell.util.MatchCalendar;
 
@@ -38,6 +48,9 @@ public class PublicServiceImpl implements PublicService {
 
 	private Logger logger = LoggerFactory.getLogger(PublicServiceImpl.class);
 			
+	@Resource
+	ScheduleMapper scheduleMapper;
+	
 	@Resource
     private PlayerMapper playerMapper;
 	
@@ -52,12 +65,12 @@ public class PublicServiceImpl implements PublicService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PlayerProfileDTO> queryPlayerProfileById(Map<String, Object> parm) {
-		List<PlayerProfileDTO> result = new ArrayList<PlayerProfileDTO>();
+	public List<PubPlayerProfileDTO> queryPlayerProfileById(Map<String, Object> parm) {
+		List<PubPlayerProfileDTO> result = new ArrayList<PubPlayerProfileDTO>();
 		
 		Optional<List<String>> nicks = Optional.ofNullable( (List<String>)parm.get("players") );
 		nicks.orElse(new ArrayList<String>()).forEach(item -> {
-			PlayerProfileDTO profile = new PlayerProfileDTO();
+			PubPlayerProfileDTO profile = new PubPlayerProfileDTO();
 			Player player = playerMapper.selectOne(new QueryWrapper<Player>().lambda().eq(Player::getNick, item));
 			if( player == null ) {
 				logger.error("[查询选手信息服务]不存在指定ID的选手。ID:" + item);
@@ -78,7 +91,7 @@ public class PublicServiceImpl implements PublicService {
 		return result;
 	}
 
-	private void fillPlayerDetail(PlayerProfileDTO profile) {
+	private void fillPlayerDetail(PubPlayerProfileDTO profile) {
 		
 		List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
 				.eq(Match::getPaId, profile.getPlayerId())
@@ -100,7 +113,7 @@ public class PublicServiceImpl implements PublicService {
 		int resource = 0;
 		int difference = 0;
 		String adversaryRace = null;
-		List<MatchBriefDTO> briefs = new ArrayList<MatchBriefDTO>();
+		List<PubPlayerMatchBriefDTO> briefs = new ArrayList<PubPlayerMatchBriefDTO>();
 		int count = 0;
 		for(Match match : matches ) {
 			int winner = match.getWinner();
@@ -152,13 +165,13 @@ public class PublicServiceImpl implements PublicService {
 			}
 			
 			if(count < 10) {
-				MatchBriefDTO brief = new MatchBriefDTO();
+				PubPlayerMatchBriefDTO brief = new PubPlayerMatchBriefDTO();
 				
 				if( schedule > 0 && schedule <= 12 ) {
-					brief.setType(MatchBriefDTO.TYPE_REGULAR);
+					brief.setType(PubPlayerMatchBriefDTO.TYPE_REGULAR);
 				}
 				else if( schedule > 12 && schedule <= 24 ) {
-					brief.setType(MatchBriefDTO.TYPE_PLAYOFF);
+					brief.setType(PubPlayerMatchBriefDTO.TYPE_PLAYOFF);
 				}
 				
 				brief.setDate(match.getRaceDay());
@@ -275,13 +288,13 @@ public class PublicServiceImpl implements PublicService {
 	}
 	
 	@Override
-	public MatchCalendarDTO queryMatchCalendar(String dateStr) {
-		MatchCalendarDTO calendar = MatchCalendar.queryCalendar(dateStr);
+	public PubMatchCalendarDTO queryMatchCalendar(String dateStr) {
+		PubMatchCalendarDTO calendar = MatchCalendar.queryCalendar(dateStr);
 		fillCalendarDayDTOInfo(calendar);
 		return calendar;
 	}
 	
-	private void fillCalendarDayDTOInfo(MatchCalendarDTO calendar) {
+	private void fillCalendarDayDTOInfo(PubMatchCalendarDTO calendar) {
 		String month = String.format( "%4d-%02d-", calendar.getYear(), calendar.getMonth() );
 		calendar.getDays().forEach(day -> {
 			if( day.getDayOfMonth() == 0 ) {
@@ -297,10 +310,10 @@ public class PublicServiceImpl implements PublicService {
 				day.setSeason(match.getSeasonId());
 				day.setSchedule(match.getScheduleId());
 				if ( (match.getScheduleId() >=1 && match.getScheduleId() <=4) || (match.getScheduleId() >=13 && match.getScheduleId() <=16) ) {
-					day.setSets(CalendarDayDTO.SETS_5);
+					day.setSets(PubCalendarDayDTO.SETS_5);
 				}
 				else {
-					day.setSets(CalendarDayDTO.SETS_1);
+					day.setSets(PubCalendarDayDTO.SETS_1);
 				}
 				
 				if ( (match.getScheduleId() >=1 && match.getScheduleId() <=12) || (match.getScheduleId() >=13 && match.getScheduleId() <=24) ) {
@@ -309,8 +322,140 @@ public class PublicServiceImpl implements PublicService {
 				else {
 					day.setType(Schedule.TYPE_PLAYOFF);
 				}
+				day.setRaceDay(raceDay);
 			}
 		});
+	}
+
+	@Override
+	public List<PubDaymatchDTO> queryDaymatch(String dayStr) {
+		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+    			.appendValue(ChronoField.YEAR)
+    			.appendLiteral('-')
+    			.appendValue(ChronoField.MONTH_OF_YEAR)
+    			.appendLiteral('-')
+    			.appendValue(ChronoField.DAY_OF_MONTH)
+                .toFormatter();
+    	
+    	TemporalAccessor accessor = formatter.parse(dayStr);
+        int year = accessor.get(ChronoField.YEAR);
+        int month = accessor.get(ChronoField.MONTH_OF_YEAR);
+        int day = accessor.get(ChronoField.DAY_OF_MONTH);
+		String raceDay = String.format("%4d-%02d-%02d", year, month, day);
+		List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
+				.eq(Match::getRaceDay, raceDay )
+				);
+		
+		Map<Integer, Map<Integer, Map<Integer, Match>>> schedules = new HashMap<Integer, Map<Integer, Map<Integer, Match>>>();;
+		for(int i = 0; i<matches.size(); i++) {
+			Match match = matches.get(i);
+			int scheduleId = match.getScheduleId();
+			int setId = match.getSetId();
+			int gameId = match.getGameId();
+			
+			if( !schedules.containsKey(scheduleId) ) {
+				schedules.put(scheduleId, new HashMap<Integer, Map<Integer, Match>>());
+			}
+			
+			Map<Integer, Map<Integer, Match>> sets = schedules.get(scheduleId);
+			if( !sets.containsKey(setId) ) {
+				sets.put(setId, new HashMap<Integer, Match>());
+			}
+			
+			Map<Integer, Match> games = sets.get(setId);
+			games.put(gameId, match);
+		}
+		
+		Map<Integer, Player> playerCache = new HashMap<Integer, Player>();
+		List<PubDaymatchDTO> daymatches = new ArrayList<PubDaymatchDTO>();
+		for(int scheduleId : schedules.keySet()){
+		    PubDaymatchDTO daymatchInfo = null;
+		    Map<Integer, Map<Integer, Match>> sets = schedules.get(scheduleId);
+		    
+		    Set<String> players = new HashSet<String>();
+		    List<PubDaymatchSetDTO> setsInfo = new ArrayList<PubDaymatchSetDTO>();
+		    
+		    for(int setId : sets.keySet()){
+		    	PubDaymatchSetDTO setInfo = null;
+		    	Map<Integer, Match> games = sets.get(setId);
+		    	
+		    	int paWin = 0;
+		    	int pbWin = 0;
+		    	for(int gameId : games.keySet()) {
+		    		Match match = games.get(gameId);
+		    		if( daymatchInfo == null ) {
+		    			daymatchInfo = new PubDaymatchDTO();
+		    			Schedule schedule = scheduleMapper.selectById(match.getScheduleId());
+		    			daymatchInfo.setTitle(schedule.getRound());
+		    			daymatchInfo.setDay(match.getRaceDay());
+		    		}
+		    		
+		    		int paId = match.getPaId();
+		    		if( !playerCache.containsKey(paId) ) {
+		    			Player pTemp = playerMapper.selectById(paId);
+		    			playerCache.put(paId, pTemp);
+		    		}
+		    		int pbId = match.getPbId();
+		    		if( !playerCache.containsKey(pbId) ) {
+		    			Player pTemp = playerMapper.selectById(pbId);
+		    			playerCache.put(pbId, pTemp);
+		    		}
+		    		
+		    		Player pa = playerCache.get(paId);
+		    		Player pb = playerCache.get(pbId);
+		    		players.add(pa.getNick());
+		    		players.add(pb.getNick());
+		    		if( setInfo == null ) {
+		    			setInfo = new PubDaymatchSetDTO();
+		    			String setTitle = null;
+		    			if(match.getSetId() == 1) {
+		    				setTitle = daymatchInfo.getTitle() + "第一轮"; 
+		    			}
+		    			else if(match.getSetId() == 2) {
+		    				setTitle = daymatchInfo.getTitle() + "第二轮"; 
+		    			}
+		    			else if(match.getSetId() == 3) {
+		    				setTitle = daymatchInfo.getTitle() + "第三轮"; 
+		    			}
+		    			else if(match.getSetId() == 4) {
+		    				setTitle = daymatchInfo.getTitle() + "第四轮"; 
+		    			}
+		    			else if(match.getSetId() == 5) {
+		    				setTitle = daymatchInfo.getTitle() + "第五轮"; 
+		    			}
+		    			setInfo.setTitle(setTitle);
+		    			setInfo.setSetId(match.getSetId());
+		    			
+		    			setInfo.setP1Nick(pa.getNick());
+		    			setInfo.setP1Race(match.getPaRace());
+		    			setInfo.setP1Country(pa.getCountry());
+		    			
+		    			setInfo.setP2Nick(pb.getNick());
+		    			setInfo.setP2Race(match.getPbRace());
+		    			setInfo.setP2Country(pb.getCountry());
+		    		}
+		    		
+		    		if(match.getWinner() == Match.WINNER_A) {
+		    			paWin++;
+		    		}
+		    		else if(match.getWinner() == Match.WINNER_B) {
+		    			pbWin++;
+		    		}
+		    	}
+		    	if(paWin > pbWin) {
+		    		setInfo.setWinner(PubDaymatchSetDTO.WINNER_P1);
+		    	}
+		    	else if (pbWin > paWin) {
+		    		setInfo.setWinner(PubDaymatchSetDTO.WINNER_P2);
+		    	}
+		    	setsInfo.add(setInfo);
+		    }
+		    daymatchInfo.setPlayers(players);
+		    daymatchInfo.setSets(setsInfo);
+		    daymatches.add(daymatchInfo);
+		}
+		
+		return daymatches;
 	}
 
 }
