@@ -189,6 +189,7 @@ function _initECELLPUB(o) {
 		},
 		loadPlayerProfile: function( nick, playId ) {
 			
+			$('#profile_player' + playId + '_nick').html('');
 			$('#profile_player' + playId + '_avatar').attr('src', o.basePath + '/img/public/who.jpg');
 			$('#profile_player' + playId + ' .last10').addClass('displaynone')
 			$('#profile_player' + playId + '_race').attr('src', o.basePath + '/img/public/player_race_empty.png');
@@ -214,8 +215,13 @@ function _initECELLPUB(o) {
 	    		if( data.code == 0 ) {
 					console.log(data.players);
 					var player = data.players[0];
-					if( player.avator != null && player.avator.length > 0) {
-						$('#profile_player' + playId + '_avatar').attr('src', o.basePath + '/' + player.avator);	
+					if(player ==undefined) {
+						$.ECELLPUB.tipMessage('没有找到选手[' + nick + ']的比赛数据.');
+						return;
+					}
+					$('#profile_player' + playId + '_nick').html(nick);
+					if( player.avatar != null && player.avatar.length > 0) {
+						$('#profile_player' + playId + '_avatar').attr('src', o.basePath + '/' + player.avatar);	
 					}
 					$('#profile_player' + playId + '_race').attr('src', o.basePath + '/img/public/player_race_' + player.race.toLowerCase() + '.png');
 					$('#profile_player' + playId + '_country').attr('src', o.basePath + '/img/public/player_country_' + player.country.toLowerCase() + '.png');
