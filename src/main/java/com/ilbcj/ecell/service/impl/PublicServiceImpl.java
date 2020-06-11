@@ -79,6 +79,8 @@ public class PublicServiceImpl implements PublicService {
 			profile.setPlayerId(player.getId());
 			profile.setNick(item);
 			profile.setName(player.getName());
+			profile.setAvatar(player.getPicture());
+			profile.setCountry(player.getCountry());
 			profile.setAge(getAge(player.getBirth()));
 			profile.setRace(player.getRace());
 			profile.setTeam(player.getTeamName());

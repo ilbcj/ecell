@@ -11,6 +11,8 @@ public class PubPlayerProfileDTO {
 	private int playerId;
 	private String nick;
 	private String name;
+	private String avatar;
+	private String country;
 	private String race;
 	private String age;
 	private String team;
@@ -24,6 +26,18 @@ public class PubPlayerProfileDTO {
 	private String difference;
 	private List<PubPlayerMatchBriefDTO> last10;
 	
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 	public int getPlayerId() {
 		return playerId;
 	}

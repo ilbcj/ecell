@@ -28,7 +28,7 @@ public class PublicController {
 		List<PubPlayerProfileDTO> profile = publicService.queryPlayerProfileById(parm);
 		
 		if(profile != null) {
-			return R.ok().put("player", profile);
+			return R.ok().put("players", profile);
 		}
 		return R.error("查询选手数据失败，请稍后再试！");
 				

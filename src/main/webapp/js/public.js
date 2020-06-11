@@ -184,15 +184,81 @@ function _initECELLPUB(o) {
 			
 			$('.playerProfile').on('click.ECELLPUB.player.profile', function(){
 				var nick = $(this).html();
-				$.ECELLPUB.match.loadPlayerProfile(nick);
+				$.ECELLPUB.match.loadPlayerProfile(nick, 1);
 			});
 		},
-		loadPlayerProfile: function( nick ) {
-			$('#player_profile_modal_message').html(nick);
-				$("#player_profile_modal").modal({
-					closable: true
-				}).modal('show');
-		}
+		loadPlayerProfile: function( nick, playId ) {
+			
+			$('#profile_player' + playId + '_avatar').attr('src', o.basePath + '/img/public/who.jpg');
+			$('#profile_player' + playId + ' .last10').addClass('displaynone')
+			$('#profile_player' + playId + '_race').attr('src', o.basePath + '/img/public/player_race_empty.png');
+			$('#profile_player' + playId + '_country').attr('src', o.basePath + '/img/public/player_country_empty.png');
+			$('#profile_player' + playId + '_name').html('');
+			$('#profile_player' + playId + '_race_text').html('');
+			$('#profile_player' + playId + '_age').html('');
+			$('#profile_player' + playId + '_team').html('');
+			$('#profile_player' + playId + '_winning').html('');
+			$('#profile_player' + playId + '_winning_vt').html('');
+			$('#profile_player' + playId + '_winning_vp').html('');
+			$('#profile_player' + playId + '_winning_vz').html('');
+			$('#profile_player' + playId + '_apm').html('');
+			$('#profile_player' + playId + '_duration').html('');
+			$('#profile_player' + playId + '_resource').html('');
+			$('#profile_player' + playId + '_difference').html('');
+					
+			var postData = {};
+			postData.players = [];
+			postData.players.push(nick);
+			var urlTarget = o.basePath + '/public/profile';
+			$.postjson(urlTarget + '?rand=' + Math.random(), JSON.stringify(postData), function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					console.log(data.players);
+					var player = data.players[0];
+					if( player.avator != null && player.avator.length > 0) {
+						$('#profile_player' + playId + '_avatar').attr('src', o.basePath + '/' + player.avator);	
+					}
+					$('#profile_player' + playId + '_race').attr('src', o.basePath + '/img/public/player_race_' + player.race.toLowerCase() + '.png');
+					$('#profile_player' + playId + '_country').attr('src', o.basePath + '/img/public/player_country_' + player.country.toLowerCase() + '.png');
+					$('#profile_player' + playId + '_name').html(player.name);
+					var raceText = '';
+					if( player.race.toLowerCase() === 't' ) {
+						raceText = 'TERREN';
+					}
+					else if( player.race.toLowerCase() === 'p' ) {
+						raceText = 'PROTOSS';
+					}
+					else if( player.race.toLowerCase() === 'z' ) {
+						raceText = 'ZERG';
+					}
+					$('#profile_player' + playId + '_race_text').html(raceText);
+					$('#profile_player' + playId + '_age').html(player.age);
+					$('#profile_player' + playId + '_team').html(player.team);
+					$('#profile_player' + playId + '_winning').html(player.winningVA);
+					$('#profile_player' + playId + '_winning_vt').html(player.winningVT);
+					$('#profile_player' + playId + '_winning_vp').html(player.winningVP);
+					$('#profile_player' + playId + '_winning_vz').html(player.winningVZ);
+					$('#profile_player' + playId + '_apm').html(player.apm);
+					$('#profile_player' + playId + '_duration').html(player.duration);
+					$('#profile_player' + playId + '_resource').html(player.resource);
+					$('#profile_player' + playId + '_difference').html(player.difference);
+					
+					//[常规赛] 2020-6-1 <span style="color:red">WIN</span> Kukuboy on 断路器
+					player.last10.forEach(function(game, index, arr){
+						var color = game.result === 'WIN' ? 'red' : 'white';
+						var htmlText = '[' + game.type + '] ' + game.date + ' <span style="color:' + color + '">' + game.result + '</span> ' + game.adversary + ' on ' + game.map;
+						$('#profile_player' + playId + '_last_' + (index+1)).html(htmlText);
+						$('#profile_player' + playId + '_last_' + (index+1)).removeClass('displaynone');
+					});
+					
+					$("#player_profile_modal").modal({
+						closable: true
+					}).modal('show');
+				} else {
+					var message = '获取选手战绩信息失败![' + data.msg + ', ' + data.code + ']';
+					$.ECELLPUB.tipMessage(message, false);
+				}
+			}, 'json');
+		},
 		loadCalendar: function( month ) {
 			var postData = {};
 			postData.month = month;
