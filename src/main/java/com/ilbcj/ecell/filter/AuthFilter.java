@@ -75,12 +75,20 @@ public class AuthFilter implements Filter {
 	}
 	
 	private boolean pathInWhiteList( String path ) {
-		String[] stylelist = ".js;.css;.jpg;.png;.ico;woff2;.ttf;.woff;.eot".split(";");
+		String[] stylelist = ".js;.css;.jpg;.jpeg;.png;.ico;woff2;.ttf;.woff;.eot".split(";");
 		for(String item : stylelist ) {
 			if(path.endsWith(item)) {
 				return true;
 			}
 		}
+		
+		String[] whiteurls = "/cell/player/basic/list;".split(";");
+		for(String item : whiteurls ) {
+			if( item.equals(path) ) {
+				return true;
+			}
+		}
+		
 		
 		String[] whitelists = ("^" + ctx + "/login.html$;" + "^" + ctx + "/login/idpwd$;" + "^" + ctx + "/login/commonLogin$;.*\\.css$;.*\\.js$;" + "^" + ctx + "/public/.*$").split(";");
 		for(String item : whitelists ) {

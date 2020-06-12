@@ -139,6 +139,41 @@ function _initECELLPUB(o) {
 	$.ECELLPUB.indexPage = {
 		activate: function () {
 			
+			var urlTarget = o.basePath + '/player/basic/list';
+            $.postjson(urlTarget + '?rand=' + Math.random(), {}, function(data,textStatus, jqXHR) {
+	    		if( data.code == 0 ) {
+					var playersBasic = data.list;
+					//$('#schedule_content').data('players_basic', playersBasic);
+					
+					$('#profile_select_player1, #profile_select_player2').append('<option value="' + 0 + '"></option>');
+					playersBasic.forEach(function(player){
+						$('#profile_select_player1, #profile_select_player2').append('<option value="' + player.nick + '">' + player.nick + '</option>');
+					});
+					
+					$('#profile_select_player1, #profile_select_player2').dropdown({
+				        onHide: function(){
+				        	var index = $(this).data('index');
+				        	$('#profile_select_wrap_player' + index).addClass('displaynone');
+				            $('#profile_select_wrap_avatar' + index).css('margin-top','20px');
+				            var nick = $('#profile_select_player' + index).dropdown('get value');
+				            $.ECELLPUB.match.loadPlayerProfile(nick, index);
+				        }
+				    });
+					
+					$('.profileSelectPlayer').on('click.ECELLPUB.profile.select', function(){
+						var index = $(this).data('index');
+						$('#profile_select_wrap_player' + index).removeClass('displaynone');
+						$('#profile_select_wrap_avatar' + index).css('margin-top','-13px');
+						$('#profile_select_player' + index).dropdown('show');						
+					});
+					
+					
+				} else {
+					var message = '获取选手列表信息失败![' + data.msg + ', ' + data.code + ']，请联系管理员！';
+					$.ECELL.tipMessage(message, false);
+				}
+			}, 'json');
+			
 			$('div.mainWrap').load('match.html?random=' + Math.random() + ' .mainWrapInner',
 			    				function(response,status,xhr){$.ECELLPUB.CheckLoad(response);$.ECELLPUB.PageActivate('match.html');});
 		}
@@ -162,7 +197,7 @@ function _initECELLPUB(o) {
 			var month = now.getMonth()+1;       //获取当前月份(0-11,0代表1月)
 			$.ECELLPUB.match.loadCalendar(year + '-' + month);
 			
-			$('#matchCalendarLeft').on('click.ECELLPUB.matchh.loadCalendar', function(){
+			$('#matchCalendarLeft').on('click.ECELLPUB.match.loadCalendar', function(){
 				var d = new Date($('#matchCalendar0').html());
 				if( typeof d.getMonth() === 'number' && !window.isNaN(d.getMonth()) ) {
 					d.setMonth(d.getMonth() - 1);
