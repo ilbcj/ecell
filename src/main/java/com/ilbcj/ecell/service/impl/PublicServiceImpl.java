@@ -99,7 +99,7 @@ public class PublicServiceImpl implements PublicService {
 				.eq(Match::getPaId, profile.getPlayerId())
 				.or()
 				.eq(Match::getPbId, profile.getPlayerId())
-				//.orderByDesc(Match::getRaceDay, Match::getSetId, Match::getGameId)
+				.orderByDesc(Match::getRaceDay, Match::getSetId, Match::getGameId)
 				);
 		
 		float allSets = 0;
