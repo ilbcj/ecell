@@ -215,14 +215,17 @@ public class PublicServiceImpl implements PublicService {
 		BigDecimal b = new BigDecimal(temp);
 		temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 		profile.setWinningVA(String.valueOf((int)temp) + "%");
+		profile.setVACount("" + winA + ":" + String.valueOf((int)allSets));
 		if( vtSets > 0 ) {
 			temp = winT/vtSets;
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVT(String.valueOf((int)temp) + "%");
+			profile.setVTCount("" + winT + ":" + String.valueOf((int)vtSets));
 		}
 		else {
 			profile.setWinningVT("--");
+			profile.setVTCount("0:0");
 		}
 		
 		if( vpSets > 0 ) {
@@ -230,9 +233,11 @@ public class PublicServiceImpl implements PublicService {
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVP(String.valueOf((int)temp) + "%");
+			profile.setVPCount("" + winP + ":" + String.valueOf((int)vpSets));
 		}
 		else {
 			profile.setWinningVP("--");
+			profile.setVPCount("0:0");
 		}
 		
 		if( vzSets > 0 ) {
@@ -240,9 +245,11 @@ public class PublicServiceImpl implements PublicService {
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVZ(String.valueOf((int)temp) + "%");
+			profile.setVZCount("" + winZ + ":" + String.valueOf((int)vzSets));
 		}
 		else {
 			profile.setWinningVZ("--");
+			profile.setVZCount("0:0");
 		}
 		
 		temp = apmAll/allSets;

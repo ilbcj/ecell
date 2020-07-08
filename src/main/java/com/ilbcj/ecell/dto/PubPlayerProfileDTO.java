@@ -17,15 +17,43 @@ public class PubPlayerProfileDTO {
 	private String age;
 	private String team;
 	private String winningVA;
+	private String VACount;
 	private String winningVT;
+	private String VTCount;
 	private String winningVP;
+	private String VPCount;
 	private String winningVZ;
+	private String VZCount;
 	private String apm;
 	private String duration;
 	private String resource;
 	private String difference;
 	private List<PubPlayerMatchBriefDTO> last10;
 	
+	public String getVACount() {
+		return VACount;
+	}
+	public void setVACount(String vACount) {
+		VACount = vACount;
+	}
+	public String getVTCount() {
+		return VTCount;
+	}
+	public void setVTCount(String vTCount) {
+		VTCount = vTCount;
+	}
+	public String getVPCount() {
+		return VPCount;
+	}
+	public void setVPCount(String vPCount) {
+		VPCount = vPCount;
+	}
+	public String getVZCount() {
+		return VZCount;
+	}
+	public void setVZCount(String vZCount) {
+		VZCount = vZCount;
+	}
 	public String getCountry() {
 		return country;
 	}
