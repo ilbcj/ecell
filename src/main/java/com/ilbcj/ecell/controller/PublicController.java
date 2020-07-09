@@ -68,4 +68,21 @@ public class PublicController {
 		return R.error("查询比赛日据失败，请稍后再试！");
 	}
 	
+	@RequestMapping(value="/Regular16", method = RequestMethod.POST)
+	public R queryRegularTop16(@RequestBody Map<String,Object> parm) {
+		
+		String day = (String)parm.get("day");
+		if(day == null) {
+			return R.error("查询比赛日据失败，没有指定要查询的日期");
+		}
+		
+		List<PubDaymatchDTO> daymatches = publicService.queryDaymatch(day);
+		
+		if(daymatches != null) {
+			return R.ok().put("daymatches", daymatches);
+		}
+		
+		return R.error("查询比赛日据失败，请稍后再试！");
+	}
+	
 }

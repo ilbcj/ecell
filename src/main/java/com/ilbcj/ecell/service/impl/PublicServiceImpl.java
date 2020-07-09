@@ -93,6 +93,7 @@ public class PublicServiceImpl implements PublicService {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fillPlayerDetail(PubPlayerProfileDTO profile) {
 		
 		List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
