@@ -187,7 +187,7 @@ public class PlayerServiceImpl extends ServiceImpl<PlayerMapper, Player> impleme
 	}
 
 	@Override
-	public List<Player> queryBasic(Map<String, Object> params) {		
+	public List<Player> queryBasic() {		
 		List<Player> playersBasic = playerMapper.selectList(
 				Wrappers.<Player>lambdaQuery().select(Player::getId, Player::getNick, Player::getRace)
 					.eq(Player::getStatus, Player.STATUS_INUSE)

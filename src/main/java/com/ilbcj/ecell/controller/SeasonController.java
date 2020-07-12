@@ -60,6 +60,18 @@ public class SeasonController {
 		}
 	}
 	
+	/**
+	 * 赛季基础信息列表
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(value="/basic/list", method = RequestMethod.POST)
+	@ResponseBody
+	public R basicList(@RequestParam Map<String, Object> params) {
+		List<Season> list = seasonService.queryBasic();
+		return R.ok().put("list", list);
+	}
+	
 	@RequestMapping(value="/modfiy", method = RequestMethod.POST)
 	public R updateSeason(@RequestBody Map<String,Object> parm) {
 		boolean result=seasonService.updateSeason(parm);

@@ -49,5 +49,10 @@ public interface PlayerService {
 	 * @return
 	 */
 	boolean deletePlayer(Map<String, Object> parm);
-	List<Player> queryBasic(Map<String, Object> params);
+	
+	/**
+	 * 查询选手基础信息
+	 * @return
+	 */
+	List<Player> queryBasic();
 }

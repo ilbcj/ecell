@@ -1,5 +1,6 @@
 package com.ilbcj.ecell.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ilbcj.ecell.entity.Season;
@@ -18,4 +19,6 @@ public interface SeasonService {
 	boolean updateSeason(Map<String, Object> parm);
 
 	Season detail(Map<String, Object> parm);
+
+	List<Season> queryBasic();
 }

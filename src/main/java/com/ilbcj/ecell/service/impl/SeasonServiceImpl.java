@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -438,6 +439,14 @@ public class SeasonServiceImpl implements SeasonService {
 		Integer seasonId = (Integer)parm.get("id");
 		Season se = seasonMapper.selectById(seasonId);
 		return se;
+	}
+
+	@Override
+	public List<Season> queryBasic() {
+		List<Season> seasonBasic = seasonMapper.selectList(
+				Wrappers.<Season>lambdaQuery().select(Season::getId, Season::getName, Season::getStartTime)
+				);
+		return seasonBasic;
 	}
 
 }

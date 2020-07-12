@@ -82,7 +82,7 @@ public class AuthFilter implements Filter {
 			}
 		}
 		
-		String[] whiteurls = "/cell/player/basic/list;".split(";");
+		String[] whiteurls = "/cell/player/basic/list;/cell/season/basic/list;".split(";");
 		for(String item : whiteurls ) {
 			if( item.equals(path) ) {
 				return true;

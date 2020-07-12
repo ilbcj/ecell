@@ -117,7 +117,7 @@ public class PlayerController {
 	@RequestMapping(value="/basic/list", method = RequestMethod.POST)
 	@ResponseBody
 	public R listBasic(@RequestParam Map<String, Object> params) {
-			List<Player> list = playerService.queryBasic(params);
+			List<Player> list = playerService.queryBasic();
 			return R.ok().put("list", list);
 	}
 	
