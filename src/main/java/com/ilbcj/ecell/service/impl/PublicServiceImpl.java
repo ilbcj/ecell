@@ -30,6 +30,7 @@ import com.ilbcj.ecell.dto.PubDaymatchSetDTO;
 import com.ilbcj.ecell.dto.PubPlayerMatchBriefDTO;
 import com.ilbcj.ecell.dto.PubMatchCalendarDTO;
 import com.ilbcj.ecell.dto.PubPlayerProfileDTO;
+import com.ilbcj.ecell.dto.PubPlayerTop10;
 import com.ilbcj.ecell.entity.Ditu;
 import com.ilbcj.ecell.entity.Match;
 import com.ilbcj.ecell.entity.MatchDetail;
@@ -466,6 +467,12 @@ public class PublicServiceImpl implements PublicService {
 		}
 		
 		return daymatches;
+	}
+
+	@Override
+	public PubPlayerTop10 queryPlayerTop10(Map<String, Object> parm) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

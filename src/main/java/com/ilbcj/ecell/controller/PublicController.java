@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ilbcj.ecell.dto.PubDaymatchDTO;
 import com.ilbcj.ecell.dto.PubMatchCalendarDTO;
 import com.ilbcj.ecell.dto.PubPlayerProfileDTO;
+import com.ilbcj.ecell.dto.PubPlayerTop10;
 import com.ilbcj.ecell.service.PublicService;
 import com.ilbcj.ecell.util.R;
 
@@ -32,6 +33,27 @@ public class PublicController {
 		}
 		return R.error("查询选手数据失败，请稍后再试！");
 				
+	}
+	
+	@RequestMapping(value="/top10", method = RequestMethod.POST)
+	public R queryPlayerTop10(@RequestBody Map<String,Object> parm) {
+		
+		Integer type = (Integer)parm.get("type");
+		if(type == null) {
+			return R.error("查询Top10数据失败，没有指定要查询的指标");
+		}
+		
+		String sort = (String)parm.get("sort");
+		if(sort == null) {
+			sort = PubPlayerTop10.SORT_ASC;
+		}
+		
+		PubPlayerTop10 players = publicService.queryPlayerTop10(type, sort);
+		if(players != null) {
+			return R.ok().put("top10Players", players);
+		}
+		
+		return R.error("查询Top10选手数据失败，请稍后再试！");
 	}
 	
 	@RequestMapping(value="/calendar", method = RequestMethod.POST)
