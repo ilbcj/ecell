@@ -48,7 +48,7 @@ public class PublicController {
 			sort = PubPlayerTop10.SORT_ASC;
 		}
 		
-		PubPlayerTop10 players = publicService.queryPlayerTop10(type, sort);
+		List<PubPlayerTop10> players = publicService.queryPlayerTop10(type, sort);
 		if(players != null) {
 			return R.ok().put("top10Players", players);
 		}

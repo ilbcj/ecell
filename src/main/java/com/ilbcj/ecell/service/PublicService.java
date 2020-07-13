@@ -16,5 +16,5 @@ public interface PublicService {
 
 	public List<PubDaymatchDTO> queryDaymatch(String day);
 
-	public PubPlayerTop10 queryPlayerTop10(Integer type, String sort);
+	public List<PubPlayerTop10> queryPlayerTop10(Integer type, String sort);
 }

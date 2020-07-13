@@ -9,11 +9,15 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ilbcj.ecell.dto.PubCalendarDayDTO;
 import com.ilbcj.ecell.dto.PubDaymatchDTO;
 import com.ilbcj.ecell.dto.PubDaymatchSetDTO;
@@ -470,9 +475,268 @@ public class PublicServiceImpl implements PublicService {
 	}
 
 	@Override
-	public PubPlayerTop10 queryPlayerTop10(Map<String, Object> parm) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PubPlayerTop10> queryPlayerTop10(Integer type, String sort) {
+		List<PubPlayerTop10> top10 = null;
+		
+		//get players
+		List<Player> players = playerMapper.selectList(
+				Wrappers.<Player>lambdaQuery().select(Player::getId, Player::getNick, Player::getCountry)
+					.eq(Player::getStatus, Player.STATUS_INUSE)
+				);
+		Map<Integer, PubPlayerTop10> top10Map = new HashMap<Integer, PubPlayerTop10>();
+		players.forEach(player -> {
+			PubPlayerTop10 item = new PubPlayerTop10();
+			item.setId(player.getId());
+			item.setNick(player.getNick());
+			item.setCountry(player.getCountry());
+			top10Map.put(player.getId(), item);
+		});
+		
+		//get matches
+		List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
+				.ne(Match::getWinner, Match.WINNER_INIT)
+				);
+		
+		if(type == PubPlayerTop10.TYPE_WINNING) {
+			top10 = queryPlayerTop10ByWinning(top10Map, matches, sort);
+		}
+		else if(type == PubPlayerTop10.TYPE_APM) {
+			top10 = queryPlayerTop10ByApm(top10Map, matches, sort);
+		}
+		else if(type == PubPlayerTop10.TYPE_RESOURCE) {
+			top10 = queryPlayerTop10ByResource(top10Map, matches, sort);
+		}
+		return top10;
 	}
-
+	
+	private List<PubPlayerTop10> queryPlayerTop10ByWinning(Map<Integer, PubPlayerTop10> top10Map, List<Match> matches, String sort) {
+		
+		Map<Integer, Integer> allSets = new HashMap<Integer,Integer>();
+		Map<Integer, Integer> winSets = new HashMap<Integer,Integer>();
+		matches.forEach(match->{
+			int winnerId = 0;
+			int loserId = 0;
+			if(Match.WINNER_A == match.getWinner() ) {
+				winnerId = match.getPaId();
+				loserId = match.getPbId();
+			}
+			else if(Match.WINNER_B == match.getWinner()) {
+				winnerId = match.getPbId();
+				loserId = match.getPaId();
+			}
+			
+			if(allSets.containsKey(winnerId)) {
+				allSets.put(winnerId, allSets.get(winnerId) + 1);
+			}
+			else {
+				allSets.put(winnerId, 1);
+			}
+			
+			if(winSets.containsKey(winnerId)) {
+				winSets.put(winnerId, winSets.get(winnerId) + 1);
+			}
+			else {
+				winSets.put(winnerId, 1);
+			}
+			
+			if(allSets.containsKey(loserId)) {
+				allSets.put(loserId, allSets.get(loserId) + 1);
+			}
+			else {
+				allSets.put(loserId, 1);
+			}
+			
+		});
+		
+		List<PubPlayerTop10> players = new ArrayList<PubPlayerTop10>();
+		Iterator<Entry<Integer, PubPlayerTop10>> entries = top10Map.entrySet().iterator();
+		while(entries.hasNext()){
+		    Entry<Integer, PubPlayerTop10> entry = entries.next();
+		    Integer key = entry.getKey();
+		    PubPlayerTop10 value = entry.getValue();
+		    
+		    int win = 0;
+		    if(winSets.containsKey(key)) {
+		    	win = winSets.get(key);
+		    }
+		    float all = 0;
+		    if(allSets.containsKey(key)) {
+		    	all = allSets.get(key);
+		    }
+		    float temp = 0f;
+		    if( win > 0 ) {
+		    	temp = win/all;
+		    }
+			BigDecimal b = new BigDecimal(temp);
+			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
+			value.setWinning(String.valueOf((int)temp) + "%");
+		    
+			players.add(value);
+		}
+		
+		Collections.sort(players, new Comparator<PubPlayerTop10>() {  
+			  
+            @Override  
+            public int compare(PubPlayerTop10 o1, PubPlayerTop10 o2) {
+            	int i = 0;
+            	if(sort == PubPlayerTop10.SORT_ASC) {
+            		i = o1.getWinning().compareTo(o2.getWinning());
+            	}
+            	else if(sort == PubPlayerTop10.SORT_DESC) {
+            		i = o2.getWinning().compareTo(o1.getWinning());
+            	}
+                return i;  
+            }  
+        });
+		
+		return players.subList(0, 9);
+	}
+	
+	private List<PubPlayerTop10> queryPlayerTop10ByApm(Map<Integer, PubPlayerTop10> top10Map, List<Match> matches, String sort) {
+		
+		Map<Integer, Integer> allSets = new HashMap<Integer,Integer>();
+		Map<Integer, Integer> apmMap = new HashMap<Integer,Integer>();
+		
+		matches.forEach(match->{
+			List<MatchDetail> details = matchDetailMapper.selectList(
+				new QueryWrapper<MatchDetail>().lambda()
+				.eq(MatchDetail::getMatchId, match.getId())
+			);
+			
+			details.forEach(detail->{
+				int pid = detail.getPlayerId();
+				if(allSets.containsKey(pid)) {
+					allSets.put(pid, allSets.get(pid) + 1);
+				}
+				else {
+					allSets.put(pid, 1);
+				}
+				
+				if(apmMap.containsKey(pid)) {
+					apmMap.put(pid, apmMap.get(pid) + detail.getApm());
+				}
+				else {
+					apmMap.put(pid, detail.getApm());
+				}
+			});
+		});
+		
+		
+		List<PubPlayerTop10> players = new ArrayList<PubPlayerTop10>();
+		Iterator<Entry<Integer, PubPlayerTop10>> entries = top10Map.entrySet().iterator();
+		while(entries.hasNext()){
+		    Entry<Integer, PubPlayerTop10> entry = entries.next();
+		    Integer key = entry.getKey();
+		    PubPlayerTop10 value = entry.getValue();
+		    
+		    float all = 0;
+		    if(allSets.containsKey(key)) {
+		    	all = allSets.get(key);
+		    }
+		    int apm = 0;
+		    if(apmMap.containsKey(key)) {
+		    	apm = apmMap.get(key);
+		    }
+		    float temp = 0;
+		    if(apm > 0) {
+		    	temp = apm/all;
+		    }
+		    BigDecimal b = new BigDecimal(temp);
+			temp = b.setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
+			value.setApm(String.valueOf((int)temp));
+		    
+			players.add(value);
+		}
+		
+		Collections.sort(players, new Comparator<PubPlayerTop10>() {  
+			  
+            @Override  
+            public int compare(PubPlayerTop10 o1, PubPlayerTop10 o2) {
+            	int i = 0;
+            	if(sort == PubPlayerTop10.SORT_ASC) {
+            		i = o1.getApm().compareTo(o2.getApm());
+            	}
+            	else if(sort == PubPlayerTop10.SORT_DESC) {
+            		i = o2.getApm().compareTo(o1.getApm());
+            	}
+                return i;  
+            }  
+        });
+		
+		return players.subList(0, 9);
+	}
+	
+	private List<PubPlayerTop10> queryPlayerTop10ByResource(Map<Integer, PubPlayerTop10> top10Map, List<Match> matches, String sort) {
+		Map<Integer, Integer> allSets = new HashMap<Integer,Integer>();
+		Map<Integer, Integer> resourceMap = new HashMap<Integer,Integer>();
+		
+		matches.forEach(match->{
+			List<MatchDetail> details = matchDetailMapper.selectList(
+				new QueryWrapper<MatchDetail>().lambda()
+				.eq(MatchDetail::getMatchId, match.getId())
+			);
+			
+			details.forEach(detail->{
+				int pid = detail.getPlayerId();
+				if(allSets.containsKey(pid)) {
+					allSets.put(pid, allSets.get(pid) + 1);
+				}
+				else {
+					allSets.put(pid, 1);
+				}
+				
+				if(resourceMap.containsKey(pid)) {
+					resourceMap.put(pid, resourceMap.get(pid) + detail.getResource());
+				}
+				else {
+					resourceMap.put(pid, detail.getResource());
+				}
+			});
+		});
+		
+		
+		List<PubPlayerTop10> players = new ArrayList<PubPlayerTop10>();
+		Iterator<Entry<Integer, PubPlayerTop10>> entries = top10Map.entrySet().iterator();
+		while(entries.hasNext()){
+		    Entry<Integer, PubPlayerTop10> entry = entries.next();
+		    Integer key = entry.getKey();
+		    PubPlayerTop10 value = entry.getValue();
+		    
+		    float all = 0;
+		    if(allSets.containsKey(key)) {
+		    	all = allSets.get(key);
+		    }
+		    int resource = 0;
+		    if(resourceMap.containsKey(key)) {
+		    	resource = resourceMap.get(key);
+		    }
+		    float temp = 0;
+		    if(resource>0) {
+		    	temp = resource/all;
+		    }
+		    BigDecimal b = new BigDecimal(temp);
+			temp = b.setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
+			value.setResource(String.valueOf((int)temp));
+		    
+			players.add(value);
+		}
+		
+		Collections.sort(players, new Comparator<PubPlayerTop10>() {  
+			  
+            @Override  
+            public int compare(PubPlayerTop10 o1, PubPlayerTop10 o2) {
+            	int i = 0;
+            	if(sort == PubPlayerTop10.SORT_ASC) {
+            		i = o1.getResource().compareTo(o2.getResource());
+            	}
+            	else if(sort == PubPlayerTop10.SORT_DESC) {
+            		i = o2.getResource().compareTo(o1.getResource());
+            	}
+                return i;  
+            }  
+        });
+		
+		return players.subList(0, 9);
+	}
+	
 }

@@ -3,6 +3,9 @@ package com.ilbcj.ecell.dto;
 public class PubPlayerTop10 {
 	public static final String SORT_ASC = "asc";
 	public static final String SORT_DESC = "desc";
+	public static final Integer TYPE_WINNING = 1;
+	public static final Integer TYPE_APM = 2;
+	public static final Integer TYPE_RESOURCE = 3;
 	private int id;
 	private String nick;
 	private String country;
