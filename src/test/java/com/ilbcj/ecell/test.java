@@ -12,10 +12,10 @@ public class test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<String> arr = new ArrayList<String>();
-		arr.add("abc");
-		arr.add("123");
-		arr.add("abd");
-		arr.add("aba");
+		arr.add("33%");
+		arr.add("20%");
+		arr.add("49%");
+		arr.add("66%");
 		
 		Collections.sort(arr, new Comparator<String>() {
 			@Override
