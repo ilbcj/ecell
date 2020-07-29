@@ -1876,6 +1876,20 @@ function _initECELL(o) {
 			{
 				name: '拉曼查',
 				value: '9'
+			},
+			{
+				name: '日蚀',
+				value: '10'
+			}
+			,
+			{
+				name: '水螅',
+				value: '11'
+			}
+			,
+			{
+				name: '收货风暴',
+				value: '12'
 			}
 		];
 		return maps;
