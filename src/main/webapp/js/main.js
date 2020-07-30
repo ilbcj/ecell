@@ -1888,7 +1888,7 @@ function _initECELL(o) {
 			}
 			,
 			{
-				name: '收货风暴',
+				name: '收获风暴',
 				value: '12'
 			}
 		];
