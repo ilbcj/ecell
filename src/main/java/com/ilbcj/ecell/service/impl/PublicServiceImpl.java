@@ -172,9 +172,9 @@ public class PublicServiceImpl implements PublicService {
 			if (count < 10) {
 				PubPlayerMatchBriefDTO brief = new PubPlayerMatchBriefDTO();
 
-				if (schedule > 0 && schedule <= 12) {
+				if (schedule%24 > 0 && schedule%24 <= 12) {
 					brief.setType(PubPlayerMatchBriefDTO.TYPE_REGULAR);
-				} else if (schedule > 12 && schedule <= 24) {
+				} else if (schedule%24 > 12 && schedule%24 <= 24) {
 					brief.setType(PubPlayerMatchBriefDTO.TYPE_PLAYOFF);
 				}
 
@@ -215,16 +215,16 @@ public class PublicServiceImpl implements PublicService {
 		BigDecimal b = new BigDecimal(temp);
 		temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 		profile.setWinningVA(String.valueOf((int) temp) + "%");
-		profile.setVACount("" + winA + ":" + String.valueOf((int) allSets));
+		profile.setVACount("" + winA + "-" + String.valueOf((int) (allSets-winA)));
 		if (vtSets > 0) {
 			temp = winT / vtSets;
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVT(String.valueOf((int) temp) + "%");
-			profile.setVTCount("" + winT + ":" + String.valueOf((int) vtSets));
+			profile.setVTCount("" + winT + "-" + String.valueOf((int) (vtSets-winT)));
 		} else {
 			profile.setWinningVT("--");
-			profile.setVTCount("0:0");
+			profile.setVTCount("0-0");
 		}
 
 		if (vpSets > 0) {
@@ -232,10 +232,10 @@ public class PublicServiceImpl implements PublicService {
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVP(String.valueOf((int) temp) + "%");
-			profile.setVPCount("" + winP + ":" + String.valueOf((int) vpSets));
+			profile.setVPCount("" + winP + "-" + String.valueOf((int) (vpSets-winP)));
 		} else {
 			profile.setWinningVP("--");
-			profile.setVPCount("0:0");
+			profile.setVPCount("0-0");
 		}
 
 		if (vzSets > 0) {
@@ -243,10 +243,10 @@ public class PublicServiceImpl implements PublicService {
 			b = new BigDecimal(temp);
 			temp = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
 			profile.setWinningVZ(String.valueOf((int) temp) + "%");
-			profile.setVZCount("" + winZ + ":" + String.valueOf((int) vzSets));
+			profile.setVZCount("" + winZ + "-" + String.valueOf((int) (vzSets-winZ)));
 		} else {
 			profile.setWinningVZ("--");
-			profile.setVZCount("0:0");
+			profile.setVZCount("0-0");
 		}
 
 		temp = apmAll / allSets;
