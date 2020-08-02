@@ -17,6 +17,7 @@ public class PubDaymatchSetDTO {
 	private String p2Race;
 	private String p2Country;
 	private int winner;
+
 	public int getSetId() {
 		return setId;
 	}

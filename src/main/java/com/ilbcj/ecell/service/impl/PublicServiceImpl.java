@@ -27,15 +27,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ilbcj.ecell.dto.PubCalendarDayDTO;
 import com.ilbcj.ecell.dto.PubDaymatchDTO;
 import com.ilbcj.ecell.dto.PubDaymatchSetDTO;
+import com.ilbcj.ecell.dto.PubGameDTO;
 import com.ilbcj.ecell.dto.PubPlayerMatchBriefDTO;
 import com.ilbcj.ecell.dto.PubMatchCalendarDTO;
 import com.ilbcj.ecell.dto.PubPlayerProfileDTO;
 import com.ilbcj.ecell.dto.PubPlayerTop10;
+import com.ilbcj.ecell.dto.PubScheduleMatchesDTO;
 import com.ilbcj.ecell.entity.Ditu;
 import com.ilbcj.ecell.entity.Match;
 import com.ilbcj.ecell.entity.MatchDetail;
@@ -726,6 +729,163 @@ public class PublicServiceImpl implements PublicService {
 			value.setResource(String.valueOf((int) temp));
 		}
 		return;
+	}
+
+	@Override
+	public List<PubScheduleMatchesDTO> queryScheduleMatches(String date) {
+		List<PubScheduleMatchesDTO> scheduleMatches = new ArrayList<PubScheduleMatchesDTO>();
+		
+		//选手信息缓存
+		List<Player> playersBasic = playerMapper.selectList(
+			Wrappers.<Player>lambdaQuery().select(Player::getId, Player::getNick, Player::getCountry)
+				.eq(Player::getStatus, Player.STATUS_INUSE)
+		);
+		Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
+		for(Player player: playersBasic) {
+			playerMap.put(player.getId(), player);
+		}
+		
+		//get schedule
+		LambdaQueryWrapper<Match> lambdaQueryWrapper = new QueryWrapper<Match>().lambda()
+			    .select(Match::getScheduleId)
+			    .eq(Match::getRaceDay, date)
+			    .groupBy(Match::getScheduleId);
+		for (Match matchSchedule : matchMapper.selectList(lambdaQueryWrapper)) {
+			int scheduleId = matchSchedule.getScheduleId();
+			PubScheduleMatchesDTO scheduleMatch = new PubScheduleMatchesDTO();
+			Set<String> playerNicks = new HashSet<String>();
+			List<PubDaymatchSetDTO> sets = new ArrayList<PubDaymatchSetDTO>();
+			scheduleMatch.setDay(date);
+			scheduleMatch.setScheduleId(scheduleId);
+			Schedule schedule = scheduleMapper.selectById(scheduleId);
+			scheduleMatch.setTitle(schedule.getRound());
+			
+			//get sets
+			lambdaQueryWrapper = new QueryWrapper<Match>().lambda()
+				    .select(Match::getSetId)
+				    .eq(Match::getScheduleId, scheduleId)
+				    .groupBy(Match::getSetId);
+			for (Match matchSet : matchMapper.selectList(lambdaQueryWrapper)) {
+				int setId = matchSet.getSetId();
+				
+				PubDaymatchSetDTO matchSetInfo = new PubDaymatchSetDTO();
+				matchSetInfo.setSetId(setId);
+				//get setsinfo
+				List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
+						.eq(Match::getScheduleId, scheduleId)
+						.eq(Match::getSetId, setId));
+				
+				int paWinCount = 0;
+				int pbWinCount = 0;
+				for (Match match : matches) {
+					int winner = match.getWinner();
+					if (winner == 0) {
+						continue;
+					}
+					
+					if(winner == Match.WINNER_A) {
+						paWinCount++;
+					}
+					else if(winner == Match.WINNER_B) {
+						pbWinCount++;
+					}
+					
+					//根据两人第一局信息获取选手信息、种族信息、国家信息
+					if(match.getGameId() == 1) {
+						Player p1 = playerMap.get(match.getPaId());
+						matchSetInfo.setP1Nick(p1.getNick());
+						matchSetInfo.setP1Country(p1.getCountry());
+						matchSetInfo.setP1Race(match.getPaRace());
+						playerNicks.add(p1.getNick());
+						
+						Player p2 = playerMap.get(match.getPbId());
+						matchSetInfo.setP2Nick(p2.getNick());
+						matchSetInfo.setP2Country(p2.getCountry());
+						matchSetInfo.setP2Race(match.getPbRace());
+						playerNicks.add(p2.getNick());
+						
+						matchSetInfo.setTitle(scheduleMatch.getTitle() + " 第" + setId + "轮");
+					}
+				}
+				
+				if(paWinCount > pbWinCount) {
+					matchSetInfo.setWinner(Match.WINNER_A);
+				}
+				else if(paWinCount < pbWinCount) {
+					matchSetInfo.setWinner(Match.WINNER_B);
+				}
+				
+				sets.add(matchSetInfo);
+			}
+			
+			scheduleMatch.setPlayers(playerNicks);
+			scheduleMatch.setSets(sets);
+			scheduleMatches.add(scheduleMatch);
+		}
+			
+		return scheduleMatches;
+	}
+	
+	@Override
+	public List<PubGameDTO> queryScheduleMatchSet(int scheduleId, int setId) {
+		List<PubGameDTO> scheduleMatchSet = new ArrayList<PubGameDTO>();
+		
+		List<Match> matches = matchMapper.selectList(new QueryWrapper<Match>().lambda()
+				.eq(Match::getScheduleId, scheduleId)
+				.eq(Match::getSetId, setId));
+		
+		for (Match match : matches) {
+			int winner = match.getWinner();
+			if (winner == 0) {
+				continue;
+			}
+			
+			PubGameDTO gameInfo = new PubGameDTO();
+			gameInfo.setGameid(match.getGameId());
+			
+			Ditu ditu = dituMapper.selectById(match.getMapId());
+			if (ditu == null) {
+				logger.error("[查询比赛日对战信息服务]地图不存在，mapid:" + match.getMapId());
+			}
+			gameInfo.setMapName(ditu.getName());
+			
+			int matchId = match.getId();
+			MatchDetail detailPa = matchDetailMapper.selectOne(new QueryWrapper<MatchDetail>().lambda()
+					.eq(MatchDetail::getMatchId, matchId).eq(MatchDetail::getPlayerId, match.getPaId()));
+			if (detailPa == null) {
+				logger.error("[查询比赛日对战信息服务]不存在指定ID的比赛信息，matchId:" + matchId + ", playerId:" + match.getPaId());
+				continue;
+			}
+			else {
+				gameInfo.setPaApm(detailPa.getApm());
+				gameInfo.setPaCastyle(detailPa.getCrystal());
+				gameInfo.setPaOil(detailPa.getOil());
+			}
+
+			MatchDetail detailPb = matchDetailMapper.selectOne(new QueryWrapper<MatchDetail>().lambda()
+					.eq(MatchDetail::getMatchId, matchId).eq(MatchDetail::getPlayerId, match.getPbId()));
+			if (detailPb == null) {
+				logger.error("[查询比赛日对战信息服务]不存在指定ID的比赛信息，matchId:" + matchId + ", playerId:" + match.getPbId());
+				continue;
+			}
+			else {
+				gameInfo.setPbApm(detailPb.getApm());
+				gameInfo.setPbCastyle(detailPb.getCrystal());
+				gameInfo.setPbOil(detailPb.getOil());
+			}
+			
+			float temp = detailPb.getDuration() / 60f;
+			BigDecimal b = new BigDecimal(temp);
+			temp = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+			String minute = String.valueOf((int) temp);
+			String second = String.valueOf((int) ((temp * 10 - ((int) temp) * 10)) * 6);
+			gameInfo.setDuration(minute + ":" + second);
+			
+			gameInfo.setWinner(match.getWinner());
+		
+			scheduleMatchSet.add(gameInfo);
+		}
+		return scheduleMatchSet;
 	}
 
 }

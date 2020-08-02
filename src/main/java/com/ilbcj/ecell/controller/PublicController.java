@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ilbcj.ecell.dto.PubDaymatchDTO;
+import com.ilbcj.ecell.dto.PubGameDTO;
 import com.ilbcj.ecell.dto.PubMatchCalendarDTO;
 import com.ilbcj.ecell.dto.PubPlayerProfileDTO;
 import com.ilbcj.ecell.dto.PubPlayerTop10;
+import com.ilbcj.ecell.dto.PubScheduleMatchesDTO;
 import com.ilbcj.ecell.service.PublicService;
 import com.ilbcj.ecell.util.R;
 
@@ -56,6 +58,42 @@ public class PublicController {
 		return R.error("查询Top10选手数据失败，请稍后再试！");
 	}
 	
+	@RequestMapping(value="/schedule/matches", method = RequestMethod.POST)
+	public R queryScheduleMatches(@RequestBody Map<String,Object> parm) {
+		
+		String date = (String)parm.get("date");
+		if(date == null) {
+			return R.error("查询比赛日数据失败，没有指定要查询的日期");
+		}
+		
+		List<PubScheduleMatchesDTO> scheduleMatches = publicService.queryScheduleMatches(date);
+		
+		if(scheduleMatches != null) {
+			return R.ok().put("scheduleMatches", scheduleMatches);
+		}
+		
+		return R.error("查询比赛日数据失败，请稍后再试！");
+	}
+	
+	@RequestMapping(value="/schedule/match/set", method = RequestMethod.POST)
+	public R queryScheduleMatchSet(@RequestBody Map<String,Object> parm) {
+		
+		Integer scheduleId = (Integer)parm.get("scheduleId");
+		Integer setId = (Integer)parm.get("setId");
+		if(scheduleId == null || setId == null) {
+			return R.error("查询比赛日对战数据失败，没有指定要查询的日期");
+		}
+		
+		List<PubGameDTO> scheduleMatchSet = publicService.queryScheduleMatchSet(scheduleId, setId);
+		
+		if(scheduleMatchSet != null) {
+			return R.ok().put("scheduleMatchSet", scheduleMatchSet);
+		}
+		
+		return R.error("查询比赛日对战数据失败，请稍后再试！");
+	}
+	
+	@Deprecated
 	@RequestMapping(value="/calendar", method = RequestMethod.POST)
 	public R queryCalendar(@RequestBody Map<String,Object> parm) {
 		
@@ -73,6 +111,7 @@ public class PublicController {
 		return R.error("查询赛程日历数据失败，请稍后再试！");
 	}
 	
+	@Deprecated
 	@RequestMapping(value="/daymatch", method = RequestMethod.POST)
 	public R queryDaymatch(@RequestBody Map<String,Object> parm) {
 		
@@ -90,6 +129,7 @@ public class PublicController {
 		return R.error("查询比赛日据失败，请稍后再试！");
 	}
 	
+	@Deprecated
 	@RequestMapping(value="/Regular16", method = RequestMethod.POST)
 	public R queryRegularTop16(@RequestBody Map<String,Object> parm) {
 		
