@@ -164,7 +164,7 @@ public class PublicServiceImpl implements PublicService {
 			}
 
 			int schedule = match.getScheduleId();
-			if (schedule > 12 && schedule <= 24) {
+			if ((schedule%24 == 0) || (schedule%24 > 12 && schedule%24 < 24) ) {
 				if (isWin) {
 					difference++;
 				} else {
@@ -177,7 +177,7 @@ public class PublicServiceImpl implements PublicService {
 
 				if (schedule%24 > 0 && schedule%24 <= 12) {
 					brief.setType(PubPlayerMatchBriefDTO.TYPE_REGULAR);
-				} else if (schedule%24 > 12 && schedule%24 <= 24) {
+				} else if ((schedule%24 == 0) || (schedule%24 > 12 && schedule%24 < 24) ) {
 					brief.setType(PubPlayerMatchBriefDTO.TYPE_PLAYOFF);
 				}
 

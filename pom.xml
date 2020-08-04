@@ -94,6 +94,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>ecell</finalName>
 	</build>
 
 	<repositories>
