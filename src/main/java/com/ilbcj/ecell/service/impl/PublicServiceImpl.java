@@ -257,11 +257,16 @@ public class PublicServiceImpl implements PublicService {
 		temp = b.setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
 		profile.setApm(String.valueOf((int) temp));
 
-		temp = duration / allSets / 60;
-		b = new BigDecimal(temp);
-		temp = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-		String minute = String.valueOf((int) temp);
-		String second = String.valueOf((int) ((temp * 10 - ((int) temp) * 10)) * 6);
+//		temp = duration / allSets / 60;
+//		b = new BigDecimal(temp);
+//		temp = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+//		String minute = String.valueOf((int) temp);
+//		String second = String.valueOf((int) ((temp * 10 - ((int) temp) * 10)) * 6);
+		String minute = String.valueOf( (int)(duration / allSets / 60) );
+		String second = String.valueOf( (int)(duration / allSets) - ((int)(duration / allSets / 60)) * 60 );
+		if(second.length() == 1) {
+			second = "0" + second;
+		}
 		profile.setDuration(minute + ":" + second);
 
 		temp = resource / (float) duration * 60;
@@ -874,11 +879,13 @@ public class PublicServiceImpl implements PublicService {
 				gameInfo.setPbOil(detailPb.getOil());
 			}
 			
-			float temp = detailPb.getDuration() / 60f;
-			BigDecimal b = new BigDecimal(temp);
-			temp = b.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-			String minute = String.valueOf((int) temp);
-			String second = String.valueOf((int) ((temp * 10 - ((int) temp) * 10)) * 6);
+			int duration = detailPb.getDuration();
+			int temp = duration / 60;
+			String minute = String.valueOf(temp);
+			String second = String.valueOf( duration - temp*60 );
+			if( second.length() == 1) {
+				second = "0"+second;
+			}
 			gameInfo.setDuration(minute + ":" + second);
 			
 			gameInfo.setWinner(match.getWinner());
